@@ -13,9 +13,21 @@ import org.newdawn.slick.tests.xml.Inventory;
 
 public class PlayerClass extends BasicObjectClass {
 	public static int ObjectTypeID;
+	public static String ObjectName;
 	
 	public static ArrayList<Image> StaticImageArray = new ArrayList<Image>();
-	public static Map<Integer, Animation> Animations = new Hashtable<Integer, Animation>(2, (float) 0.8);
+	public static ArrayList<Integer> PickableObjectsArray = new ArrayList<Integer>();
+	public static ArrayList<Integer> EnemiesArray = new ArrayList<Integer>();
+	PlayerGUIAct PlayerGUI = new PlayerGUIAct();
+	
+	public static int[][] Anatomy = new int[][]{
+		{0, 1, 0}, 
+		{2, 5, 2}, 
+		{4, 0, 4},
+		{3, 0, 3},
+		{6, 0, 6},};
+
+	
 	{
 		super.Animations = new AnimationsList("forward");
 		super.Animations.addAnimationImage(StaticImageArray.get(0), 300);
@@ -31,19 +43,19 @@ public class PlayerClass extends BasicObjectClass {
 		super.Animations.addAnimationImage(StaticImageArray.get(7), 300);
 	}
 	
-	PlayerGUIAct PlayerGUI = new PlayerGUIAct();
-	
-	public static ArrayList<Integer> PickableObjectsArray = new ArrayList<Integer>();
-	public static ArrayList<Integer> EnemiesArray = new ArrayList<Integer>();
-	{
+	public static void initObject() {
+		try {
+			StaticImageArray.add(new Image("data/players/Player_a1.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a2.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a3.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a4.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a5.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a6.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a7.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/players/Player_a8.png", GL11.GL_NEAREST));
+		} catch (SlickException e) { e.printStackTrace(); }
 		EnemiesArray.add(ZombieClass.ObjectTypeID);
 	}
-	
-	public static int[][] Anatomy = new int[][]{{0, 1, 0}, 
-												{2, 5, 2}, 
-												{4, 0, 4},
-												{3, 0, 3},
-												{6, 0, 6},};
 
 	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, true, ObjectID, PlayerClass.ObjectTypeID, true, false);
@@ -59,27 +71,6 @@ public class PlayerClass extends BasicObjectClass {
 
 	PlayerClass() {
 		super(ObjectTypes.Player, 0.005f, true, PlayerClass.ObjectTypeID, true);
-	}
-
-	public static void initObject(int bObjectTypeID) {
-		
-		try {
-			StaticImageArray.add(new Image("data/players/Player_a1.png"));
-			StaticImageArray.add(new Image("data/players/Player_a2.png"));
-			StaticImageArray.add(new Image("data/players/Player_a3.png"));
-			StaticImageArray.add(new Image("data/players/Player_a4.png"));
-			StaticImageArray.add(new Image("data/players/Player_a5.png"));
-			StaticImageArray.add(new Image("data/players/Player_a6.png"));
-			StaticImageArray.add(new Image("data/players/Player_a7.png"));
-			StaticImageArray.add(new Image("data/players/Player_a8.png"));
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		for(int i = 0; i != StaticImageArray.size(); i++)
-			StaticImageArray.get(i).setFilter(GL11.GL_NEAREST);
-		
-		
-		ObjectTypeID = bObjectTypeID;
 	}
 
 	public void updateObject() {

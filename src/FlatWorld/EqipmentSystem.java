@@ -9,6 +9,8 @@ public class EqipmentSystem implements Action{
 	int cellUnderArrow = -1;
 	
 	ArrayList<Integer> equipPlaces;
+	
+	public ArrayList<ContainerCell> pEqipmentCellsArray = new ArrayList<ContainerCell>();
 	ContainersArrayClass Inventory;
 
 	EqipmentSystem(BasicObjectClass Object, AnatomySystem anatomy, float indentX, float indentY, ContainersArrayClass Inventory){
@@ -18,7 +20,7 @@ public class EqipmentSystem implements Action{
 		for(int i = 0; i != anatomy.anatomy.length; i++){
 			for(int i2 = 0; i2 != anatomy.anatomy[i].length; i2++){
 				if(anatomy.anatomy[i][i2] != 0)
-					this.Inventory.addContainer(0.0f+indentX+i2, 0.0f+indentY-i, anatomy.anatomy[i][i2]);
+					pEqipmentCellsArray.add(this.Inventory.addContainer(0.0f+indentX+i2, 0.0f+indentY-i, anatomy.anatomy[i][i2]));
 			}
 		}
 	}
@@ -28,6 +30,26 @@ public class EqipmentSystem implements Action{
 		this.equipPlaces = equipPlaces;
 		
 	}
+	
+	public ArrayList<BattleObjectClass> getBattleObjectsList(){
+		ArrayList<BattleObjectClass> battleObjectsList = new ArrayList<BattleObjectClass>();
+		BattleObjectAct pTempToBattleObject;
+		ContainerCell tempCell;
+		BasicObjectClass tempPickedObj;
+		
+		for(int i = 0; i < pEqipmentCellsArray.size(); i++){
+			tempCell = pEqipmentCellsArray.get(i);
+			for(int i2 = 0; i2 < tempCell.ObjectsArray.size(); i2++){
+				tempPickedObj = tempCell.ObjectsArray.get(i2);
+				if(tempPickedObj.Modifiers.pointerToBattleObjectAct != null){
+					pTempToBattleObject = tempPickedObj.Modifiers.pointerToBattleObjectAct;
+					if(pTempToBattleObject.battleObjectStatesList != null)
+						battleObjectsList.add(pTempToBattleObject.battleObjectStatesList);
+				}
+			}
+		}
+		return battleObjectsList;
+	} 
 	
 	public void updateAction(BasicObjectClass Object) {
 	

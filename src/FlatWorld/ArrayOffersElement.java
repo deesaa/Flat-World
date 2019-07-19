@@ -1,7 +1,5 @@
 package FlatWorld;
 
-import java.util.ArrayList;
-
 public class ArrayOffersElement {
 	public BasicObjectClass  interactingObject = null;
 	public double 			 distance		   = 1000.0f;

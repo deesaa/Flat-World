@@ -2,6 +2,8 @@ package FlatWorld;
 
 public class RedContourClass extends BasicObjectClass {
 	public static int ObjectTypeID;
+	public static String ObjectName;
+	
 	public static TexturesClass Textures = new TexturesClass("png",
 			"data/GUI/RedContour.png");
 
@@ -16,8 +18,7 @@ public class RedContourClass extends BasicObjectClass {
 		super(ObjectTypes.Cell, 0.0f, true, DirtClass.ObjectTypeID, false);
 	}
 
-	public static void initObject(int bObjectTypeID) {
-		ObjectTypeID = bObjectTypeID;
+	public static void initObject() {
 	}
 
 	public void rendObject(int QuadType) {

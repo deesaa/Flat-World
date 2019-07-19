@@ -22,6 +22,8 @@ public class BasicObjectClass {
 
 	ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();
+	
+	ColorClass modifColor = ColorClass.Standard;
 
 	public BasicObjectClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
 			ObjectTypes ObjectType, float moveSpeed, boolean isAlphaBlend, int ObjectID, int ObjectTypeID, boolean isSolid, boolean isPickable) {
@@ -115,7 +117,7 @@ public class BasicObjectClass {
 
 	public void rendObject(int QuadType) {
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
-		GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
+		modifColor.setColorFilter();
 		GL11.glCallList(QuadType);
 		if (Modifiers.hasContour) {
 			ContourClass.Textures.setTexture();
@@ -128,7 +130,7 @@ public class BasicObjectClass {
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
 		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
-		GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
+		modifColor.setColorFilter();
 		GL11.glCallList(QuadType);
 		GL11.glLoadIdentity();
 		this.rendActions();

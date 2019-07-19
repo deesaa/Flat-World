@@ -17,4 +17,5 @@ public class ObjectModifiers {
 	PickingSystem    pointerToPickingSystem;
 	AnatomySystem    pointerToAnatomySystem;
     EqipmentSystem   pointerToEqipmentSystem;
+	BattleObjectAct pointerToBattleObjectAct;
 }  

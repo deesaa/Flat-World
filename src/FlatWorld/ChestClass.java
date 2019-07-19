@@ -12,14 +12,22 @@ import org.newdawn.slick.opengl.Texture;
 
 public class ChestClass extends BasicObjectClass {
 	public static int ObjectTypeID;
+	public static String ObjectName;
 	
 	public static ArrayList<Image> StaticImageArray = new ArrayList<Image>();
-	public static Map<Integer, Animation> Animations = new Hashtable<Integer, Animation>(2, (float) 0.8);
+
 	{
 		super.Animations = new AnimationsList("chestClose");
 		super.Animations.addAnimationImage(StaticImageArray.get(0), 300);
 		super.Animations.createAniamtion("chestOpen");
 		super.Animations.addAnimationImage(StaticImageArray.get(1), 300);
+	}
+	
+	public static void initObject() {
+		try {
+			StaticImageArray.add(new Image("data/objects/Chest_a1.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/objects/Chest_a2.png", GL11.GL_NEAREST));
+		} catch (SlickException e) {e.printStackTrace();}
 	}
 
 	ChestClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
@@ -29,19 +37,6 @@ public class ChestClass extends BasicObjectClass {
 
 	ChestClass() {
 		super(ObjectTypes.Object, 0.0f, true, ChestClass.ObjectTypeID, true);
-	}
-
-	public static void initObject(int bObjectTypeID) {
-		try {
-			StaticImageArray.add(new Image("data/objects/Chest_a1.png"));
-			StaticImageArray.add(new Image("data/objects/Chest_a2.png"));
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		for(int i = 0; i != StaticImageArray.size(); i++)
-			StaticImageArray.get(i).setFilter(GL11.GL_NEAREST);
-		
-		ObjectTypeID = bObjectTypeID;
 	}
 
 	public void updateObject() {

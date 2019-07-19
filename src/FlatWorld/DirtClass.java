@@ -11,6 +11,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class DirtClass extends BasicObjectClass {
 	public static int ObjectTypeID;
+	public static String ObjectName;
 	public static Image CellTexture;
 	
 	DirtClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
@@ -21,14 +22,12 @@ public class DirtClass extends BasicObjectClass {
 		super(ObjectTypes.Cell, 0.0f, false, DirtClass.ObjectTypeID, false);
 	}
 
-	public static void initObject(int bObjectTypeID) {
+	public static void initObject() {
 		try {
 			CellTexture = new Image("data/cells/Dirt.png", GL11.GL_NEAREST);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
-		ObjectTypeID = bObjectTypeID;
 	}
 
 	public void rendObject(int QuadType) {

@@ -3,29 +3,25 @@ package FlatWorld;
 import java.util.ArrayList;
 
 public class BattleObjectClass {
-	ArrayList<BattleObjectClass> battleObjectState = new ArrayList<BattleObjectClass>();
+	ArrayList<BattleObjectElement> battleObjectStateElements = new ArrayList<BattleObjectElement>();
 	
-	public void addState(BattleObjectClass battleState){
-		battleObjectState.add(battleState);
+	public void addState(BattleObjectElement battleState){
+		battleObjectStateElements.add(battleState);
 	}
 	
-	public class Weapon extends BattleObjectClass{
-		float damage;
-		float radius;
-		float angle;
-		
-		public Weapon(float damage, float radius, float angle) {
-			this.damage = damage;
-			this.radius = radius;
-			this.angle  = angle;
+	public float getGlobalDamage(){
+		float finalDamage = 0;
+		for(int i = 0; i < battleObjectStateElements.size(); i++){
+			finalDamage += battleObjectStateElements.get(i).damage;
 		}
+		return finalDamage;
 	}
-	
-	public class Armor extends BattleObjectClass{
-		float resist;
 
-		public Armor(float resist) {
-			this.resist = resist;
+	public float getGlobalResist() {
+		float finalResist = 0;
+		for(int i = 0; i < battleObjectStateElements.size(); i++){
+			finalResist += battleObjectStateElements.get(i).resist;
 		}
+		return finalResist;
 	}
 }

@@ -7,12 +7,13 @@ import org.newdawn.slick.Image;
 
 public class ContainerCell extends BasicObjectClass {
 	public static int ObjectTypeID;
+	public static String ObjectName;
+	
 	public static TexturesClass Textures = new TexturesClass("png",
 			"data/GUI/InventoryCell.png");
 
-	public int pickedObjectTypeID = -1;
 	public ArrayList<BasicObjectClass> ObjectsArray = new ArrayList<BasicObjectClass>();
-
+	public int pickedObjectTypeID = -1;
 	float indentX, indentY;
 	float localPosGlobalX, localPosGlobalY, localPosGlobalZ;
 	int equipPlace = -1;
@@ -52,8 +53,7 @@ public class ContainerCell extends BasicObjectClass {
 		super(ObjectTypes.Cell, 0.0f, false, ContainerCell.ObjectTypeID, false);
 	}
 
-	public static void initObject(int bObjectTypeID) {
-		ObjectTypeID = bObjectTypeID;
+	public static void initObject() {
 	}
 
 	public void rendCellContent() {

@@ -1,5 +1,7 @@
 package FlatWorld;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -8,12 +10,14 @@ public class InventorySystem implements Action{
 	
 	boolean isInventoryVisible = false;
 	int cellUnderArrow = -1;
+	public ArrayList<ContainerCell> pInventoryCellsArray = new ArrayList<ContainerCell>();
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) 
 	{
 		Object.Modifiers.pointerToInventorySystem = this;
 		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture, BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft);
+		Invntory.getPointers(pInventoryCellsArray);
 	}
 	
 	public void updateAction(BasicObjectClass Object) {
@@ -49,7 +53,7 @@ public class InventorySystem implements Action{
 		if(isInventoryVisible){
 			Invntory.rend(Object.PosGlobalX, Object.PosGlobalY, Object.PosGlobalZ);
 			if(cellUnderArrow != -1)
-				Invntory.rendObjectOver(ContourClass.ObjectTypeID, cellUnderArrow, 0.0f, 0.0f, FlatWorld.StandardQuad);
+				Invntory.rendObjectOver(ContourTemplateClass.childrenBase.getChild("ROCo"), cellUnderArrow, 0.0f, 0.0f, FlatWorld.StandardQuad);
 		}
 		cellUnderArrow = -1;
 	}
@@ -65,7 +69,7 @@ public class InventorySystem implements Action{
 	}
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
-		return Invntory.addObject(pickedObject);
+		return Invntory.addObjectAtGroup(pickedObject, pInventoryCellsArray);
 	}
 
 	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {

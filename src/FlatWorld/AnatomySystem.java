@@ -1,10 +1,7 @@
 package FlatWorld;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
-
-import org.lwjgl.input.Keyboard;
 
 public class AnatomySystem implements Action{
 	public static Map<Integer, AnatomyElement> AnatomyElements = new Hashtable<Integer, AnatomyElement>(10, 0.9f);

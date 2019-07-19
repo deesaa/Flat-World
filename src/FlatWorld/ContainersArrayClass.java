@@ -16,6 +16,9 @@ public class ContainersArrayClass {
 	TexturesClass backgroundTexture;
 	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
 	
+	ArrayList<pCellsGroup> cellsGroupsArray = new ArrayList<pCellsGroup>();
+	int lastEndID = 0;
+	
 	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
 		this.numCellsInLine = numCellsInLine;
@@ -42,8 +45,9 @@ public class ContainersArrayClass {
 		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()));
 	}
 	
-	public void addContainer(float CellPosX, float CellPosY, int equipPlace) {
+	public ContainerCell addContainer(float CellPosX, float CellPosY, int equipPlace) {
 		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size(), equipPlace));
+		return InventoryCellsArray.get(InventoryCellsArray.size()-1);
 	}
 	
 	public ContainerCell getContainerUnderArrow(){
@@ -96,6 +100,22 @@ public class ContainersArrayClass {
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			if (InventoryCellsArray.get(i).pickedObjectTypeID == -1) {
 				if(this.addObject(InventoryCellsArray.get(i), pickedObject) == true)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean addObjectAtGroup(BasicObjectClass pickedObject, ArrayList<ContainerCell> pCellsArray) {
+		for (int i = 0; i < pCellsArray.size(); i++) {
+			if (pCellsArray.get(i).pickedObjectTypeID == pickedObject.ObjectTypeID) {
+				if(this.addObject(pCellsArray.get(i), pickedObject) == true)
+					return true;
+			}
+		}
+		for (int i = 0; i < pCellsArray.size(); i++) {
+			if (pCellsArray.get(i).pickedObjectTypeID == -1) {
+				if(this.addObject(pCellsArray.get(i), pickedObject) == true)
 					return true;
 			}
 		}
@@ -164,6 +184,24 @@ public class ContainersArrayClass {
 					InventoryCellsArray.get(i).ObjectsArray.remove(InventoryCellsArray.get(i).ObjectsArray.size() - 1);
 				}
 			}
+		}
+	}
+	
+	public void pushGroup(){
+		
+	}
+
+	public void getPointers(ArrayList<ContainerCell> pCellsArray) {
+		for(int i = 0; i < this.InventoryCellsArray.size(); i++){
+			pCellsArray.add(this.InventoryCellsArray.get(i));
+		}
+	}
+	
+	private class pCellsGroup {
+		public ArrayList<ContainerCell> pCellsArray;
+		
+		public pCellsGroup(String groupName, ArrayList<ContainerCell> mainCellsArray, int start, int size) {
+			pCellsArray = (ArrayList<ContainerCell>) mainCellsArray.subList(start, start+size);
 		}
 	}
 }
