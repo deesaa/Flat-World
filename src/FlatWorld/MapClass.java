@@ -48,7 +48,7 @@ public class MapClass {
 				}
 				
 				if(isRelevantFind != true){
-					System.out.println("GEN! \n" + genAroundX +" "+  genAroundY);
+					//System.out.println("GEN! \n" + genAroundX +" "+  genAroundY);
 					ChunksArray.add(new ChunkClass(ChunksArray.size(), MapID, newChunkPosX, newChunkPosY, -25.0f));
 				}
 			}
@@ -56,23 +56,54 @@ public class MapClass {
 	}
 	
 	public void updateMap(){
+		float tempDistToCutChunksGlobalX	  =  distToCutChunksGlobalX*0.5f;
+		float tempDistToCutChunksGlobalY      =  distToCutChunksGlobalY*0.5f;
+		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX*0.5f+ChunkClass.numObjectsInLine;
+		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY*0.5f+ChunkClass.numLines;
+		   
 		for(int i = 0; i < ChunksArray.size(); i++){
-			if((ChunksArray.get(i).ChunkGlobalPosX  - distToCutChunksGlobalX*0.5f)+16.0f  <  PlayerGlobalPosX &&
-			   (ChunksArray.get(i).ChunkGlobalPosX  + distToCutChunksGlobalX*0.5f) >  PlayerGlobalPosX &&	
-			   (ChunksArray.get(i).ChunkGlobalPosY  - distToCutChunksGlobalY*0.5f)+16.0f  <  PlayerGlobalPosY &&
-			   (ChunksArray.get(i).ChunkGlobalPosY  + distToCutChunksGlobalY*0.5f) >  PlayerGlobalPosY){
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&
+			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
+			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
+			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY	     >  PlayerGlobalPosY)
+			{
 					ChunksArray.get(i).updateChunk();
 			}
 		}
 	}
 	
 	public void rendMap(){
+		float tempDistToCutChunksGlobalX	  =  distToCutChunksGlobalX*0.5f;
+		float tempDistToCutChunksGlobalY      =  distToCutChunksGlobalY*0.5f;
+		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX*0.5f+ChunkClass.numObjectsInLine;
+		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY*0.5f+ChunkClass.numLines;
+		
 		for(int i = 0; i < ChunksArray.size(); i++){
-			if((ChunksArray.get(i).ChunkGlobalPosX - distToCutChunksGlobalX*0.5f)+16.0f  <  PlayerGlobalPosX &&
-			  (ChunksArray.get(i).ChunkGlobalPosX  + distToCutChunksGlobalX*0.5f) >  PlayerGlobalPosX &&	
-			  (ChunksArray.get(i).ChunkGlobalPosY  - distToCutChunksGlobalY*0.5f)+16.0f  <  PlayerGlobalPosY &&
-		      (ChunksArray.get(i).ChunkGlobalPosY  + distToCutChunksGlobalY*0.5f) >  PlayerGlobalPosY){
-					ChunksArray.get(i).rendChunk();
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&
+			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
+			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
+			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY 	 >  PlayerGlobalPosY)
+			{
+					ChunksArray.get(i).rendChunkCells();
+			}
+		}
+		
+		for(int i = 0; i < ChunksArray.size(); i++){
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&
+			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
+			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
+			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY 	 >  PlayerGlobalPosY)
+			{
+					ChunksArray.get(i).rendChunkObjects();
 			}
 		}
 	}
@@ -82,21 +113,63 @@ public class MapClass {
 		this.PlayerGlobalPosY = PlayerGlobalPosY;
 	}
 	
-	public void relocateToRelevantChunk(int OwnedChunk, float PosGlobalX, float PosGlobalY, BasicObjectClass object) {
+	public boolean relocateToRelevantChunk(BasicObjectClass object) {
+		boolean found = false;
 		for(int i = 0; i < ChunksArray.size(); i++){
-			if( ChunksArray.get(i).ChunkGlobalPosX							 	 <  object.PosGlobalX &&
-				ChunksArray.get(i).ChunkGlobalPosX + ChunkClass.numObjectsInLine >  object.PosGlobalX &&	
-				ChunksArray.get(i).ChunkGlobalPosY								 <  object.PosGlobalY &&
-				ChunksArray.get(i).ChunkGlobalPosY + ChunkClass.numLines 		 >  object.PosGlobalY)
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX							 	 <  object.PosGlobalX &&
+			   tempChunkGlobalPosX + ChunkClass.numObjectsInLine >  object.PosGlobalX &&	
+			   tempChunkGlobalPosY								 <  object.PosGlobalY &&
+			   tempChunkGlobalPosY + ChunkClass.numLines 		 >  object.PosGlobalY)
 			{
+				found = true;
 				if(i != object.OwnedChunkID){
-					System.out.println("Get Out");
-					ChunksArray.get(object.OwnedChunkID).ObjectsArray.remove(object.ObjectID);
-					ChunksArray.get(i).ObjectsArray.add(object);
+					for(int i2 = object.ObjectID+1; i2 < ChunksArray.get(object.OwnedChunkID).ObjectsArray.size(); i2++){
+						ChunksArray.get(object.OwnedChunkID).ObjectsArray.get(i2).ObjectID--;
+					}
+					
+					try {
+						ChunksArray.get(i).ObjectsArray.add(ChunksArray.get(object.OwnedChunkID).ObjectsArray.get(object.ObjectID).clone());
+					} catch (CloneNotSupportedException e) {
+						e.printStackTrace();
+					}
+					
 					ChunksArray.get(i).ObjectsArray.get(ChunksArray.get(i).ObjectsArray.size()-1).OwnedChunkID = i;
-					this.createNeededChunksAround(ChunksArray.get(i).ChunkPosX, ChunksArray.get(i).ChunkPosY);
+					ChunksArray.get(i).ObjectsArray.get(ChunksArray.get(i).ObjectsArray.size()-1).ObjectID     = ChunksArray.get(i).ObjectsArray.size()-1;
+					ChunksArray.get(object.OwnedChunkID).ObjectsArray.remove(object.ObjectID);
+					
+					if(object.ObjectType == ObjectTypes.Player)
+						this.createNeededChunksAround(ChunksArray.get(i).ChunkPosX, ChunksArray.get(i).ChunkPosY);
 				}
 			}
 		}
+		return found;
+	}
+
+	public boolean checkNoClip(BasicObjectClass object) {
+		
+		float tempDistToCutChunksGlobalX	  =  distToCutChunksGlobalX*0.5f;
+		float tempDistToCutChunksGlobalY      =  distToCutChunksGlobalY*0.5f;
+		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX*0.5f+ChunkClass.numObjectsInLine;
+		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY*0.5f+ChunkClass.numLines;
+		boolean result = false;
+		
+		for(int i = 0; i < ChunksArray.size(); i++){
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&
+			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
+			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
+			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY 	 >  PlayerGlobalPosY)
+			{	
+				result = ChunksArray.get(i).checkNoClip(object);
+				if(result == true)
+					return true;
+			}
+		}
+		return false;
 	}
 }

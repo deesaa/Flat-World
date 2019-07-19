@@ -30,6 +30,7 @@ public class PlayerClass extends BasicObjectClass{
 	}
 	
 	public void updateObject(){
+		//System.out.println( "Player :  Map "+super.OwnedMapID + " Chunk " + super.OwnedChunkID +  " ID " + super.ObjectID);
 		super.updateObject();
 	}
 	

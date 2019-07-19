@@ -6,12 +6,15 @@ import org.lwjgl.opengl.GL11;
 
 enum ObjectTypes{Cell, Object, Player, Mob};
 
-public class BasicObjectClass {
+public class BasicObjectClass implements Cloneable{
 	float PosGlobalX, PosGlobalY, PosGlobalZ;
+	public float CollisionRightX = 0.5f, CollisionLeftX = 0.5f, CollisionUpY = 0.5f, CollisionDownY = 0.5f;
 	int ObjectID;
 	int OwnedChunkID, OwnedMapID;
 	ObjectTypes ObjectType;
 	float moveSpeed;
+	boolean noClipEnabled = true;
+	boolean isSolid 	  = false;
 	
 	public TexturesClass Textures;
 	boolean isAlphaBlend = false;
@@ -31,11 +34,25 @@ public class BasicObjectClass {
 		this.ObjectID     = ObjectID;
 	}
 	
+	public void setCollision(float CollisionRightX, float CollisionLeftX, float CollisionUpY, float CollisionDownY){
+		this.CollisionRightX = CollisionRightX;
+		this.CollisionLeftX  = CollisionLeftX;
+		this.CollisionUpY    = CollisionUpY;
+		this.CollisionDownY  = CollisionDownY;
+	}
+	
 	public void move(float PosX, float PosY, float PosZ) {
 		this.PosGlobalX += PosX * FlatWorld.delta;
 		this.PosGlobalY += PosY * FlatWorld.delta;
 		this.PosGlobalZ += PosZ * FlatWorld.delta;
-		MapsManager.relocateToRelevantChunk(OwnedMapID, OwnedChunkID, this.PosGlobalX, this.PosGlobalY, this);
+		if(MapsManager.relocateToRelevantChunk(this) == false ||
+		   MapsManager.checkNoClip(this) == true)
+		{
+			this.PosGlobalX -= PosX * FlatWorld.delta;
+			this.PosGlobalY -= PosY * FlatWorld.delta;
+			this.PosGlobalZ -= PosZ * FlatWorld.delta;
+		}
+			
 	}
 	
 	public void updateObject(){
@@ -55,4 +72,9 @@ public class BasicObjectClass {
 		}
 		GL11.glLoadIdentity();
 	}
+	
+	 public BasicObjectClass clone() throws CloneNotSupportedException {
+		 BasicObjectClass clone = (BasicObjectClass)super.clone();
+         return clone;
+   }
 }

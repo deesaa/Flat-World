@@ -27,7 +27,11 @@ public class MapsManager {
 		MapsArray.get(OwnedMapID).updatePlayerPos(PlayerGlobalPosX, PlayerGlobalPosY);
 	}
 	
-	public static void relocateToRelevantChunk(int OwnedMap, int OwnedChunk, float PosGlobalX, float PosGlobalY, BasicObjectClass object) {
-		MapsArray.get(OwnedMap).relocateToRelevantChunk(OwnedChunk, PosGlobalX, PosGlobalY, object);
+	public static boolean relocateToRelevantChunk(BasicObjectClass object) {
+		return MapsArray.get(object.OwnedMapID).relocateToRelevantChunk(object);
+	}
+
+	public static boolean checkNoClip(BasicObjectClass object) {
+		return MapsArray.get(object.OwnedMapID).checkNoClip(object);
 	}
 }
