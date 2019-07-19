@@ -11,4 +11,6 @@
  - When ur done, close the game
  
  ![GameView](readmepics/PicFW.png)
-
+ 
+ ## Video how u should play this game
+ __https://youtu.be/xMfsJyDvdjI__
