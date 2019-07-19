@@ -35,10 +35,6 @@ public class ChestClass extends BasicObjectClass {
 		super.ActionsArray.add(new InventorySystem(this, 4, 4, -4.0f, 2.0f, null, 0, 0, 0, 0));
 	}
 
-	ChestClass() {
-		super(ObjectTypes.Object, 0.0f, ChestClass.ObjectTypeID, true);
-	}
-
 	public void updateObject() {
 		super.updateObject();
 	}

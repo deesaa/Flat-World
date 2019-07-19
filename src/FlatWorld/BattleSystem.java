@@ -118,14 +118,17 @@ public class BattleSystem implements Action{
 		float finalResist = 0;
 		
 		for(int i = 0; i < doingObjectFBOS.size(); i++){
-			finalDamage += doingObjectFBOS.get(i).getGlobalDamage();
+			finalDamage += doingObjectFBOS.get(i).getDamage();
 		}
 		
 		for(int i = 0; i < gettingObjectFBOS.size(); i++){
-			finalResist += gettingObjectFBOS.get(i).getGlobalResist();
+			finalResist += gettingObjectFBOS.get(i).getResist();
 		}
 		
 		finalDamage -= finalResist;
+		if(finalDamage < 0)
+			finalDamage = 0;
+		
 		
 		//if(Owner.Modifiers.pointerToBattleSystem != null && Owner.Modifiers.pointerToBattleSystem.battleObjectStatesList != null){
 		//	ArrayList<BattleObjectElement> doingObjectBOSES   = Owner.Modifiers.pointerToBattleSystem.battleObjectStatesList.battleObjectStateElements;

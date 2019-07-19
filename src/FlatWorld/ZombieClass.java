@@ -43,6 +43,7 @@ public class ZombieClass extends BasicObjectClass {
 		} catch (SlickException e) { e.printStackTrace();}
 		
 		PickableObjectsArray.add(TorchClass.ObjectTypeID);
+		PickableObjectsArray.add(AxeClass.ObjectTypeID);
 		EnemiesArray.add(PlayerClass.ObjectTypeID);
 	}
 
@@ -50,16 +51,12 @@ public class ZombieClass extends BasicObjectClass {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, 0.001f, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new MovingSystem(this));
-		super.ActionsArray.add(new PickingSystem(this, PickableObjectsArray));
+		super.ActionsArray.add(new PickingSystem(this, PickableObjectsList.zombieStandardPickingList));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new InventorySystem(this, 2, 2, 2.0f, 2.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
 		super.ActionsArray.add(new BattleSystem(this, PerHealScaleTex, PerHealScaleContourColor, 100, 100, EnemiesArray));
 		super.ActionsArray.add(new OffersListAct(this));
-	}
-
-	ZombieClass() {
-		super(ObjectTypes.Mob, 0.001f, ZombieClass.ObjectTypeID, true);
 	}
 
 	public void updateObject() {
@@ -74,5 +71,15 @@ public class ZombieClass extends BasicObjectClass {
 	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
 		super.Animations.setAnimation();
 		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad);
+	}
+	
+	public BasicObjectClass randomize() {
+		if(RandomizeTool.setColor(this, ColorClass.Red, -30, 25, 0.03f)){
+		} else {
+		if(RandomizeTool.setColor(this, ColorClass.Blue, -25, 35, 0.04f)){
+		} else {
+		if(RandomizeTool.setColor(this, ColorClass.Green, -40, 30, 0.05f)){
+		}}}
+		return this;
 	}
 }

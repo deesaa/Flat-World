@@ -48,7 +48,7 @@ public class ContainersArrayClass {
 	}
 	
 	public ContainerCell addContainer(float CellPosX, float CellPosY, int equipPlace) {
-		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size(), equipPlace));
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(equipPlace));
 		return InventoryCellsArray.get(InventoryCellsArray.size()-1);
 	}
 	

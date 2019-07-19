@@ -144,4 +144,9 @@ public class BasicObjectClass {
 			ActionsArray.get(i).zeroAction(this);
 		}
 	}
+	
+	public void printDefObjectInfo(){
+		System.out.println("|ObTyID:" + this.ObjectTypeID + "; MID" + this.OwnedMapID +  " CID" + this.OwnedChunkID + " OID" + this.ObjectID + 
+				"; X" + this.PosGlobalX + " Y" + this.PosGlobalY + " Z" + this.PosGlobalZ + "|");
+	}
 }

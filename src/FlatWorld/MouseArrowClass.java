@@ -8,12 +8,18 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.newdawn.slick.Image;
 
 public class MouseArrowClass {
 	private static ArrayList<BasicObjectClass> pickedObjects = new ArrayList<BasicObjectClass>();
 	private static int pickedObjectTypeID = -1;
 	private static ContainerCell throwerContainer = null;
 	private static ContainerCell catcherContainer = null;
+	static AnimationsList greenContourTex = new AnimationsList("greenContour").addAnimationImage(AnimationsList.loadImage("data/GUI/GreenContour.png"), 300);
+	private static ContourClass greenContour = (ContourClass) RandomizeTool.setAnimation(new ContourClass(), greenContourTex);
+	
+	static AnimationsList redContourTex = new AnimationsList("redContour").addAnimationImage(AnimationsList.loadImage("data/GUI/RedContour.png"), 300);
+	private static ContourClass redContour = (ContourClass) RandomizeTool.setAnimation(new ContourClass(), redContourTex);
 	
 	static FloatBuffer dbProj  = BufferUtils.createFloatBuffer(16);
 	static IntBuffer   dbPort  = BufferUtils.createIntBuffer(16);
@@ -22,7 +28,7 @@ public class MouseArrowClass {
 	static FloatBuffer win_pos = BufferUtils.createFloatBuffer(6);
 	
 	static float ArrowWorldCoordX, ArrowWorldCoordY;
-	static byte colorUnderArrowR, colorUnderArrowG, colorUnderArrowB;
+	static int mouseWheel;
 
 	public static void addObject(BasicObjectClass object) {
 		pickedObjectTypeID = object.ObjectTypeID;
@@ -58,9 +64,29 @@ public class MouseArrowClass {
 				catcherContainer = null;
 			}
 		}
+		
+		if (throwerContainer != null) {
+			if(mouseWheel < 0){
+				int size = throwerContainer.ObjectsArray.size();
+				if(size > 0){
+					MouseArrowClass.addObject(throwerContainer.ObjectsArray.get(throwerContainer.ObjectsArray.size() - 1));
+					throwerContainer.ObjectsArray.remove(throwerContainer.ObjectsArray.size() - 1);
+				}
+				if (throwerContainer.ObjectsArray.size() == 0)
+					throwerContainer.pickedObjectTypeID = -1;
+			}
+			if(mouseWheel > 0){
+				int size = pickedObjects.size();
+				if(size > 1){
+					throwerContainer.addObject(pickedObjects.get(pickedObjects.size()-1));
+					pickedObjects.remove(pickedObjects.size()-1);
+				}
+			}
+		}
 
 		if (!Mouse.isButtonDown(0)) {
 			if (throwerContainer != null && catcherContainer != null) {
+				
 				int size = pickedObjects.size();
 				if (catcherContainer.pickedObjectTypeID == -1 || pickedObjectTypeID == catcherContainer.pickedObjectTypeID) {
 					for (int i = 0; i < size; i++) {
@@ -151,11 +177,9 @@ public class MouseArrowClass {
 				
 				if(finalDist <= 3.0d)
 				{
-					FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
-							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
+					greenContour.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 				} else {
-					FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
-							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
+					redContour.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 				}
 				
 			} else {
@@ -192,5 +216,7 @@ public class MouseArrowClass {
 		GLU.gluUnProject(clickX, clickY, z.get(0), dbModel, dbProj, dbPort, obj_pos);
 		ArrowWorldCoordX = obj_pos.get(0);
 		ArrowWorldCoordY = obj_pos.get(1);
+		
+		mouseWheel = Mouse.getDWheel();
 	}
 }

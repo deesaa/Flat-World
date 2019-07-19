@@ -1,6 +1,7 @@
 package FlatWorld;
 
 import org.lwjgl.Sys;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
@@ -32,7 +33,7 @@ public class FlatWorld {
 		initInventoryCounterQuad();
 		TextFieldClass.initSymbols();
 		//awtFont = new Font("Times New Roman", Font.BOLD, 54);
-		//font = new TrueTypeFont(awtFont, false);;
+		//font = new TrueTypeFont(awtFont, false);
 		
 		MapsManager.initMap();
 		FWMainLoop();
@@ -44,6 +45,7 @@ public class FlatWorld {
 			updateDelta();
 			MapsManager.updateMap();
 			MapsManager.rendMap();
+
 			MouseArrowClass.updateArrow();
 			
 			Display.update();

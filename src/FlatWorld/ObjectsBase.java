@@ -5,20 +5,14 @@ import java.util.Map;
 
 public class ObjectsBase {
 	public Map<Integer, BasicObjectClass> StaticObjectsArray;
-	public int freeID = 0;
+	private int freeID = 0;
 	
 	ObjectsBase() {
-		StaticObjectsArray = new Hashtable<Integer, BasicObjectClass>(10, 0.8f);
+		StaticObjectsArray = new Hashtable<Integer, BasicObjectClass>(5, 0.8f);
 		this.initObjectsTypeIDs();
 
-		StaticObjectsArray.put(DirtClass.ObjectTypeID, 		      new DirtClass());
-		StaticObjectsArray.put(PlayerClass.ObjectTypeID, 	      new PlayerClass());
-		StaticObjectsArray.put(TorchClass.ObjectTypeID, 	      new TorchClass());
-		StaticObjectsArray.put(ZombieClass.ObjectTypeID, 	      new ZombieClass());
 		StaticObjectsArray.put(ContainerCell.ObjectTypeID, 	      new ContainerCell());
 		StaticObjectsArray.put(ContourClass.ObjectTypeID, 	      new ContourClass());
-		StaticObjectsArray.put(ChestClass.ObjectTypeID, 	      new ChestClass());
-		StaticObjectsArray.put(AxeClass.ObjectTypeID, 		      new AxeClass());
 	}
 
 	public void initObjectsTypeIDs() {

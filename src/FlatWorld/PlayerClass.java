@@ -60,17 +60,13 @@ public class PlayerClass extends BasicObjectClass {
 	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, ObjectID, PlayerClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new PlayerControllerAct());
-		super.ActionsArray.add(new PickingSystem(this, PickableObjectsArray));
+		super.ActionsArray.add(new PickingSystem(this, null));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new BattleSystem(this, null, null, 100, 100, EnemiesArray).linkPlayerGUI(PlayerGUI));
 		super.ActionsArray.add(new OffersListAct(this));
-	}
-
-	PlayerClass() {
-		super(ObjectTypes.Player, 0.005f, PlayerClass.ObjectTypeID, true);
 	}
 
 	public void updateObject() {

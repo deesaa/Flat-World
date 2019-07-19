@@ -23,10 +23,6 @@ public class DirtClass extends BasicObjectClass {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, DirtClass.ObjectTypeID, false, false);
 	}
 
-	DirtClass() {
-		super(ObjectTypes.Cell, 0.0f, DirtClass.ObjectTypeID, false);
-	}
-
 	public static void initObject() {
 		try {
 			CellTexture = new Image("data/cells/Dirt.png", GL11.GL_NEAREST);

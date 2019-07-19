@@ -78,9 +78,4 @@ public class EquipmentSystem implements Action{
 		}
 		return false;
 	}
-
-	public Action getCopy(BasicObjectClass OwnerObject) {
-		Action newAction = new EquipmentSystem(OwnerObject, anatomy, Inventory.indentX, Inventory.indentY, Inventory);
-		return newAction;
-	}	
 }

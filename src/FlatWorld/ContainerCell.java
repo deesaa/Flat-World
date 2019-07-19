@@ -24,18 +24,6 @@ public class ContainerCell extends BasicObjectClass {
 		super.Animations.addAnimationImage(CellTexture, 300);
 	}
 
-	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
-			int ObjectID, float indentX, float indentY) 
-	{
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
-		
-		this.indentX = indentX;
-		this.indentY = indentY;
-		this.localPosGlobalX = PosGlobalX;
-		this.localPosGlobalY = PosGlobalY;
-		super.setButtonOnObject();
-	}
-	
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
 		
@@ -44,18 +32,15 @@ public class ContainerCell extends BasicObjectClass {
 		super.setButtonOnObject();
 	}
 	
-	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID, int equipPlace) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
-		
-		this.equipPlace = equipPlace;
-		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipPlace).Icon;
-		this.localPosGlobalX = PosGlobalX;
-		this.localPosGlobalY = PosGlobalY;
-		super.setButtonOnObject();
-	}
-
 	ContainerCell() {
 		super(ObjectTypes.Cell, 0.0f, ContainerCell.ObjectTypeID, false);
+	}
+
+	
+	public ContainerCell setEquipPlace(int equipPlace){
+		this.equipPlace = equipPlace;
+		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipPlace).Icon;
+		return this;
 	}
 
 	public static void initObject() {
@@ -91,7 +76,9 @@ public class ContainerCell extends BasicObjectClass {
 		
 		if(equipPlaceIcon != null){
 			equipPlaceIcon.bind();
-			super.rendObject(Quad);
+			GL11.glTranslatef(super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ);
+			Quad.rend();
+			GL11.glLoadIdentity();
 		}
 	}
 

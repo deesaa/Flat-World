@@ -31,7 +31,7 @@ public class ChunkClass {
 				CellsArray.add(new DirtClass(ChunkGlobalPosX + i, ChunkGlobalPosY + i2, ChunkGlobalPosZ, chunkID, OwnedMap, CellsArray.size()));
 			}
 		}
-	    ObjectsArray.add(new ZombieClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 3.3f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+	    ObjectsArray.add(new ZombieClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 3.3f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
 	}
 
 	public void addPlayer(float PlayerPosX, float PlayerPosY) {
@@ -40,10 +40,9 @@ public class ChunkClass {
 		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 3.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new ChestClass(ChunkGlobalPosX + 4.1f, ChunkGlobalPosY + 3.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 6.1f, ChunkGlobalPosY + 4.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 4.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 2.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		TemplateObjectCreator.setColor(ObjectsArray.get(ObjectsArray.size()-1), ColorClass.Green);
+		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 4.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 2.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
 	}
 
 	public void updateChunk() {

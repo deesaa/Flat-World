@@ -16,7 +16,7 @@ public class TorchClass extends BasicObjectClass {
 	
 	public static ArrayList<Image> StaticImageArray = new ArrayList<Image>();	
 	public static ArrayList<Integer> EqipmentPlaces = new ArrayList<Integer>();
-	public static BattleObjectClass battleObjectState = new BattleObjectClass();
+	public static BattleObjectClass battleObjectState = new BattleObjectClass(3.0f, 0.0f, 0.0f, 0.0f);
 	
 	{
 		super.Animations = new AnimationsList("torchBurning");
@@ -32,7 +32,6 @@ public class TorchClass extends BasicObjectClass {
 			StaticImageArray.add(new Image("data/objects/Torch_a3.png", GL11.GL_NEAREST));
 		} catch (SlickException e) {e.printStackTrace();}
 		
-		TorchClass.battleObjectState.addState(new BattleObjectElement(3.0f, 0.0f, 0.0f, 0.0f));
 		EqipmentPlaces.add(AnatomySystem.AnatomyElements.get(4).elementID);
 	}
 
@@ -40,10 +39,6 @@ public class TorchClass extends BasicObjectClass {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
 		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
-	}
-
-	TorchClass() {
-		super(ObjectTypes.Object, 0.0f, TorchClass.ObjectTypeID, false);
 	}
 
 	public void updateObject() {

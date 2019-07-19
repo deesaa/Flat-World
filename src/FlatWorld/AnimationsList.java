@@ -3,8 +3,10 @@ package FlatWorld;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class AnimationsList {
 	Map<String, Animation> Animations = new Hashtable<String, Animation>();
@@ -17,8 +19,9 @@ public class AnimationsList {
 		pickedAnimation = firstAnimationKey;
 	}
 	
-	public void addAnimationImage(Image AnimationImage, int duration){
+	public AnimationsList addAnimationImage(Image AnimationImage, int duration){
 		Animations.get(pickedAnimation).addFrame(AnimationImage, duration);
+		return this;
 	}
 	
 	public void createAniamtion(String animationKey){
@@ -41,5 +44,14 @@ public class AnimationsList {
 	
 	public void pickAnimation(String animationID){
 		pickedAnimation = animationID;
+	}
+	
+	public static Image loadImage(String data){
+		try {
+			return new Image(data, GL11.GL_NEAREST);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

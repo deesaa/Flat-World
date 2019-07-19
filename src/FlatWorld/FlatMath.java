@@ -15,4 +15,12 @@ public class FlatMath {
 		double distY = (Obj1.PosGlobalY - Obj2.PosGlobalY) * (Obj1.PosGlobalY - Obj2.PosGlobalY);
 		return Math.sqrt((distX + distY));
 	}
+	
+	static byte toByte(int val){
+		if(val > Byte.MAX_VALUE)
+			return Byte.MAX_VALUE;
+		if(val < Byte.MIN_VALUE)
+			return Byte.MIN_VALUE;
+		return (byte)val;
+	}
 }

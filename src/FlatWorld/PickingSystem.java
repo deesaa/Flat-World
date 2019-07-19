@@ -3,11 +3,11 @@ package FlatWorld;
 import java.util.ArrayList;
 
 public class PickingSystem implements Action{
-	public ArrayList<Integer> PickableObjectsArray;
+	PickableObjectsList pickableObjectsList;
 	
-	PickingSystem(BasicObjectClass Object, ArrayList<Integer> PickableObjectsArray){
+	PickingSystem(BasicObjectClass Object, PickableObjectsList pickableObjectsList){
 		Object.Modifiers.pointerToPickingSystem = this;
-		this.PickableObjectsArray = PickableObjectsArray;
+		this.pickableObjectsList = pickableObjectsList;
 	}
 
 	public void updateAction(BasicObjectClass Object) {
@@ -16,8 +16,8 @@ public class PickingSystem implements Action{
 		} else {
 			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pointerToLookingSystem.VisibleObjectsArray;
 			for(int i = 0; i < tempVisibleObjectsArray.size(); i++){
-				for(int i2 = 0; i2 < PickableObjectsArray.size(); i2++){
-					if(tempVisibleObjectsArray.get(i).ObjectTypeID == PickableObjectsArray.get(i2)){
+				for(int i2 = 0; i2 < pickableObjectsList.objectsList.size(); i2++){
+					if(tempVisibleObjectsArray.get(i).ObjectTypeID == pickableObjectsList.objectsList.get(i2).pickableObjectID){
 						float fObjPosX = Object.PosGlobalX;
 						float fObjPosY = Object.PosGlobalY;
 						float sObjPosX = tempVisibleObjectsArray.get(i).PosGlobalX;
@@ -29,7 +29,7 @@ public class PickingSystem implements Action{
 						
 						double angle = Object.Modifiers.pointerToLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
 						Object.Modifiers.pointerToOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
-								OffersMessages.PickUp, this, 10);
+								OffersMessages.PickUp, this, 10+pickableObjectsList.objectsList.get(i2).pickingPriority);
 					}
 				}
 			}
