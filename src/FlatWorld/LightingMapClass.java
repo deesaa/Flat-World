@@ -1,42 +1,58 @@
 package FlatWorld;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector2f;
-
 public class LightingMapClass {
-	ArrayList<BasicObjectClass> LMEls = new ArrayList<BasicObjectClass>();
-	public int[] lightList = new int[]{GL11.GL_LIGHT0, GL11.GL_LIGHT1, GL11.GL_LIGHT2, GL11.GL_LIGHT3, GL11.GL_LIGHT4, GL11.GL_LIGHT5, GL11.GL_LIGHT6, GL11.GL_LIGHT7};
+	ArrayList<BasicObjectClass> ShadowsArray = new ArrayList<BasicObjectClass>();
+	ArrayList<LightObject> LightsObjectArray = new ArrayList<LightObject>();
 	
-	public void addLMEl(BasicObjectClass object){
-		LMEls.add(object);
-	}
-	
-	public void rend(){	
-		/*GL11.glColor4b((byte) 0, (byte) 0,  (byte) 0, (byte)95); 				// –¿…Õ≈ —»À‹ÕŒ À¿√¿≈“!
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glTranslated(MapsManager.getPlayerPosX(), MapsManager.getPlayerPosY(), -25.0f);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex3f(-100, -100, 0);
-		GL11.glVertex3f(-100, 100, 0);
-		GL11.glVertex3f(100, 100, 0);
-		GL11.glVertex3f(100, -100, 0);
-		GL11.glEnd();
-		GL11.glLoadIdentity(); */
-		for(int i = 0; i < lightList.length; i++){
-			GL11.glDisable(lightList[i]);
-		}
-		
-		for(int i = 0; i < LMEls.size(); i++){
-			LightingSystem currentLS = LMEls.get(i).Modifiers.pointerToLightingSystem;
-			if(currentLS.mode == LightingMode.Origin){
-				currentLS.originModeRend(LMEls.get(i), this.lightList[i]);
+	public void addLight(LightObject Light, BasicObjectClass Object){
+		boolean included = false;
+		for(int i = LightsObjectArray.size()-1; i >= 0; i--){
+			if(LightsObjectArray.get(i).lightID == Light.lightID){
+				LightsObjectArray.get(i).updatePos(Object);
+				included = true;
+				break;
 			}
 		}
-		LMEls.clear();
+		
+		if(included == false){
+			Light.createLight(Object);
+			LightsObjectArray.add(Light);
+		}
+	}
+	
+	public void registerShadow(BasicObjectClass Object) {
+		ShadowsArray.add(Object);
+	}
+	
+	public void rendShadows(){
+		for(int i = 0; i < ShadowsArray.size(); i++){
+			ShadowsArray.get(i).Modifiers.pointerToLightingSystem.objectModeRend(ShadowsArray.get(i));
+		}
+		ShadowsArray.clear();
+	}
+	
+	public void rendLight(){	
+		for(int i = 0; i < LightsObjectArray.size(); i++){
+			LightsObjectArray.get(i).enableLight();
+		}
+		this.clearAndUnite();
+	}
+	
+	public void clearAndUnite(){
+		float playerPosX = MapsManager.getPlayerPosX();
+		float playerPosY = MapsManager.getPlayerPosY();
+		
+		for(int i = LightsObjectArray.size()-1; i >= 0; i--){
+			if(LightsObjectArray.get(i).deleteMark == true ||
+			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pointerToPickableModif.getOwner().PosGlobalX-playerPosX) >= 40 ||
+			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pointerToPickableModif.getOwner().PosGlobalY-playerPosY) >= 30)
+			{
+			   LightsObjectArray.get(i).deleteMark = false;
+			   LightsObjectArray.get(i).deleteLight();
+			   LightsObjectArray.remove(i);
+			}
+		}
 	}
 }

@@ -3,7 +3,11 @@ package FlatWorld;
 import org.lwjgl.input.Keyboard;
 
 
-public class PlayerControllerAct implements Action {
+public class PlayerControllerAct extends Action {
+	public PlayerControllerAct(BasicObjectClass Object) {
+		super(Object);
+	}
+	
 	public void updateAction(BasicObjectClass Object) {
 		float tempMoveX = 0.0f, tempMoveY = 0.0f;
 

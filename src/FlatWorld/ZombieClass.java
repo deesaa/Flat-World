@@ -52,7 +52,6 @@ public class ZombieClass extends BasicObjectClass {
 		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
 		super.ActionsArray.add(new BattleSystem(this, PerHealScaleTex, PerHealScaleContourColor, 100, 100, EnemiesArray));
 		super.ActionsArray.add(new CollisionSystem(this, 0.3f, 0, 0));
-		super.ActionsArray.add(new OffersListAct(this));
 	}
 
 	public void updateObject() {

@@ -1,7 +1,8 @@
 package FlatWorld;
 
-
 public class ObjectModifiers {
+	public PickableModif   pointerToPickableModif;
+	
 	public boolean isContainer = false;
 	public boolean isOpen = false;
 	public boolean isAlphaBlend = false;

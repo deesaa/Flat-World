@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 enum EquipSysMode{State, Owner};
 
-public class EquipmentSystem implements Action{
+public class EquipmentSystem extends Action{
 	boolean isInventoryVisible = false;
 	EquipSysMode euipSysMode;
 	static KeyboardManager localKeyLocker = new KeyboardManager();
@@ -21,6 +21,7 @@ public class EquipmentSystem implements Action{
 	AnatomySystem anatomy;
 
 	EquipmentSystem(BasicObjectClass Object, AnatomySystem anatomy, float indentX, float indentY, ContainersArrayClass Inventory){
+		super(Object);
 		Object.Modifiers.pointerToEquipmentSystem = this;
 		this.euipSysMode = EquipSysMode.Owner;
 		this.anatomy = anatomy;
@@ -37,6 +38,7 @@ public class EquipmentSystem implements Action{
 	}
 	
 	public EquipmentSystem(BasicObjectClass Object, StringVars equipPlaces){
+		super(Object);
 		Object.Modifiers.pointerToEquipmentSystem = this;
 		this.euipSysMode = EquipSysMode.State;
 		this.equipPlaces = equipPlaces;
@@ -64,6 +66,14 @@ public class EquipmentSystem implements Action{
 	} 
 	
 	public void updateAction(BasicObjectClass Object) {
+		if(pEqipmentCellsArray != null){
+			for(int i = 0; i < pEqipmentCellsArray.size(); i++){
+				ContainerCell tempCell = pEqipmentCellsArray.get(i);
+				for(int i2 = 0; i2 < tempCell.ObjectsArray.size(); i2++){
+					tempCell.ObjectsArray.get(i2).updateObject();
+				}
+			}
+		}
 	}
 
 	public void rendAction(BasicObjectClass Object) {

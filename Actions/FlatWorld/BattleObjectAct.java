@@ -1,10 +1,11 @@
 package FlatWorld;
 
 
-public class BattleObjectAct implements Action{
+public class BattleObjectAct extends Action{
 	BattleObjectClass battleObjectStatesList;
 	
 	public BattleObjectAct(BasicObjectClass Object, BattleObjectClass battleObjectStatesList){
+		super(Object);
 		Object.Modifiers.pointerToBattleObjectAct = this;
 		
 		this.battleObjectStatesList = battleObjectStatesList;

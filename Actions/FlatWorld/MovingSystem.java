@@ -3,11 +3,12 @@ package FlatWorld;
 import java.util.Random;
 
 
-public class MovingSystem implements Action{
+public class MovingSystem extends Action{
 	BasicObjectClass randomPosition = null;
 	double finalDist, angle;
 	
 	public MovingSystem(BasicObjectClass Object) {
+		super(Object);
 		Object.Modifiers.pointerToMovingSystem = this;
 	}
 	

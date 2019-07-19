@@ -37,7 +37,9 @@ public class BasicObjectClass {
 		this.moveSpeed = moveSpeed;
 		this.ObjectID = ObjectID;
 		this.ObjectTypeID = ObjectTypeID;
-
+		
+		this.ActionsArray.add(new OffersListAct(this));
+		
 		Modifiers.isSolid = isSolid;
 		Modifiers.isClickable = isPickable;
 		if (Modifiers.isClickable)

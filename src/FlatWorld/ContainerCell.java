@@ -87,12 +87,14 @@ public class ContainerCell extends BasicObjectClass {
 		if(equipSetts.getVal("EP").compareTo("Nothing") == 0){
 			this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 			ObjectsArray.add(pickedObject);
+			//pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);
 			return true;
 		} else {
 			if(pickedObject.Modifiers.pointerToEquipmentSystem != null){
 				if(pickedObject.Modifiers.pointerToEquipmentSystem.checkEquipPlace(equipSetts)){
 					this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 					ObjectsArray.add(pickedObject);
+				//	pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);
 					return true;
 				}
 			}

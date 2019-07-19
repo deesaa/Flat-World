@@ -1,11 +1,16 @@
 package FlatWorld;
 
-public interface Action {
-	public void updateAction(BasicObjectClass Object);
+public abstract class Action {
+	BasicObjectClass ActionOwner;
+	Action(BasicObjectClass ActionOwner){
+		this.ActionOwner = ActionOwner;
+	}
+	
+	public abstract void updateAction(BasicObjectClass Object);
 
-	public void rendAction(BasicObjectClass Object);
+	public abstract void rendAction(BasicObjectClass Object);
 
-	public void zeroAction(BasicObjectClass basicObjectClass);
+	public abstract void zeroAction(BasicObjectClass basicObjectClass);
 
-	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer);
+	public abstract void doTheAction(BasicObjectClass Object, StructOfOffer Offer);
 }

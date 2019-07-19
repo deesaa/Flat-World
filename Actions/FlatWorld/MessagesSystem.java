@@ -1,9 +1,12 @@
 package FlatWorld;
 
 
-public class MessagesSystem implements Action{
+public class MessagesSystem extends Action{
 
-	@Override
+	public MessagesSystem() {
+		super(null);
+	}
+	
 	public void updateAction(BasicObjectClass Object) {
 		// TODO Auto-generated method stub
 		

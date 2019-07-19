@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 
-public class LookingSystemAct implements Action{
+public class LookingSystemAct extends Action{
 	public ArrayList<BasicObjectClass> VisibleObjectsArray = new ArrayList<BasicObjectClass>();
 	
 	double VecViewDirX, VecViewDirY;
@@ -18,6 +18,7 @@ public class LookingSystemAct implements Action{
 	float rotateSpeed;
 	
 	LookingSystemAct(BasicObjectClass Object, float VecViewDirX, float VecViewDirY, float viewAngle, float viewSphereRadius, float rotateSpeed){
+		super(Object);
 		this.VecViewDirX 	  = initialVecViewDirX = VecViewDirX;
 		this.VecViewDirY	  = initialVecViewDirY = VecViewDirY;
 		this.viewAngle 	 	  = viewAngle;

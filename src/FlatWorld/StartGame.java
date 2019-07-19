@@ -35,17 +35,6 @@ public class StartGame {
 	}
 
 	static void startOpenGL() {
-		int width = Display.getWidth();
-		int height = Display.getHeight();
-
-		GL11.glViewport(0, 0, width, height); // Reset The Current Viewport
-		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select The Projection Matrix
-		GL11.glLoadIdentity(); // Reset The Projection Matrix
-		GLU.gluPerspective(45.0f, ((float) width / (float) height), 0.1f, zFar); // Calculate The Aspect Ratio Of The Window
-		GLU.gluLookAt(0.0f, 0, 1, 0.0f, 0, 0, 0, 1, 0);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
-		GL11.glLoadIdentity(); // Reset The Modelview Matrix
-
 		GL11.glShadeModel(GL11.GL_SMOOTH); // Enables Smooth Shading
 		GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Black Background
 		GL11.glClearDepth(1.0f); // Depth Buffer Setup

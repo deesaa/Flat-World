@@ -11,7 +11,7 @@ public class MapsManager {
 	}
 
 	public static void createNewMap() {
-		MapsArray.add(new MapClass(MapsArray.size(), 8, 5, 0.0f, 0.0f));
+		MapsArray.add(new MapClass(MapsArray.size(), 3, 3));
 		pickedMap = MapsArray.size() - 1;
 	}
 

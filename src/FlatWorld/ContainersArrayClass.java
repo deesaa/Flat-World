@@ -20,6 +20,8 @@ public class ContainersArrayClass {
 	Map<String, pCellsGroup> cellsGroupsArray = new Hashtable<String, pCellsGroup>();
 	int lastEndID = 0;
 	
+	BasicObjectClass currentOwnerObject;
+	
 	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
 		this.numCellsInLine = numCellsInLine;
@@ -212,5 +214,9 @@ public class ContainersArrayClass {
 
 	public ArrayList<ContainerCell> getCellsGroup(String groupName) {
 		return this.cellsGroupsArray.get(groupName).pCellsArray;
+	}
+
+	public void setCurrentOwner(BasicObjectClass object) {
+		this.currentOwnerObject = object;
 	}
 }

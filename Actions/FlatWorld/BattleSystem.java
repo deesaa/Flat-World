@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 
 
-public class BattleSystem implements Action{
+public class BattleSystem extends Action{
 	public ArrayList<Integer> EnemiesArray;
 	public TexturesClass PerHealScaleTex;
 	public Vector3f PerHealScaleContourColor;
@@ -16,6 +16,7 @@ public class BattleSystem implements Action{
 	float maxHealpoints, healpoints;
 	
 	public BattleSystem(BasicObjectClass Object, TexturesClass PerHealScaleTex, Vector3f PerHealScaleContourColor, int maxHealpoints, int healpoints, ArrayList<Integer> EnemiesArray) {
+		super(Object);
 		Object.Modifiers.pointerToBattleSystem = this;
 
 		this.PerHealScaleTex = PerHealScaleTex;
@@ -28,7 +29,9 @@ public class BattleSystem implements Action{
 			PerHealScale = new PercentScaleModule(1.7f, 0.1f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, null, 0, 0, 0, 0);
 	}
 	
-	public BattleSystem() {}
+	public BattleSystem() {
+		super(null);
+	}
 
 	public BattleSystem linkPlayerGUI(PlayerGUIAct PlayerGUI){
 		this.PlayerGUI = PlayerGUI;

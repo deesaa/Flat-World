@@ -2,11 +2,14 @@ package FlatWorld;
 
 
 
-public class CollisionSystem implements Action{
+public class CollisionSystem extends Action{
 	float sphereRadius, shiftX, shiftY;
 	
-	public CollisionSystem() {}
+	public CollisionSystem() {
+		super(null);
+	}
 	public CollisionSystem(BasicObjectClass Object, float sphereRadius, float shiftX, float shiftY) {
+		super(Object);
 		Object.Modifiers.pointerToCollisionSystem = this;
 		this.sphereRadius = sphereRadius;
 		this.shiftX = shiftX;

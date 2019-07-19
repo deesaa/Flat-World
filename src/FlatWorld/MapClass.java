@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector3f;
 
 public class MapClass {
 	int MapID;
@@ -15,14 +16,15 @@ public class MapClass {
 	public ArrayList<ChunkClass> ChunksArray = new ArrayList<ChunkClass>();
 	public ArrayList<ChunkClass> VisibleChunksArray = new ArrayList<ChunkClass>();
 	public LightingMapClass lightingMap = new LightingMapClass();
+	WeatherGlobalSystem WeatherSystem = new WeatherGlobalSystem(10000);
 
 	// Ќомер карты; расто€ние до начала обрезани€ чанков по X; расто€ние до
 	// начала обрезани€ чанков по Y; глобальное расположение объекта(игрока) по
 	// X, Y;
-	MapClass(int MapID, int distToCutChunksX, int distToCutChunksY, float playerPosX, float playerPosY) {
+	MapClass(int MapID, int distToCutChunksX, int distToCutChunksY) {
 		this.MapID 			  = MapID;
-		this.PlayerGlobalPosX = playerPosX;
-		this.PlayerGlobalPosY = playerPosY;
+		this.PlayerGlobalPosX = FlatWorld.mainCamera.getPosX();
+		this.PlayerGlobalPosY = FlatWorld.mainCamera.getPosY();
 
 		this.distToCutChunksX = distToCutChunksX;
 		this.distToCutChunksY = distToCutChunksY;
@@ -35,7 +37,7 @@ public class MapClass {
 			for (int i2 = 0; i2 != this.distToCutChunksY; i2++) {
 				ChunksArray.add(new ChunkClass(ChunksArray.size(), MapID, tempGenX + i, tempGenY + i2, -25.0f));
 				if (i == this.distToCutChunksX >> 1 && i2 == this.distToCutChunksY >> 1){
-					ChunksArray.get(ChunksArray.size() - 1).addPlayer(playerPosX, playerPosY);
+					ChunksArray.get(ChunksArray.size() - 1).addPlayer(PlayerGlobalPosX, PlayerGlobalPosY);
 				}
 			}
 		}
@@ -63,6 +65,7 @@ public class MapClass {
 
 	public void updateMap() {
 		this.rebuildVisibleChunksArray();
+		this.WeatherSystem.update();
 
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).updateChunk();
@@ -73,27 +76,20 @@ public class MapClass {
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).rendChunkCells();
 		}
+		GL11.glDisable(GL11.GL_LIGHTING);
+		lightingMap.rendShadows();
+		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).rendChunkObjects();
 		}
-		
-		lightingMap.rend();
+		lightingMap.rendLight();
 	}
 
 	public void updatePlayerPos(float PlayerGlobalPosX, float PlayerGlobalPosY) {
 		this.PlayerGlobalPosX = PlayerGlobalPosX;
 		this.PlayerGlobalPosY = PlayerGlobalPosY;
-		
-		
-		GL11.glMatrixMode(GL11.GL_PROJECTION); 
-		GL11.glLoadIdentity();
-		GLU.gluPerspective(45.0f, ((float) Display.getWidth()/(float) Display.getHeight()), 0.1f, 100.0f); 
-
-		GLU.gluLookAt(this.PlayerGlobalPosX,this.PlayerGlobalPosY, 1, 
-				this.PlayerGlobalPosX, this.PlayerGlobalPosY, 0, 0, 1, 0);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-		GL11.glLoadIdentity();
+		FlatWorld.mainCamera.setLook(new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 1), new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 0), null);
 	}
 
 	public boolean relocateToRelevantChunk(BasicObjectClass object) {
@@ -101,7 +97,7 @@ public class MapClass {
 		for (int i = 0; i < ChunksArray.size(); i++) {
 			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
 			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
-
+					   
 			if (tempChunkGlobalPosX < object.PosGlobalX &&
 				tempChunkGlobalPosX + ChunkClass.numObjectsInLine > object.PosGlobalX &&
 				tempChunkGlobalPosY < object.PosGlobalY &&
@@ -195,7 +191,7 @@ public class MapClass {
 		for (int i = 0; i < ChunksArray.size(); i++) {
 			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
 			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
-
+			
 			if (tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX < PlayerGlobalPosX &&
 				tempChunkGlobalPosX + tempDistToCutChunksGlobalX	  > PlayerGlobalPosX &&
 				tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY < PlayerGlobalPosY &&

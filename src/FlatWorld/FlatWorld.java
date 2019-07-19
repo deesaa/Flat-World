@@ -1,7 +1,11 @@
 package FlatWorld;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
@@ -22,6 +26,8 @@ public class FlatWorld {
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
 	public static KeyboardManager globalKeyLocker = new KeyboardManager();
 	public static MainMenuClass mainMenu = new MainMenuClass();
+	
+	public static CameraClass mainCamera = new CameraClass(Display.getWidth(), Display.getHeight(), 45.0f, 100.0f);
 
 	public static void startFlatWorld() {
 		updateDelta();
@@ -40,17 +46,46 @@ public class FlatWorld {
 	}
 
 	public static void FWMainLoop() {
-		 GL11.glEnable(GL11.GL_LIGHTING);
-		 GL11.glLightModelf(GL11.GL_LIGHT_MODEL_TWO_SIDE, GL11.GL_TRUE);
-	     GL11.glEnable(GL11.GL_NORMALIZE);;
+	/*	Texture tex = null, tex2 = null;
+		int texID1, texID2;
+		try {
+			tex = TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("areulooking.png"), GL11.GL_NEAREST);
+			tex2 = TextureLoader.getTexture("png", ResourceLoader.getResourceAsStream("Stone.png"), GL11.GL_NEAREST);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} */
+	//	texID1 = tex.getTextureID();
+	///	texID2 = tex2.getTextureID();
+		
+	//	GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		
+	//	GL11.glEnable(GL11.GL_TEXTURE_2D);
+	//	GL11.glBindTexture(GL11.GL_TEXTURE_2D, texID1);
+	//	GL11.glDeleteTextures(texID2);
+		
 
-         // use the defined color as the material for the square
-        // GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-     //    GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK,GL11.GL_AMBIENT_AND_DIFFUSE);
+	    /* ShaderProgram = GL20.glCreateProgram();
+	 
+	     int ShaderObj = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
+	     int FragsObj = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
+	     
+	     String vertexShader = null;
+	     String fragsShader = null;
+	     try {
+	    	 vertexShader = FlatWorld.readFile("vertshader.txt", StandardCharsets.UTF_8);
+	    	 fragsShader = FlatWorld.readFile("fragshader.txt", StandardCharsets.UTF_8);
+	     } catch (IOException e) {
+			e.printStackTrace();
+	     }
+	     */
+		
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glLightModeli(GL11.GL_LIGHT_MODEL_TWO_SIDE, 1);
          
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			updateDelta();
+			
             MapsManager.updateMap();
    			MapsManager.rendMap();
 			
@@ -59,6 +94,13 @@ public class FlatWorld {
 			Display.update();
 			updateFPS();
 		}
+	}
+	
+	public static String readFile(String path, Charset encoding) 
+			  throws IOException 
+	{
+			  byte[] encoded = Files.readAllBytes(Paths.get(path));
+			  return encoding.decode(ByteBuffer.wrap(encoded)).toString();
 	}
 
 	private static FloatBuffer allocFloats(float[] fs) {

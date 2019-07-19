@@ -3,7 +3,7 @@ package FlatWorld;
 import org.lwjgl.input.Keyboard;
 
 
-public class InventorySystem implements Action{
+public class InventorySystem extends Action{
 	ContainersArrayClass Invntory;
 	
 	boolean isInventoryVisible = false;
@@ -12,12 +12,14 @@ public class InventorySystem implements Action{
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) 
 	{
+		super(Object);
 		Object.Modifiers.pointerToInventorySystem = this;
 		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture, BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft);
 		Invntory.pushGroup("Inv");
 	}
 	
 	public void updateAction(BasicObjectClass Object) {
+		Invntory.setCurrentOwner(Object);
 		if(Object.ObjectType == ObjectTypes.Player){
 			this.updatePlayerAction(Object);
 		} else {
@@ -66,6 +68,7 @@ public class InventorySystem implements Action{
 	}
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
+		pickedObject.Modifiers.pointerToPickableModif.setOwner(super.ActionOwner);
 		return Invntory.addObjectAtGroup(pickedObject, Invntory.getCellsGroup("Inv"));
 	}
 

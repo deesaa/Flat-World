@@ -5,7 +5,7 @@ import java.util.Map;
 
 
 
-public class AnatomySystem implements Action{
+public class AnatomySystem extends Action{
 	public static Map<String, AnatomyElement> AnatomyElements = new Hashtable<String, AnatomyElement>(10, 0.9f);
 	StringVars anatomy[][];
 	ContainersArrayClass Invntory;
@@ -15,6 +15,7 @@ public class AnatomySystem implements Action{
 	
 	public AnatomySystem(BasicObjectClass Object, StringVars[][] anatomy, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) {
+		super(Object);
 		Object.Modifiers.pointerToAnatomySystem = this;
 		this.anatomy = anatomy;
 	}

@@ -3,10 +3,11 @@ package FlatWorld;
 import java.util.ArrayList;
 
 
-public class PickingSystem implements Action{
+public class PickingSystem extends Action{
 	PickableObjectsList pickableObjectsList;
 	
 	PickingSystem(BasicObjectClass Object, PickableObjectsList pickableObjectsList){
+		super(Object);
 		Object.Modifiers.pointerToPickingSystem = this;
 		this.pickableObjectsList = pickableObjectsList;
 	}
@@ -50,10 +51,13 @@ public class PickingSystem implements Action{
 			   MapsManager.getPlayerPosY() + expandToUp    < IntersectedObject.PosGlobalY && 
 			   MapsManager.getPlayerPosY() + expandToDown  > IntersectedObject.PosGlobalY)
 			{
+				
 				if(IntersectedObject.Modifiers.isClickable == true){
 					IntersectedObject.Modifiers.hasContour = true;
 					if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
 						Object.Modifiers.pointerToInventorySystem.addObject(IntersectedObject);
+						if(IntersectedObject.Modifiers.pointerToPickableModif != null)
+							IntersectedObject.Modifiers.pointerToPickableModif.setOwner(Object);
 					}
 					if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
 						this.processRightClick(IntersectedObject);

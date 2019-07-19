@@ -4,15 +4,12 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 
 
-public class PlayerGUIAct implements Action{
+public class PlayerGUIAct extends Action{
 	public PercentScaleModule PerHealScale;
 	public TexturesClass PerHealScaleTex = null, PerHealScaleBGTex = null;
 	public Vector3f PerHealScaleContourColor = null;
@@ -22,6 +19,10 @@ public class PlayerGUIAct implements Action{
 	FloatBuffer dbModel = BufferUtils.createFloatBuffer(16);
 	FloatBuffer obj_pos = BufferUtils.createFloatBuffer(4);
 	FloatBuffer win_pos = BufferUtils.createFloatBuffer(6);
+	
+	public PlayerGUIAct(BasicObjectClass Object) {
+		super(Object);
+	}
 	
 	public void initHealScale(int maxHealpoints) {
 		PerHealScaleTex = new TexturesClass("png", "data/GUI/PerHealScale.png");

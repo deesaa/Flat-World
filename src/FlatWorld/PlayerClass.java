@@ -1,17 +1,8 @@
 package FlatWorld;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.tests.xml.Inventory;
 
 
 public class PlayerClass extends BasicObjectClass {
@@ -21,8 +12,8 @@ public class PlayerClass extends BasicObjectClass {
 	public static ArrayList<FlaggedImage> StaticImageArray = new ArrayList<FlaggedImage>();
 	public static ArrayList<Integer> PickableObjectsArray = new ArrayList<Integer>();
 	public static ArrayList<Integer> EnemiesArray = new ArrayList<Integer>();
-	PlayerGUIAct PlayerGUI = new PlayerGUIAct();
-	//"EP=Hand;EPl=Right"
+	PlayerGUIAct PlayerGUI = new PlayerGUIAct(this);
+	
 	public static StringVars[][] Anatomy = new StringVars[][]{
 		{new StringVars("EP=Nothing;EPl=Nothing;"), new StringVars("EP=Head;EPl=Nothing;"),     new StringVars("EP=Nothing;EPl=Nothing;")}, 
 		{new StringVars("EP=Arm;EPl=Left;"),        new StringVars("EP=Body;EPl=Nothing;"),     new StringVars("EP=Arm;EPl=Right;")}, 
@@ -71,7 +62,6 @@ public class PlayerClass extends BasicObjectClass {
 	}
 	
 	public static void initObject() {
-		//ImageTag IM1t = new ImageTag(0.63f, 0.34f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;EPl=Right;");
 		ImageTag IM1 = new ImageTag(0.63f, 0.34f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;EPl=Right;");
 		ImageTag IM2 = new ImageTag(0.35f, 0.34f, 0.0f, 180.0f, 0, 1, 0).linkTo("EP=Hand;EPl=Left;");
 		ImageTag IM2S2 = new ImageTag(0.35f, 0.38f, 0.0f, 180.0f, 0, 1, 0).linkTo("EP=Hand;EPl=Left;");
@@ -150,7 +140,7 @@ public class PlayerClass extends BasicObjectClass {
 
 	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, ObjectID, PlayerClass.ObjectTypeID, true, false);
-		super.ActionsArray.add(new PlayerControllerAct());
+		super.ActionsArray.add(new PlayerControllerAct(this));
 		super.ActionsArray.add(new PickingSystem(this, null));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null, 0, 0, 0, 0));
@@ -159,7 +149,6 @@ public class PlayerClass extends BasicObjectClass {
 		super.ActionsArray.add(new LightingSystem(this));
 		super.ActionsArray.add(new BattleSystem(this, null, null, 100, 100, EnemiesArray).linkPlayerGUI(PlayerGUI));
 		super.ActionsArray.add(new CollisionSystem(this, 0.3f, 0, 0));
-		super.ActionsArray.add(new OffersListAct(this));
 		super.Animations.pickedSubAnimation = "simpleAttack";
 	}
 

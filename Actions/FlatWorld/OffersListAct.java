@@ -2,12 +2,15 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+enum Commands{FreeFromOwners};
 
-public class OffersListAct implements Action{
+public class OffersListAct extends Action{
 	public ArrayList<StructOfOffer> OffersArray = new ArrayList<StructOfOffer>();
+	public ArrayList<Commands> CommandsArray = new ArrayList<Commands>();
 	public StructOfOffer activeOffer = null;		
 	
 	public OffersListAct(BasicObjectClass Object) {
+		super(Object);
 		Object.Modifiers.pointerToOffersList = this;
 	}
 	
@@ -18,8 +21,18 @@ public class OffersListAct implements Action{
 	public void addOffersArray(ArrayList<ArrayOffersElement> OffersElements, OffersMessages message, Action sender, int priority){
 		OffersArray.add(new StructOfOffer(OffersElements, message, sender, priority));
 	}
+	
+	public void addCommand(Commands command) {
+		CommandsArray.add(command);
+	}
 
 	public void updateAction(BasicObjectClass Object) {
+		
+		for(int i = 0; i < CommandsArray.size(); i++){
+			OffersListAct.processCommand(Object, CommandsArray.get(i));
+		}
+		CommandsArray.clear();
+		
 		this.findTheMostPriorityOffer(Object);
 		OffersArray.clear();
 		
@@ -28,20 +41,26 @@ public class OffersListAct implements Action{
 				this.MoveToActiveOffer(Object);
 			activeOffer.sender.doTheAction(Object, activeOffer);
 		} else {
-			if(Object.ObjectType != ObjectTypes.Player)
-				Object.Animations.restart();
+			//if(Object.ObjectType != ObjectTypes.Player)
+			//	Object.Animations.restart();
 		}
 		
 		activeOffer = null;
 	}
 	
+	private static void processCommand(BasicObjectClass Object, Commands command) {
+		switch (command) {
+		case FreeFromOwners:
+			if(Object.Modifiers.pointerToPickableModif != null){
+				Object.Modifiers.pointerToPickableModif.setOwner(null);
+			}
+			break;
+		}
+	}
+
 	private void MoveToActiveOffer(BasicObjectClass Object) {
 		Object.Modifiers.pointerToLookingSystem.rotateViewAt(activeOffer);
 		Object.Modifiers.pointerToMovingSystem.directMovingTo(Object, activeOffer.OfferElement.interactingObject);
-		
-		//System.out.println("ObjectTypeID: " + Object.ObjectTypeID + " (MapID: " + Object.OwnedMapID + " ChunkID: " + Object.OwnedChunkID + " ObjectID: " + Object.ObjectID + ") gonna " 
-		//  	+ activeOffer.message + " ObjectTypeID: " + activeOffer.interactingObject.ObjectTypeID + " (MapID: " + activeOffer.interactingObject.OwnedMapID + " ChunkID: " + activeOffer.interactingObject.OwnedChunkID + " ObjectID: " + activeOffer.interactingObject.ObjectID + ") " + 
-		//		" Distance: " + activeOffer.distance);
 	}
 	
 	private boolean findTheMostPriorityOffer(BasicObjectClass Object){   //Нет фиксации действия!

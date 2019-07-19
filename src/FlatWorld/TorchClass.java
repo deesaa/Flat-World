@@ -1,14 +1,9 @@
 package FlatWorld;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
+import org.lwjgl.util.vector.Vector4f;
 
 
 public class TorchClass extends BasicObjectClass {
@@ -16,8 +11,9 @@ public class TorchClass extends BasicObjectClass {
 	public static String ObjectName;
 	
 	public static ArrayList<FlaggedImage> StaticImageArray = new ArrayList<FlaggedImage>();	
-	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,Leg,;");
+	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,;");
 	public static BattleObjectClass battleObjectState = new BattleObjectClass(3.0f, 0.0f, 0.0f, 0.0f);
+	Integer LightID = -1;
 	
 	{
 		super.Animations = new AnimationsList("torchBurning");
@@ -37,9 +33,12 @@ public class TorchClass extends BasicObjectClass {
 
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
+
 		super.setRendShift(-0.2f, 0.1f);
+		super.ActionsArray.add(new PickableModif(this));
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
-		super.ActionsArray.add(new LightingSystem(this, 7.0f));
+		LightObject lightObject = new LightObject(LightID, this, new Vector4f(1.0f, 0.9f, 0.8f, 0.0f), new Vector4f(1.0f, 1.0f, 1.0f, 0.0f), new Vector4f(1.0f, 0.7f, 0.7f, 0.0f));
+		super.ActionsArray.add(new LightingSystem(this, 8.0f, lightObject));
 		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 	}
 
