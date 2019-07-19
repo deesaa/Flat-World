@@ -85,7 +85,7 @@ public class MouseArrowClass {
 				}
 			}
 		}
-
+	
 		if (!Mouse.isButtonDown(0)) {
 			if (throwerContainer != null && catcherContainer != null) {
 				

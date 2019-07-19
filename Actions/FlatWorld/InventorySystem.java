@@ -1,6 +1,7 @@
 package FlatWorld;
 
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import org.lwjgl.input.Keyboard;
 
 
@@ -8,6 +9,7 @@ public class InventorySystem extends Action{
 	ContainersArrayClass Invntory;
 	
 	boolean isInventoryVisible = false;
+	boolean isPlayer = false;
 	int cellUnderArrow = -1;
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture) 
@@ -29,14 +31,17 @@ public class InventorySystem extends Action{
 		shiftX         = ObjectsLoader.getValue(configs, "shiftX", shiftX);
 		shiftY         = ObjectsLoader.getValue(configs, "shiftY", shiftY);
 		
+		isPlayer 	   = configs.get("isPlayer").toboolean();
+
 		Invntory = new ContainersArrayClass((int)numCellsInLine, (int)numLines, shiftX, shiftY, null);
 		Invntory.pushGroup("Inv");
 	}
 
 	public void updateAction(BasicObjectClass Object) {
 		Invntory.setCurrentOwner(Object);
-		if(Object.ObjectType == ObjectTypes.Player){
-			this.updatePlayerAction(Object);
+		
+		/*if(isPlayer){
+			//this.updatePlayerAction(Object);
 		} else {
 			if(isInventoryVisible){
 				float tempDistGlobalX = 1.4f;
@@ -52,7 +57,7 @@ public class InventorySystem extends Action{
 					Object.callUpdateHook("CLOSED", super.systemIdent);
 				}
 			}
-		}
+		} */
 		
 		if(isInventoryVisible){
 			ContainerCell tempCont = Invntory.getContainerUnderArrow();
@@ -78,7 +83,7 @@ public class InventorySystem extends Action{
 		cellUnderArrow = -1;
 	}
 	
-	private void updatePlayerAction(BasicObjectClass Object) {
+	/*private void updatePlayerAction(BasicObjectClass Object) {
 		if(FlatWorld.globalKeyLocker.isKeyDown(Keyboard.KEY_E, true)){
 			isInventoryVisible = !isInventoryVisible;
 			if(isInventoryVisible)
@@ -86,7 +91,7 @@ public class InventorySystem extends Action{
 			else
 				Object.callUpdateHook("CLOSED", super.systemIdent);
 		}	
-	}
+	} */
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
 		pickedObject.Modifiers.pPickableModif.setOwner(super.ActionOwner);

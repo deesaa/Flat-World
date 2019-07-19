@@ -25,7 +25,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, ObjectID, ContainerCell.ObjectTypeID, false, false);
 		
 		this.localPosGlobalX = PosGlobalX;
 		this.localPosGlobalY = PosGlobalY;
@@ -33,7 +33,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 	
 	ContainerCell() {
-		super(ObjectTypes.Cell, 0.0f, ContainerCell.ObjectTypeID, false);
+		super(ObjectTypes.Cell, ContainerCell.ObjectTypeID, false);
 	}
 
 	

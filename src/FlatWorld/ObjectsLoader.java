@@ -2,28 +2,16 @@ package FlatWorld;
 
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
 import FlatWorld.ImageTagsClass.ImageTag;
 
 public class ObjectsLoader {
-	static LuaValue g = JsePlatform.standardGlobals();
-	public static void load(){
-		/*g.get("dofile").call(LuaValue.valueOf("Script.txt"));
-		
-		LuaValue create = g.get("createObject");
-		LuaValue obj = CoerceJavaToLua.coerce(new Cat("Nyan"));
-		create.call(obj);
-		
-		System.out.println(g.get("sum").call(LuaValue.valueOf(4), LuaValue.valueOf(8)));
-		//LuaValue sum = g.get("tudu");
-		//LuaValue fin = sum.call(LuaValue.valueOf(3), LuaValue.valueOf(5));
-		//System.out.println(sum.tojstring());*/
-	}
-
 	public static BasicObjectClass createObject(String pathToFile, float posX, float posY, float posZ, int ownedChunk, int ownedMap, int objectID) {
 		BasicObjectClass newObject = new BasicObjectClass();
-		LuaValue tempLuaValue;
+		LuaValue tempLuaValue = null;
+		LuaValue g = JsePlatform.standardGlobals();
 		newObject.setPos(posX, posY, posZ, ownedChunk, ownedMap, objectID);
 		
 		g.get("dofile").call(LuaValue.valueOf(pathToFile));
@@ -35,6 +23,7 @@ public class ObjectsLoader {
 		if(tempLuaValue != LuaValue.NIL){
 			String objectName = g.get("ObjectName").tojstring();
 			if(FlatWorld.objectsStatic.openContainer(objectName) == false){
+				FlatWorld.objectsStatic.setObjectID(FlatWorld.objectsStatic.getNextID());
 				String pathToSheet = tempLuaValue.get("path").tojstring();
 				int tileWidth = tempLuaValue.get("tileWidth").toint();
 				int tileHeight = tempLuaValue.get("tileHeight").toint();
@@ -64,6 +53,8 @@ public class ObjectsLoader {
 			}
 		}
 		
+		newObject.ObjectTypeID = FlatWorld.objectsStatic.getCurrentID();
+		
 		tempLuaValue = g.get("loadAnimation");
 		tempLuaValue.call(luaThisObject, luaObjectStatic);
 		
@@ -74,6 +65,10 @@ public class ObjectsLoader {
 		tempLuaValue = g.get("Shadows");
 		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
 			newObject.ActionsArray.add(new LightingSystem(newObject));
+		
+		tempLuaValue = g.get("LuaControllersHook");
+		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
+			newObject.ActionsArray.add(new LuaControllersHookAct(newObject, tempLuaValue));
 		
 		tempLuaValue = g.get("Anatomy");
 		if(tempLuaValue != LuaValue.NIL)
@@ -86,6 +81,10 @@ public class ObjectsLoader {
 		tempLuaValue = g.get("Equipment");
 		if(tempLuaValue != LuaValue.NIL)
 			newObject.ActionsArray.add(new EquipmentSystem(newObject, tempLuaValue));
+
+		tempLuaValue = g.get("Moving");
+		if(tempLuaValue != LuaValue.NIL)
+			newObject.ActionsArray.add(new MovingSystem(newObject, tempLuaValue));
 		
 		tempLuaValue = g.get("Looking");
 		if(tempLuaValue != LuaValue.NIL)
@@ -103,6 +102,8 @@ public class ObjectsLoader {
 		if(!updateHook.isnil())
 			newObject.setLuaUpdateHook(updateHook, luaThisObject);
 		
+		FlatWorld.objectsStatic.closeContainer();
+		tempLuaValue = null;
 		return newObject;
 	}
 	
@@ -112,5 +113,11 @@ public class ObjectsLoader {
 			return tempLuaValue.tofloat();
 		else
 			return defaultValue;
+	}
+	
+	public static BasicObjectClass luaToJava(LuaValue object){
+		Class<BasicObjectClass> cl = BasicObjectClass.class;
+		Object obj = CoerceLuaToJava.coerce(object, cl);
+		return (BasicObjectClass) obj;
 	}
 }

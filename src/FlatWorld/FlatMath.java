@@ -22,6 +22,12 @@ public class FlatMath {
 		return Math.sqrt((distX + distY));
 	}
 	
+	public static void normalize(Vector2f vec){
+		float inv_length = (float)(1.0f/Math.sqrt(vec.x*vec.x + vec.y*vec.y));
+		vec.x *= inv_length;
+		vec.y *= inv_length;
+	}
+	
 	static byte toByte(int val){
 		if(val > Byte.MAX_VALUE)
 			return Byte.MAX_VALUE;

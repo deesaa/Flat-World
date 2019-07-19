@@ -14,11 +14,11 @@ public class ContourClass extends BasicObjectClass {
 
 	ContourClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ - 0.001f, OwnedChunkID, OwnedMapID, 
-				ObjectTypes.Cell, 0.0f, ObjectID, DirtClass.ObjectTypeID, false, false);
+				ObjectTypes.Cell, ObjectID, DirtClass.ObjectTypeID, false, false);
 	}
 
 	ContourClass() {
-		super(ObjectTypes.Cell, 0.0f, DirtClass.ObjectTypeID, false);
+		super(ObjectTypes.Cell, DirtClass.ObjectTypeID, false);
 	}
 
 	public static void initObject() {

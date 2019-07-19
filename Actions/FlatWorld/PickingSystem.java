@@ -8,7 +8,8 @@ import org.luaj.vm2.LuaValue;
 public class PickingSystem extends Action{
 	PickableObjectsList pickableObjectsList;
 	boolean isPlayer = false;
-	
+	float pickDistance;
+
 	PickingSystem(BasicObjectClass Object, PickableObjectsList pickableObjectsList, boolean KOSTIL){
 		super(Object, "PICK");
 		Object.Modifiers.pPickingSystem = this;
@@ -27,6 +28,8 @@ public class PickingSystem extends Action{
 		} else {
 			LuaValue tempLua = tempLuaValue.get("PickableObjects");
 		}
+		
+		pickDistance = tempLuaValue.get("pickDistance").tofloat();
 	}
 
 	public void updateAction(BasicObjectClass Object) {
@@ -61,39 +64,35 @@ public class PickingSystem extends Action{
 		float expandToDown  =  1.4f;
 		float expandToRight = -1.4f;
 		float expandToUp    = -1.4f;
-
+		
 		if (IntersectedObject != null) {
-			if(MapsManager.getPlayerPosX() + expandToRight < IntersectedObject.PosGlobalX && 
-			   MapsManager.getPlayerPosX() + expandToLeft  > IntersectedObject.PosGlobalX &&
-			   MapsManager.getPlayerPosY() + expandToUp    < IntersectedObject.PosGlobalY && 
-			   MapsManager.getPlayerPosY() + expandToDown  > IntersectedObject.PosGlobalY)
-			{
-				if(IntersectedObject.Modifiers.pPickableModif != null)
+				Object.callUpdateHook("CURSOR_ON_OBJECT", this.systemIdent, IntersectedObject.luaThisObject);
+				if(IntersectedObject.Modifiers.pPickableModif != null){
 					IntersectedObject.Modifiers.hasContour = true;
+				}
 				
-				if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
+				/*if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
 					if(Object.Modifiers.pInventorySystem != null && IntersectedObject.Modifiers.pPickableModif != null){
 						Object.Modifiers.pInventorySystem.addObject(IntersectedObject);
 						IntersectedObject.Modifiers.pPickableModif.setOwner(Object);
 						IntersectedObject.callUpdateHook("PICKED_UP", super.systemIdent);
 					}
-				}
+				}*/
 				
 				if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
 					this.processRightClick(IntersectedObject);
 			}
-		}
 	}
 	
 	private void processRightClick(BasicObjectClass Object){
-		if(Object.Modifiers.pInventorySystem != null){  				// Нужно доработать!
+		/*if(Object.Modifiers.pInventorySystem != null){  				// Нужно доработать!
 		//if(Object.ObjectTypeID == ChestClass.ObjectTypeID){
 			Object.Modifiers.pInventorySystem.isInventoryVisible = !Object.Modifiers.pInventorySystem.isInventoryVisible;
 			if(Object.Modifiers.pInventorySystem.isInventoryVisible)
 				Object.callUpdateHook("OPENED", super.systemIdent);
 			else
 				Object.callUpdateHook("CLOSED", super.systemIdent);
-		}
+		}*/
 	}
 
 	public void rendAction(BasicObjectClass Object) {

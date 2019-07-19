@@ -23,7 +23,7 @@ public class AxeClass extends BasicObjectClass{
 	}
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, AxeClass.ObjectTypeID, false, true);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, AxeClass.ObjectTypeID, false, true);
 		new PickableModif(this);
 		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 		super.ActionsArray.add(new BattleObjectAct(this, BattleObjectClass.standardAxe));

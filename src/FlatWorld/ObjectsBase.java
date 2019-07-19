@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class ObjectsBase {
 	public Map<Integer, BasicObjectClass> StaticObjectsArray;
-	private int freeID = 0;
 	
 	ObjectsBase() {
 		StaticObjectsArray = new Hashtable<Integer, BasicObjectClass>(5, 0.8f);
@@ -52,7 +51,6 @@ public class ObjectsBase {
 	}
 	
 	public int getNextID(){
-		freeID++;
-		return freeID;
+		return FlatWorld.objectsStatic.getNextID();
 	}
 }

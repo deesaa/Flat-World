@@ -15,25 +15,25 @@ public class PlayerControllerAct extends Action {
 		    Object.Animation.pickAnimation(2);
 			Object.Modifiers.pLookingSystem.VecViewDirX = -1.0f; 
 			Object.Modifiers.pLookingSystem.VecViewDirY =  0.0f; 
-			tempMoveX = -Object.moveSpeed;
+			//tempMoveX = -Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			Object.Animation.pickAnimation(3);
 			Object.Modifiers.pLookingSystem.VecViewDirX =  1.0f; 
 			Object.Modifiers.pLookingSystem.VecViewDirY =  0.0f; 
-			tempMoveX = Object.moveSpeed;
+			//tempMoveX = Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			 Object.Animation.pickAnimation(1);
+			Object.Animation.pickAnimation(1);
 			Object.Modifiers.pLookingSystem.VecViewDirX =  0.0f; 
 			Object.Modifiers.pLookingSystem.VecViewDirY =  1.0f; 
-			tempMoveY = Object.moveSpeed;
+			//tempMoveY = Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			Object.Animation.pickAnimation(0);
 			Object.Modifiers.pLookingSystem.VecViewDirX =  0.0f; 
 			Object.Modifiers.pLookingSystem.VecViewDirY = -1.0f; 
-			tempMoveY = -Object.moveSpeed;
+			//tempMoveY = -Object.moveSpeed;
 		}
 		
 		if (tempMoveX != 0 || tempMoveY != 0) {

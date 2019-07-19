@@ -15,4 +15,9 @@ public abstract class Action {
 	public abstract void zeroAction(BasicObjectClass basicObjectClass);
 
 	public abstract void doTheAction(BasicObjectClass Object, StructOfOffer Offer);
+	
+	public char[] getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

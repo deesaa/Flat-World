@@ -22,7 +22,7 @@ public class TreeClass extends BasicObjectClass{
 	}
 	
 	TreeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TreeClass.ObjectTypeID, true, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, TreeClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LightingSystem(this));
 		super.ActionsArray.add(new DestructionSystem(this, 100));
 		super.ActionsArray.add(new CollisionSystem(this, 0.085f, 0.0f, 0.0f));

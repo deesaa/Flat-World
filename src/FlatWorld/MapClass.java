@@ -115,7 +115,7 @@ public class MapClass {
 	public void updatePlayerPos(float PlayerGlobalPosX, float PlayerGlobalPosY) {
 		this.PlayerGlobalPosX = PlayerGlobalPosX;
 		this.PlayerGlobalPosY = PlayerGlobalPosY;
-		FlatWorld.mainCamera.setLook(new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 1), new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 0), null);
+		//FlatWorld.mainCamera.setLook(new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 1), new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 0), null);
 	}
 
 	// Принимает проверяемый объект; возвращает пересекаемый объект или null
@@ -182,5 +182,15 @@ public class MapClass {
 				VisibleChunksArray.add(ChunksArray.get(i));
 			}
 		}
+	}
+
+	public BasicObjectClass getObjectByPos(Vector2f position) {
+		BasicObjectClass result = null;
+		for (int i = 0; i < VisibleChunksArray.size(); i++) {
+			result = VisibleChunksArray.get(i).getObjectByPos(position);
+			if (result != null)
+				return result;
+		}
+		return null;
 	}
 }

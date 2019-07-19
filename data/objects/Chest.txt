@@ -32,15 +32,15 @@ SpriteSheet =
 	}
 }
 
-function updateHook(SenderObject, Message, SysIdent, InteractObject)
+function updateHook(SenderObject, Message, InteractObject)
 	if(Message) then
-		if(Message == "PICKED_UP" and  SysIdent == "PICK") then
+		if(Message["Arg"] == "PICKED_UP") then
 			SenderObject:getMainAnimation():pickAnimation(0)
 		end
-		if(Message == "OPENED" and (SysIdent == "INV" or SysIdent == "PICK")) then
+		if(Message["Arg"] == "OPENED" and (Message["Sys"] == "INV" or Message["Sys"] == "PICK")) then
 			SenderObject:getMainAnimation():pickAnimation(1)
 		end
-		if(Message == "CLOSED" and (SysIdent == "INV" or SysIdent == "PICK")) then
+		if(Message["Arg"] == "CLOSED" and (Message["Sys"] == "INV" or Message["Sys"] == "PICK")) then
 			SenderObject:getMainAnimation():pickAnimation(0)
 		end
 	end
@@ -52,5 +52,5 @@ function loadAnimation(Object, stImagesArray)
 	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 0)
 	MainAnimation:createAnimation(1, "ChestOpen")
 	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(1), 0)
-	MainAnimation:pickAnimation(0)
+	MainAnimation:pickAnimation(1)
 end

@@ -124,7 +124,7 @@ public class PlayerClass extends BasicObjectClass {
 	}
 
 	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.0035f, ObjectID, PlayerClass.ObjectTypeID, true, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, ObjectID, PlayerClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new PlayerControllerAct(this));
 		super.ActionsArray.add(new PickingSystem(this, null, true));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, null));

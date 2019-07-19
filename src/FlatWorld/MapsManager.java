@@ -2,6 +2,8 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.lwjgl.util.vector.Vector2f;
+
 public class MapsManager {
 	public static ArrayList<MapClass> MapsArray = new ArrayList<MapClass>();
 	private static int pickedMap;
@@ -53,5 +55,9 @@ public class MapsManager {
 
 	public static float getPlayerPosY() {
 		return MapsArray.get(pickedMap).PlayerGlobalPosY;
+	}
+
+	public static BasicObjectClass getObjectByPos(Vector2f position, int ownedMapID) {
+		return MapsArray.get(ownedMapID).getObjectByPos(position);
 	}
 }

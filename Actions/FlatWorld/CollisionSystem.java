@@ -6,7 +6,6 @@ import org.luaj.vm2.LuaValue;
 
 public class CollisionSystem extends Action{
 	float sphereRadius, shiftX, shiftY;
-	
 	public CollisionSystem() {
 		super(null, "COLL");
 	}
@@ -21,8 +20,6 @@ public class CollisionSystem extends Action{
 	public CollisionSystem(BasicObjectClass Object, LuaValue configs) {
 		super(Object, "COLL");
 		Object.Modifiers.pCollisionSystem = this;
-	//	Object.Modifiers.isSolid = true;
-		
 		float tSphereRadius = -1f,  tShiftX = 0, tShiftY = 0;
 		this.sphereRadius = ObjectsLoader.getValue(configs, "sphereRadius", tSphereRadius);
 		this.shiftX       = ObjectsLoader.getValue(configs, "shiftX", tShiftX);

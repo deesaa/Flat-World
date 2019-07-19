@@ -1,6 +1,16 @@
 ObjectName = "Player"
 
-Shadows = true
+Shadows = true;
+LuaControllersHook = 
+{
+	SendControlles = true;
+}
+
+Moving = 
+{
+	MoveSpeed = 0.005f,
+	StupidUnstoppableMovingOnRandomPositions = false;
+}
 
 Collision =
 {
@@ -11,6 +21,8 @@ Collision =
 
 Inventory =
 {
+	isPlayer = true;
+	
 	numCellsInLine = 3, 
 	numLines = 3,
 	shiftX = 2.0,
@@ -21,11 +33,12 @@ Anatomy =
 {
 	AnatomyElements = 
 	{
-		{},
-		{},
-		{},
-		{},
-		{},
+		{"Head", "data/GUI/HeadEq.png"},
+		{"data/GUI/ArmEq.png"},
+		{"data/GUI/LegEq.png"},
+		{"data/GUI/HandEq.png"},
+		{"data/GUI/BodyEq.png"},
+		{"data/GUI/FootEq.png"}
 	},
 	
 	Struct = 
@@ -48,6 +61,7 @@ Equipment =
 Picking =
 {
 	isPlayer = true,
+	pickDistance = 2,
 	
 	PickableObjects =
 	{
@@ -122,25 +136,103 @@ SpriteSheet =
 	}
 }
 
-function updateHook(SenderObject, Message, SysIdent, InteractObject)
+function updateHook(SenderObject, Message, InteractObject)
 	if(Message) then
-		if(Message == "PICKED_UP" and  SysIdent == "PICK") then
-			SenderObject:getMainAnimation():pickAnimation(0)
+		SenderObject:getMainAnimation():updateFrame()
+		if(Message["Arg"] == "PICKING_OBJECT" and Message["Sys"] == "PICK") then
+			return true
 		end
-		if(Message == "OPENED" and (SysIdent == "INV" or SysIdent == "PICK")) then
-			SenderObject:getMainAnimation():pickAnimation(1)
+		
+		if(Message["Name"] == "CONTROLLERS" and Message["Sys"] == "LUACONTROLLERS") then
+			MOVE_DIRECTION = {x = 0, y = 0}
+			if Message["Arg"]:isKeyDown("A", false) then
+				SenderObject:getMainAnimation():pickAnimation(2)
+				MOVE_DIRECTION.x = MOVE_DIRECTION.x + -1
+			end
+			if Message["Arg"]:isKeyDown("D", false) then
+				SenderObject:getMainAnimation():pickAnimation(3)
+				MOVE_DIRECTION.x = MOVE_DIRECTION.x + 1
+			end
+			if Message["Arg"]:isKeyDown("W", false) then
+				SenderObject:getMainAnimation():pickAnimation(1)
+				MOVE_DIRECTION.y = MOVE_DIRECTION.y + 1
+			end
+			
+			if Message["Arg"]:isKeyDown("S", false) then
+				SenderObject:getMainAnimation():pickAnimation(0)
+				MOVE_DIRECTION.y = MOVE_DIRECTION.y + -1
+			end
+			
+			if Message["Arg"]:isKeyDown("E", true) then
+				SenderObject:sendMessage("SHOW_HIDE_INVECTORY")
+			end
+			
+			if not(MOVE_DIRECTION.x == 0) or not(MOVE_DIRECTION.y == 0) then
+				SenderObject:sendMessage("MOVE", {DIRECTION = {MOVE_DIRECTION.x, MOVE_DIRECTION.y}, AUTO_VIEW_DIRECTION = true}) 
+			else
+				SenderObject:getMainAnimation():restart()
+			end
+			
+			
+			
+			if Message["Arg"]:isMouseButtonDown(0, true) then
+				local SelectedObject = SenderObject:sendMessage("GET_OBJECT_BY_POS", SenderObject:sendMessage("GET_CURSOR_POS"))
+				
+				if SelectedObject then
+					Pos1 = SenderObject:sendMessage("GET_POS", SelectedObject)
+					Pos2 = SenderObject:sendMessage("GET_POS")
+					SenderObject:sendMessage("ADD_TO_INVENTORY", SelectedObject)
+				end
+			end
+			
+			if Message["Arg"]:isMouseButtonDown(1, true) then
+				local SelectedObject = SenderObject:sendMessage("GET_OBJECT_BY_POS", SenderObject:sendMessage("GET_CURSOR_POS"))
+				if SelectedObject then
+					SenderObject:sendMessage("SHOW_HIDE_INVECTORY", SelectedObject)
+				end
+			end
 		end
-		if(Message == "CLOSED" and (SysIdent == "INV" or SysIdent == "PICK")) then
-			SenderObject:getMainAnimation():pickAnimation(0)
-		end
+		
+		--if(Message["Arg"] == "CURSOR_ON_OBJECT") then
+		--	InteractObject:sendMessage("SHOW_HIDE_INVECTORY")
+		--end
+		
+		SenderObject:sendMessage("DIRECT_CAM_ON")
+		SenderObject:sendMessage("SET_PLAYER_POS")
 	end
 end
 
 function loadAnimation(Object, stImagesArray)
 	MainAnimation = Object:initMainAnimation(0, "Player")
-	MainAnimation:createAnimation(0, "ChestClose")
-	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 0)
-	MainAnimation:createAnimation(1, "ChestOpen")
-	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(1), 0)
+	MainAnimation:createAnimation(0, "Back")
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(1), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(2), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(1), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(3), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(4), 200)
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(3), 200)
+	MainAnimation:createAnimation(1, "Forward")
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(5), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(6), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(7), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(6), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(5), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(8), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(9), 200)
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(8), 200)
+	MainAnimation:createAnimation(2, "Right")
+	MainAnimation:getAnimation(2):addFrame(stImagesArray:getImage(10), 250)
+	MainAnimation:getAnimation(2):addFrame(stImagesArray:getImage(11), 250)
+	MainAnimation:getAnimation(2):addFrame(stImagesArray:getImage(13), 250)
+	MainAnimation:getAnimation(2):addFrame(stImagesArray:getImage(10), 250)
+	MainAnimation:getAnimation(2):addFrame(stImagesArray:getImage(12), 250)
+	MainAnimation:createAnimation(3, "Left")
+	MainAnimation:getAnimation(3):addFrame(stImagesArray:getImage(14), 250)
+	MainAnimation:getAnimation(3):addFrame(stImagesArray:getImage(15), 250)
+	MainAnimation:getAnimation(3):addFrame(stImagesArray:getImage(17), 250)
+	MainAnimation:getAnimation(3):addFrame(stImagesArray:getImage(14), 250)
+	MainAnimation:getAnimation(3):addFrame(stImagesArray:getImage(16), 250)
 	MainAnimation:pickAnimation(0)
 end

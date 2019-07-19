@@ -8,6 +8,7 @@ public class StaticObjectsElements {
 	Map<String, StaticImagesContainer> imageContainer = new Hashtable<String, StaticImagesContainer>();
 	StaticImagesContainer currentContainer;
 	ImageClass currentImage;
+	private int freeID = 1;
 	
 	public boolean openContainer(String name){
 		currentContainer = imageContainer.get(name);
@@ -38,6 +39,19 @@ public class StaticObjectsElements {
 		}
 	}
 	
+	public void setObjectID(int nextID) {
+		if(currentContainer != null){
+			currentContainer.setID(nextID);
+		}
+	}
+	
+	public int getCurrentID() {
+		if(currentContainer != null){
+			return currentContainer.ObjectStaticID;
+		}
+		return -1;
+	}
+	
 	public ImageClass getImage(int imageID){
 		if(currentContainer != null)
 			return currentContainer.imagesArray.get(imageID);
@@ -49,12 +63,24 @@ public class StaticObjectsElements {
 		currentImage = null;
 	}
 	
+	public int getNextID(){
+		freeID ++;
+		return freeID;
+	}
+	
 	class StaticImagesContainer{
+		int ObjectStaticID = -1;
+		
 		SpriteSheet spriteSheet;
-		ArrayList<ImageClass> imagesArray = new ArrayList<ImageClass>();;
+		ArrayList<ImageClass> imagesArray = new ArrayList<ImageClass>();
 		
 		public void addImage(ImageClass image){
 			this.imagesArray.add(image);
+		}
+		
+		public void setID(int ID){
+			if(ObjectStaticID == -1)
+				ObjectStaticID = ID;
 		}
 	}
 }

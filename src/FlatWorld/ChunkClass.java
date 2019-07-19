@@ -3,6 +3,8 @@ package FlatWorld;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.lwjgl.util.vector.Vector2f;
+
 
 public class ChunkClass {
 	public static int numObjectsInLine = 8, numLines = 8;
@@ -35,10 +37,10 @@ public class ChunkClass {
 
 	public PlayerClass addPlayer(float PlayerPosX, float PlayerPosY) {
 		PlayerClass pPlayer = new PlayerClass(PlayerPosX, PlayerPosY, genPosZ, chunkID, OwnedMap, ObjectsArray.size());
-		ObjectsArray.add(pPlayer);	
+	//	ObjectsArray.add(pPlayer);	
 		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 5.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(ObjectsLoader.createObject("data/players/Player.txt", genPosX + 3.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/players/Player.txt", genPosX + 7.1f, genPosY + 7.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		//ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
@@ -139,5 +141,21 @@ public class ChunkClass {
 		BasicObjectClass object = ObjectsArray.get(ObjectID);
 		ObjectsArray.remove(ObjectID);
 		return object;
+	}
+
+	public BasicObjectClass getObjectByPos(Vector2f position) {
+		for (int i = ObjectsArray.size()-1; i >= 0; i--) {
+			BasicObjectClass tempObject = ObjectsArray.get(i);
+			if (tempObject.PosGlobalX   							 < position.x &&
+				tempObject.PosGlobalX + FlatWorld.StandardQuadHeight > position.x &&
+				tempObject.PosGlobalY 					             < position.y &&
+				tempObject.PosGlobalY + FlatWorld.StandardQuadWidth  > position.y)
+			{
+				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
+				objectUnderArrow.underArrow = true;
+				return objectUnderArrow;
+			}
+		}
+		return null;
 	}
 }

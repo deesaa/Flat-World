@@ -41,7 +41,7 @@ public class ZombieClass extends BasicObjectClass {
 	}
 
 	ZombieClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, 0.001f, ObjectID, ZombieClass.ObjectTypeID, true, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LookingSystem(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new LightingSystem(this));
 		super.ActionsArray.add(new MovingSystem(this));

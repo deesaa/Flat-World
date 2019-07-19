@@ -36,7 +36,7 @@ public class TorchClass extends BasicObjectClass {
 	}
 
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, TorchClass.ObjectTypeID, false, true);
 
 		super.setRendShift(-0.2f, 0.1f);
 		super.ActionsArray.add(new PickableModif(this));
