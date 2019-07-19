@@ -1,5 +1,6 @@
 package FlatWorld;
 
+
 public class ObjectModifiers {
 	public boolean isContainer = false;
 	public boolean isOpen = false;
@@ -9,13 +10,14 @@ public class ObjectModifiers {
 	public boolean hasContour = false;
 	public boolean isButton = false;
 	
-	LookingSystemAct pointerToLookingSystem;
-	OffersListAct    pointerToOffersList;
-    MovingSystem     pointerToMovingSystem;
-	BattleSystem     pointerToBattleSystem;
-	InventorySystem  pointerToInventorySystem;
-	PickingSystem    pointerToPickingSystem;
-	AnatomySystem    pointerToAnatomySystem;
-    EquipmentSystem   pointerToEqipmentSystem;
-	BattleObjectAct pointerToBattleObjectAct;
+	public LookingSystemAct pointerToLookingSystem;
+	public OffersListAct    pointerToOffersList;
+	public MovingSystem     pointerToMovingSystem;
+    public BattleSystem     pointerToBattleSystem;
+	public InventorySystem  pointerToInventorySystem;
+	public PickingSystem    pointerToPickingSystem;
+	public AnatomySystem    pointerToAnatomySystem;
+	public EquipmentSystem  pointerToEqipmentSystem;
+	public BattleObjectAct  pointerToBattleObjectAct;
+	public CollisionSystem  pointerToCollisionSystem;
 }  

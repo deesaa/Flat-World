@@ -7,7 +7,6 @@ import java.util.Map;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector3f;
 
 public class ContainersArrayClass {
 	public ArrayList<ContainerCell> InventoryCellsArray = new ArrayList<ContainerCell>();
@@ -47,8 +46,8 @@ public class ContainersArrayClass {
 		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()));
 	}
 	
-	public ContainerCell addContainer(float CellPosX, float CellPosY, AEList equipPlace, AELList equipPlaceLoc) {
-		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(equipPlace, equipPlaceLoc));
+	public ContainerCell addContainer(float CellPosX, float CellPosY, StringVars equipSetts) {
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(equipSetts));
 		return InventoryCellsArray.get(InventoryCellsArray.size()-1);
 	}
 	

@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+
 public class ContainerCell extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
@@ -16,8 +17,7 @@ public class ContainerCell extends BasicObjectClass {
 	public int pickedObjectTypeID = -1;
 	float indentX, indentY;
 	float localPosGlobalX, localPosGlobalY, localPosGlobalZ;
-	AEList equipPlace = AEList.Nothing;
-	AELList equipPlaceLoc = AELList.Nothing;
+	StringVars equipSetts = new StringVars("EP=Nothing;");
 	Image equipPlaceIcon;
 	
 	{
@@ -38,10 +38,9 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	
-	public ContainerCell setEquipPlace(AEList equipPlace, AELList equipPlaceLoc){
-		this.equipPlace = equipPlace;
-		this.equipPlaceLoc = equipPlaceLoc;
-		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipPlace).Icon;
+	public ContainerCell setEquipPlace(StringVars equipSetts){
+		this.equipSetts = equipSetts;
+		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipSetts.getVal("EP")).Icon;
 		return this;
 	}
 
@@ -85,13 +84,13 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public boolean addObject(BasicObjectClass pickedObject) {
-		if(equipPlace == AEList.Nothing){
+		if(equipSetts.getVal("EP").compareTo("Nothing") == 0){
 			this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 			ObjectsArray.add(pickedObject);
 			return true;
 		} else {
 			if(pickedObject.Modifiers.pointerToEqipmentSystem != null){
-				if(pickedObject.Modifiers.pointerToEqipmentSystem.checkEquipPlace(equipPlace)){
+				if(pickedObject.Modifiers.pointerToEqipmentSystem.checkEquipPlace(equipSetts)){
 					this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 					ObjectsArray.add(pickedObject);
 					return true;

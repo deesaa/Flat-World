@@ -13,7 +13,7 @@ public class BasicObjectClass {
 	float mapRendShiftX, mapRendShiftY;
 	public float CollisionRightX = 0.5f, CollisionLeftX = 0.5f, CollisionUpY = 0.5f, CollisionDownY = 0.5f;
 	int ObjectID;
-	int ObjectTypeID;
+	public int ObjectTypeID;
 	int OwnedChunkID, OwnedMapID;
 	ObjectTypes ObjectType;
 	float moveSpeed;
@@ -21,7 +21,7 @@ public class BasicObjectClass {
 	public AnimationsList  Animations;
 
 
-	ObjectModifiers Modifiers = new ObjectModifiers();
+	public ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();
 	
 	ColorClass modifColor = ColorClass.Standard;

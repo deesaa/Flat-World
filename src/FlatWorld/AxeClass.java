@@ -1,15 +1,14 @@
 package FlatWorld;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL11;
+
 
 public class AxeClass extends BasicObjectClass{
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
 	public static FlaggedImage CellTexture;
-	public static ArrayList<AEList> EqipmentPlaces = new ArrayList<AEList>();
+	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,;");
 	
 	{
 		super.Animations = new AnimationsList("axe");
@@ -18,9 +17,7 @@ public class AxeClass extends BasicObjectClass{
 	
 	public static void initObject() {
 		CellTexture = new FlaggedImage("data/Objects/Axe.png", GL11.GL_NEAREST);
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(0.0f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
-		
-		EqipmentPlaces.add(AEList.Hand);
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(0.0f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
 	}
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {

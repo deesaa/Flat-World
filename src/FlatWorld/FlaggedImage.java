@@ -28,7 +28,6 @@ public class FlaggedImage {
 	
 	public static ImageTag computeFinalTag(BasicObjectClass Object, ImageTag currentTag, ImageTag currentObjTag, ImageTag currentSubTag){
 		ImageTag finalTag = new ImageTag();
-		
 		if(currentTag.rotateY != 0 && currentTag.angle == 180.0f)
 			finalTag.shiftX = Object.PosGlobalX+currentTag.shiftX-currentObjTag.shiftX;
 		else

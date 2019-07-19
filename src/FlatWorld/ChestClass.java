@@ -1,14 +1,11 @@
 package FlatWorld;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.opengl.Texture;
+
 
 public class ChestClass extends BasicObjectClass {
 	public static int ObjectTypeID;
@@ -33,6 +30,7 @@ public class ChestClass extends BasicObjectClass {
 	ChestClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, ChestClass.ObjectTypeID, true, true);
 		super.ActionsArray.add(new InventorySystem(this, 4, 4, -4.0f, 2.0f, null, 0, 0, 0, 0));
+		super.ActionsArray.add(new CollisionSystem(this, 0.3f, 0, 0));
 	}
 
 	public void updateObject() {

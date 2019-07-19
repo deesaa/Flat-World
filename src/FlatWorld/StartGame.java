@@ -6,8 +6,9 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-public class StartGame {
 
+public class StartGame {
+	static float zFar = 100;
 	public static void main(String[] args) {
 		initDisplay();
 		startOpenGL();
@@ -35,7 +36,7 @@ public class StartGame {
 		GL11.glViewport(0, 0, width, height); // Reset The Current Viewport
 		GL11.glMatrixMode(GL11.GL_PROJECTION); // Select The Projection Matrix
 		GL11.glLoadIdentity(); // Reset The Projection Matrix
-		GLU.gluPerspective(45.0f, ((float) width / (float) height), 0.1f, 100.0f); // Calculate The Aspect Ratio Of The Window
+		GLU.gluPerspective(45.0f, ((float) width / (float) height), 0.1f, zFar); // Calculate The Aspect Ratio Of The Window
 		GLU.gluLookAt(0.0f, 0, 1, 0.0f, 0, 0, 0, 1, 0);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW); // Select The Modelview Matrix
 		GL11.glLoadIdentity(); // Reset The Modelview Matrix

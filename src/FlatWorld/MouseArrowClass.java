@@ -8,6 +8,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
 public class MouseArrowClass {
@@ -27,6 +28,7 @@ public class MouseArrowClass {
 	static FloatBuffer obj_pos = BufferUtils.createFloatBuffer(4);
 	static FloatBuffer win_pos = BufferUtils.createFloatBuffer(6);
 	
+	static float depth;
 	static float ArrowWorldCoordX, ArrowWorldCoordY;
 	static int mouseWheel;
 
@@ -214,9 +216,26 @@ public class MouseArrowClass {
 		GL11.glReadPixels(clickX, clickY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
 		
 		GLU.gluUnProject(clickX, clickY, z.get(0), dbModel, dbProj, dbPort, obj_pos);
+		depth = z.get(0);
+		
 		ArrowWorldCoordX = obj_pos.get(0);
 		ArrowWorldCoordY = obj_pos.get(1);
 		
 		mouseWheel = Mouse.getDWheel();
+	}
+	
+	public static Vector2f convertToGameSpace(int pointX, int pointY){
+		GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, dbProj);
+		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, dbModel);
+		GL11.glGetInteger(GL11.GL_VIEWPORT, dbPort);
+		
+		FloatBuffer z = BufferUtils.createFloatBuffer(3);
+		GL11.glReadPixels(1, 1, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
+		
+		GLU.gluUnProject(pointX, pointY, z.get(0), dbModel, dbProj, dbPort, obj_pos);
+		
+		ArrowWorldCoordX = obj_pos.get(0);
+		ArrowWorldCoordY = obj_pos.get(1);
+		return new Vector2f(ArrowWorldCoordX, ArrowWorldCoordY);
 	}
 }

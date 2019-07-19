@@ -10,7 +10,7 @@ public class PercentScaleModule {
 	Vector3f contourColor;
 	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
 	
-	PercentScaleModule(float lenght, float height, int maxVal, TexturesClass fillerTexture, Vector3f contourColor, TexturesClass backgroundTexture,
+	public PercentScaleModule(float lenght, float height, int maxVal, TexturesClass fillerTexture, Vector3f contourColor, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
 		this.lenght  = lenght;
 		this.height  = height;

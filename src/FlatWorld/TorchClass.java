@@ -10,12 +10,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.Texture;
 
+
 public class TorchClass extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
 	public static ArrayList<FlaggedImage> StaticImageArray = new ArrayList<FlaggedImage>();	
-	public static ArrayList<AEList> EqipmentPlaces = new ArrayList<AEList>();
+	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,Leg,;");
 	public static BattleObjectClass battleObjectState = new BattleObjectClass(3.0f, 0.0f, 0.0f, 0.0f);
 	
 	{
@@ -27,13 +28,11 @@ public class TorchClass extends BasicObjectClass {
 	
 	public static void initObject() {
 		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a1.png", GL11.GL_NEAREST));
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
 		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a2.png", GL11.GL_NEAREST));
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
 		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a3.png", GL11.GL_NEAREST));
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
-
-		EqipmentPlaces.add(AEList.Hand);
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
 	}
 
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {

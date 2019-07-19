@@ -89,27 +89,28 @@ public class AnimationsList {
 		return Animations.get(pickedAnimation).getFrame();
 	}
 
-	public ImageTag getTagByLocalShiftName(String localShiftName) {
+	public ImageTag getTagByLocalShiftName(StringVars EquipSett) {
 		ArrayList<ImageTag> temp = FlaggedAnimations.get(pickedAnimation).pFlaggedImagesArray.get(this.getCurrentFrame()).tagsList;
 		for(int i = 0; i < temp.size(); i++){
-			if(temp.get(i).localShiftName == localShiftName)
+			if(temp.get(i).Settings.getVal("EP").compareTo(EquipSett.getVal("EP")) == 0)
 				return temp.get(i);
 		}
 		return null;
 	}
 	
-	public ImageTag getTag(AEList tempAEL, AELList tempAELL){
+	public ImageTag getTag(StringVars EquipSett){
 		ArrayList<ImageTag> temp = FlaggedAnimations.get(pickedAnimation).pFlaggedImagesArray.get(this.getCurrentFrame()).tagsList;
 		
 		for(int i2 = 0; i2 < temp.size(); i2++){
-			if(temp.get(i2).AEel == tempAEL && tempAEL != AEList.Nothing && temp.get(i2).AELel == tempAELL && tempAELL != AELList.Nothing){
+			if(temp.get(i2).Settings.getVal("EP").compareTo(EquipSett.getVal("EP"))   == 0 && EquipSett.getVal("EP").compareTo("Nothing")  != 0 && 
+			   temp.get(i2).Settings.getVal("EPl").compareTo(EquipSett.getVal("EPl")) == 0 && EquipSett.getVal("EPl").compareTo("Nothing") != 0){
 				return temp.get(i2);
 			}
 		}
 		return null;
 	}
 
-	public ImageTag getSubTag(AEList tempAEL, AELList tempAELL) {
+	public ImageTag getSubTag(StringVars EquipSett) {
 		if(pickedSubAnimation == null){
 			return null;
 		}
@@ -117,7 +118,8 @@ public class AnimationsList {
 		ArrayList<ImageTag> temp = SubAnimations.get(pickedSubAnimation).getCurrentTagsList();
 		int i2 = 0;
 		for(; i2 < temp.size(); i2++){
-			if(temp.get(i2).AEel == tempAEL && tempAEL != AEList.Nothing && temp.get(i2).AELel == tempAELL && tempAELL != AELList.Nothing){
+			if(temp.get(0).Settings.getVal("EP").compareTo(EquipSett.getVal("EP"))     == 0 && EquipSett.getVal("EP").compareTo("Nothing")   != 0 && 
+			   temp.get(0).Settings.getVal("EPPl").compareTo(EquipSett.getVal("EPPl")) == 0 && EquipSett.getVal("EPPl").compareTo("Nothing") != 0){
 				if(SubAnimations.get(pickedSubAnimation).currentFrame == 0)
 					pickedSubAnimation = null;
 				return temp.get(i2);

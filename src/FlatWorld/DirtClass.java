@@ -4,18 +4,13 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class DirtClass extends BasicObjectClass {
+public class DirtClass extends BasicCellClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	public static Image CellTexture;
-	
-	{
-		super.Animations = new AnimationsList("dirt");
-		super.Animations.addAnimationImage(CellTexture, 300);
-	}
-	
+
 	DirtClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, DirtClass.ObjectTypeID, false, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, ObjectID, DirtClass.ObjectTypeID);
 	}
 
 	public static void initObject() {
@@ -27,12 +22,12 @@ public class DirtClass extends BasicObjectClass {
 	}
 
 	public void rendObject(QuadClass Quad) {
-		super.Animations.setAnimation();
+		DirtClass.CellTexture.bind();
 		super.rendObject(Quad);
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
-		super.Animations.setAnimation();
+		DirtClass.CellTexture.bind();
 		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
 	}
 }

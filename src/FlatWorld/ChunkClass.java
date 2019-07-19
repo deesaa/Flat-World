@@ -3,12 +3,10 @@ package FlatWorld;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public class ChunkClass {
 	public static int numObjectsInLine = 8, numLines = 8;
-	public ArrayList<BasicObjectClass> CellsArray = new ArrayList<BasicObjectClass>();
+	public ArrayList<BasicCellClass> CellsArray = new ArrayList<BasicCellClass>();
 	public ArrayList<BasicObjectClass> ObjectsArray = new ArrayList<BasicObjectClass>();
 	public int chunkID;
 	public int OwnedMap;
@@ -96,13 +94,9 @@ public class ChunkClass {
 	// Принимает проверяемый объект; возвращает пересекаемый объект или null
 	public BasicObjectClass checkCollision(BasicObjectClass object) {
 		for (int i = 0; i != ObjectsArray.size(); i++) {
-			if (i != object.ObjectID) {
-				if (object.PosGlobalX - object.CollisionRightX < ObjectsArray.get(i).PosGlobalX && // Right X
-					object.PosGlobalX + object.CollisionLeftX  > ObjectsArray.get(i).PosGlobalX && // Left X
-					object.PosGlobalY - object.CollisionUpY    < ObjectsArray.get(i).PosGlobalY && // Up Y
-					object.PosGlobalY + object.CollisionDownY  > ObjectsArray.get(i).PosGlobalY)   // Down Y
-				{
-						return ObjectsArray.get(i);
+			if(ObjectsArray.get(i).Modifiers.pointerToCollisionSystem != null){
+				if(CollisionSystem.checkCollision(object, ObjectsArray.get(i))){
+					return ObjectsArray.get(i);
 				}
 			}
 		}
@@ -117,11 +111,12 @@ public class ChunkClass {
 
 	public BasicObjectClass getObjectUnderArrow(BasicObjectClass object) {
 		for (int i = 0; i != ObjectsArray.size(); i++) {
-			BasicObjectClass tempCell = ObjectsArray.get(i);
-			if (tempCell.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
-				tempCell.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
-				tempCell.PosGlobalY 					            < MouseArrowClass.ArrowWorldCoordY &&
-				tempCell.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
+			BasicObjectClass tempObject = ObjectsArray.get(i);
+			if (tempObject.Modifiers.isClickable == true &&
+				tempObject.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
+				tempObject.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
+				tempObject.PosGlobalY 					            < MouseArrowClass.ArrowWorldCoordY &&
+				tempObject.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
 				return objectUnderArrow;

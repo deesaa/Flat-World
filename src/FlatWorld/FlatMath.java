@@ -10,7 +10,7 @@ public class FlatMath {
 		return Math.toDegrees(Math.atan2(vecToObjectX*vecY - vecX*vecToObjectY, vecToObjectX*vecX + vecToObjectY*vecY));
 	}
 	
-	static double objectDist(BasicObjectClass Obj1, BasicObjectClass Obj2){
+	public static double objectDist(BasicObjectClass Obj1, BasicObjectClass Obj2){
 		double distX = (Obj1.PosGlobalX - Obj2.PosGlobalX) * (Obj1.PosGlobalX - Obj2.PosGlobalX);
 		double distY = (Obj1.PosGlobalY - Obj2.PosGlobalY) * (Obj1.PosGlobalY - Obj2.PosGlobalY);
 		return Math.sqrt((distX + distY));

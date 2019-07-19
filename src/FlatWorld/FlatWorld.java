@@ -21,6 +21,7 @@ public class FlatWorld {
 	public static float InventoryCounterQuadWidth, InventoryCounterQuadHeight;
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
 	public static KeyboardManager globalKeyLocker = new KeyboardManager();
+	public static MainMenuClass mainMenu = new MainMenuClass();
 	//public static Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 	//public static TrueTypeFont font;
 
@@ -31,14 +32,12 @@ public class FlatWorld {
 		TextFieldClass.initSymbols();
 		//awtFont = new Font("Times New Roman", Font.BOLD, 54);
 		//font = new TrueTypeFont(awtFont, false);
-		
+		mainMenu.mainMenu();
 		MapsManager.initMap();
 		FWMainLoop();
 	}
 
 	public static void FWMainLoop() {
-		StringVars vv = new StringVars();
-		vv.addVarsArray("EquipPlace", new String[]{"Hand", "Leg", "Arm", "Head"});
 
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -48,7 +47,6 @@ public class FlatWorld {
 			MouseArrowClass.updateArrow();
 			
 			GL11.glLoadIdentity();
-			System.out.println(vv.mainString);
 			Display.update();
 			updateFPS();
 		}

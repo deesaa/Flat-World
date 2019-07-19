@@ -2,6 +2,7 @@ package FlatWorld;
 
 import java.util.Random;
 
+
 public class RandomizeTool {
 	private static Random rand = new Random();
 	private static int randInt = 0;
