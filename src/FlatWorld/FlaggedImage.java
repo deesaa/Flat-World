@@ -2,7 +2,6 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
-import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 

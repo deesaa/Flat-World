@@ -19,7 +19,7 @@ public class BasicObjectClass {
 	float moveSpeed;
 
 	public AnimationsList  Animations;
-
+	public AnimationClass  Animation;
 
 	public ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();

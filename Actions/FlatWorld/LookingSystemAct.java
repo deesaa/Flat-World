@@ -31,34 +31,16 @@ public class LookingSystemAct extends Action{
 	public void updateAction(BasicObjectClass Object) {
 		if(Object.ObjectType != ObjectTypes.Player){
 			VisibleObjectsArray.clear();
-			MapClass tempMap = MapsManager.MapsArray.get(Object.OwnedMapID);
-			
-			float tempDistToCutChunksGlobalX 	  =  tempMap.distToCutChunksGlobalX * 0.5f;
-			float tempDistToCutChunksGlobalY	  =  tempMap.distToCutChunksGlobalY * 0.5f;
-			float tempHightDistToCutChunksGlobalX = -tempMap.distToCutChunksGlobalX * 0.5f + ChunkClass.numObjectsInLine;
-			float tempHightDistToCutChunksGlobalY = -tempMap.distToCutChunksGlobalY * 0.5f + ChunkClass.numLines;
-			float tempChunkGlobalPosX, tempChunkGlobalPosY;
-			
+			MapClass tempMap = MapsManager.MapsArray.get(Object.OwnedMapID);	
 			double angle;
-			
-			for(int i = 0; i < tempMap.ChunksArray.size(); i++){
-				ChunkClass tempChunk = tempMap.ChunksArray.get(i);
-				tempChunkGlobalPosX = tempChunk.ChunkGlobalPosX;
-				tempChunkGlobalPosY = tempChunk.ChunkGlobalPosY;
-
-				if (tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX < tempMap.PlayerGlobalPosX &&
-					tempChunkGlobalPosX + tempDistToCutChunksGlobalX	  > tempMap.PlayerGlobalPosX &&
-					tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY < tempMap.PlayerGlobalPosY &&
-					tempChunkGlobalPosY + tempDistToCutChunksGlobalY	  > tempMap.PlayerGlobalPosY) 
-				{
-					for(int i2 = 0; i2 < tempChunk.ObjectsArray.size(); i2++){
-						angle = this.findAngleToView(Object, tempChunk.ObjectsArray.get(i2).PosGlobalX, tempChunk.ObjectsArray.get(i2).PosGlobalY);
-						
-						if (angle < viewAngle && angle > -viewAngle){
-							double finalDist = FlatMath.objectDist(Object, tempChunk.ObjectsArray.get(i2));
-							if(finalDist <= viewSphereRadius){
-								VisibleObjectsArray.add(tempChunk.ObjectsArray.get(i2));
-							}
+			for(int i = 0; i < tempMap.VisibleChunksArray.size(); i++){
+				ChunkClass tempChunk = tempMap.VisibleChunksArray.get(i);
+				for(int i2 = 0; i2 < tempChunk.ObjectsArray.size(); i2++){
+					angle = this.findAngleToView(Object, tempChunk.ObjectsArray.get(i2).PosGlobalX, tempChunk.ObjectsArray.get(i2).PosGlobalY);
+					if (angle < viewAngle && angle > -viewAngle){
+						double finalDist = FlatMath.objectDist(Object, tempChunk.ObjectsArray.get(i2));
+						if(finalDist <= viewSphereRadius){
+							VisibleObjectsArray.add(tempChunk.ObjectsArray.get(i2));
 						}
 					}
 				}

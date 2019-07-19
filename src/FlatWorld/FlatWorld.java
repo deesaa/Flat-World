@@ -7,12 +7,16 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.luaj.vm2.LoadState;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.JsePlatform;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public class FlatWorld {
+	
 	private static long lastFrame, fps, lastFPS;
 	public static long delta;
 	public static int StandardQuad;
@@ -26,15 +30,17 @@ public class FlatWorld {
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
 	public static KeyboardManager globalKeyLocker = new KeyboardManager();
 	public static MainMenuClass mainMenu = new MainMenuClass();
-	
 	public static CameraClass mainCamera = new CameraClass(Display.getWidth(), Display.getHeight(), 45.0f, 100.0f);
-
+	
 	public static void startFlatWorld() {
 		updateDelta();
 		updateTime();
 		initStandardQuad();
 		TextFieldClass.initSymbols();
 		TextRenderModule.initSymbols();
+		
+		//LuaValue val = JsePlatform.standardGlobals();
+		//val.get("dofile").call(LuaValue.valueOf("LuaScript.txt"));
 		
 		String message = mainMenu.mainMenu();
 		if(message.compareTo("ExitGame") != 0){
@@ -85,10 +91,10 @@ public class FlatWorld {
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			updateDelta();
-			
             MapsManager.updateMap();
    			MapsManager.rendMap();
-			
+   		//	System.out.println(delta);
+   			
 			MouseArrowClass.updateArrow();
 			GL11.glLoadIdentity();
 			Display.update();

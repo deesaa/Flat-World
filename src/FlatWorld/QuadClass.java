@@ -68,4 +68,32 @@ public class QuadClass {
 		
 		GL11.glEndList();
 	}
+
+	public void rend(ImageClass image) {
+		if(image.sprite != null){
+			image.bind();
+			GL11.glBegin(rendType);
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+			GL11.glTexCoord2f(image.sprite.spriteStart.x, image.sprite.spriteEnd.y);
+			GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+		
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+			GL11.glTexCoord2f(image.sprite.spriteEnd.x, image.sprite.spriteEnd.y);
+			GL11.glVertex3f(width, 0.0f, 0.0f);
+		
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+			GL11.glTexCoord2f(image.sprite.spriteEnd.x, image.sprite.spriteStart.y);
+			GL11.glVertex3f(width, height, 0.0f);
+		
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
+			GL11.glTexCoord2f(image.sprite.spriteStart.x, image.sprite.spriteStart.y);
+			GL11.glVertex3f(0.0f, height, 0.0f);
+			GL11.glEnd();
+		}
+		
+		if(image.image != null){
+			image.bind();
+			this.rend();
+		}
+	}
 }

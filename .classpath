@@ -12,5 +12,8 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/dell/Desktop/lwjgl-2.9.0/lwjgl-2.9.0/jar/jinput.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/dell/Desktop/lwjgl-2.9.0/lwjgl-2.9.0/jar/lwjgl_util.jar"/>
+	<classpathentry exported="true" kind="lib" path="F:/Java/FlatWorld 0.2/jar/PNGDecoder.jar"/>
+	<classpathentry exported="true" kind="lib" path="F:/Java/FlatWorld 0.2/jar/luaj-jse-3.0-beta1.jar"/>
+	<classpathentry exported="true" kind="lib" path="F:/Java/FlatWorld 0.2/jar/luaj-sources-3.0-beta1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

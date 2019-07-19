@@ -11,7 +11,7 @@ public class MapsManager {
 	}
 
 	public static void createNewMap() {
-		MapsArray.add(new MapClass(MapsArray.size(), 3, 3));
+		MapsArray.add(new MapClass(MapsArray.size(), 3, 2));
 		pickedMap = MapsArray.size() - 1;
 	}
 
@@ -28,7 +28,7 @@ public class MapsManager {
 	}
 
 	public static boolean relocateToRelevantChunk(BasicObjectClass object) {
-		return MapsArray.get(object.OwnedMapID).relocateToRelevantChunk(object);
+		return MapsArray.get(object.OwnedMapID).transferObject(object);
 	}
 
 	public static BasicObjectClass checkNoClip(BasicObjectClass object) {

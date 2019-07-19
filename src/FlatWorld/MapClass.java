@@ -2,17 +2,20 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 public class MapClass {
 	int MapID;
 	float PlayerGlobalPosX, PlayerGlobalPosY;
 	BasicObjectClass PlayerObject = null;
-	int distToCutChunksX, distToCutChunksY;
+	
 	float distToCutChunksGlobalX, distToCutChunksGlobalY;
+	int chunksPerScreenX, chunksPerScreenY;
+	Rectangle viewChunksRect = new Rectangle(-28.0f, -16.0f, 28.0f, 16.0f);
+	final float centerOfMapX = 0.0f, centerOfMapY = 0.0f;
+	
 	public ArrayList<ChunkClass> ChunksArray = new ArrayList<ChunkClass>();
 	public ArrayList<ChunkClass> VisibleChunksArray = new ArrayList<ChunkClass>();
 	public LightingMapClass lightingMap = new LightingMapClass();
@@ -21,49 +24,69 @@ public class MapClass {
 	// Номер карты; растояние до начала обрезания чанков по X; растояние до
 	// начала обрезания чанков по Y; глобальное расположение объекта(игрока) по
 	// X, Y;
-	MapClass(int MapID, int distToCutChunksX, int distToCutChunksY) {
+	MapClass(int MapID, int chunksPerScreenX, int chunksPerScreenY) {
 		this.MapID 			  = MapID;
 		this.PlayerGlobalPosX = FlatWorld.mainCamera.getPosX();
 		this.PlayerGlobalPosY = FlatWorld.mainCamera.getPosY();
+		this.chunksPerScreenX = chunksPerScreenX;
+		this.chunksPerScreenY = chunksPerScreenY;
+		this.distToCutChunksGlobalX = chunksPerScreenX * ChunkClass.numObjectsInLine;
+		this.distToCutChunksGlobalY = chunksPerScreenY * ChunkClass.numLines;
 
-		this.distToCutChunksX = distToCutChunksX;
-		this.distToCutChunksY = distToCutChunksY;
-		this.distToCutChunksGlobalX = distToCutChunksX * ChunkClass.numObjectsInLine;
-		this.distToCutChunksGlobalY = distToCutChunksY * ChunkClass.numLines;
-
-		float tempGenX = -this.distToCutChunksX * 0.5f;
-		float tempGenY = -this.distToCutChunksY * 0.5f;
-		for (int i = 0; i != this.distToCutChunksX; i++) {
-			for (int i2 = 0; i2 != this.distToCutChunksY; i2++) {
-				ChunksArray.add(new ChunkClass(ChunksArray.size(), MapID, tempGenX + i, tempGenY + i2, -25.0f));
-				if (i == this.distToCutChunksX >> 1 && i2 == this.distToCutChunksY >> 1){
-					ChunksArray.get(ChunksArray.size() - 1).addPlayer(PlayerGlobalPosX, PlayerGlobalPosY);
+		this.loadChunks();
+		this.isChunkCreated(new Vector2f(PlayerGlobalPosX, PlayerGlobalPosY)).addPlayer(PlayerGlobalPosX, PlayerGlobalPosY);
+	}
+	
+	public void loadChunks(){
+		float camPosX = FlatWorld.mainCamera.getPosX();
+		float camPosY = FlatWorld.mainCamera.getPosY();
+		Vector2f chunkPos = convertToChunkPos(camPosX, camPosY);
+		for(int i = 0; i != chunksPerScreenX*2+1; i++){
+			for(int i2 = 0; i2 != chunksPerScreenY*2+1; i2++){
+				float indX = (i-chunksPerScreenX)*ChunkClass.numObjectsInLine;
+				float indY = (i2-chunksPerScreenY)*ChunkClass.numLines;
+				if(this.isChunkCreated(new Vector2f(chunkPos.x+indX, chunkPos.y+indY)) == null){
+					ChunksArray.add(new ChunkClass(ChunksArray.size(), MapID, chunkPos.x+indX, chunkPos.y+indY, -25.0f));
 				}
 			}
 		}
 	}
-
-	public void createNeededChunksAround(float genAroundX, float genAroundY) {
-		for (int i = 0; i != this.distToCutChunksX * 2; i++) {
-			for (int i2 = 0; i2 != this.distToCutChunksY * 2; i2++) {
-				float newChunkPosX = genAroundX - this.distToCutChunksX + i;
-				float newChunkPosY = genAroundY - this.distToCutChunksY + i2;
-
-				boolean isRelevantFind = false;
-				for (int i3 = 0; i3 < ChunksArray.size(); i3++) {
-					if (ChunksArray.get(i3).ChunkPosX == newChunkPosX && ChunksArray.get(i3).ChunkPosY == newChunkPosY) {
-						isRelevantFind = true;
-					}
-				}
-
-				if (isRelevantFind != true) {
-					ChunksArray.add(new ChunkClass(ChunksArray.size(), MapID, newChunkPosX, newChunkPosY, -25.0f));
-				}
-			}
+	
+	public boolean transferObject(BasicObjectClass Object){
+		Vector2f chunkPos = convertToChunkPos(Object.PosGlobalX, Object.PosGlobalY);
+		ChunkClass chunk = this.isChunkCreated(chunkPos);
+		if(chunk == null)
+			return false;
+		
+		if(chunk.chunkID == Object.OwnedChunkID)
+			return true;
+		
+		BasicObjectClass tObject = ChunksArray.get(Object.OwnedChunkID).cutObject(Object.ObjectID);
+		tObject.OwnedChunkID = chunk.chunkID;
+		tObject.ObjectID = chunk.ObjectsArray.size();
+		chunk.ObjectsArray.add(tObject);
+		return true;
+	}
+	
+	public ChunkClass isChunkCreated(Vector2f chunkPos){
+		for(int i = 0; i < ChunksArray.size(); i++){
+			if(ChunksArray.get(i).genPosX == chunkPos.x && ChunksArray.get(i).genPosY == chunkPos.y)
+				return ChunksArray.get(i);
 		}
+		return null;
+	}
+	
+	public Vector2f convertToChunkPos(float objectPosX, float objectPosY){
+		if(objectPosX < 0.0f)
+			objectPosX -= ChunkClass.numObjectsInLine;
+		if(objectPosY < 0.0f)
+			objectPosY -= ChunkClass.numLines;
+		Vector2f pos = new Vector2f(objectPosX-objectPosX%ChunkClass.numObjectsInLine, objectPosY-objectPosY%ChunkClass.numLines);
+		return pos;
 	}
 
 	public void updateMap() {
+		this.loadChunks();
 		this.rebuildVisibleChunksArray();
 		this.WeatherSystem.update();
 
@@ -92,44 +115,10 @@ public class MapClass {
 		FlatWorld.mainCamera.setLook(new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 1), new Vector3f(this.PlayerGlobalPosX, this.PlayerGlobalPosY, 0), null);
 	}
 
-	public boolean relocateToRelevantChunk(BasicObjectClass object) {
-		boolean found = false;
-		for (int i = 0; i < ChunksArray.size(); i++) {
-			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
-			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
-					   
-			if (tempChunkGlobalPosX < object.PosGlobalX &&
-				tempChunkGlobalPosX + ChunkClass.numObjectsInLine > object.PosGlobalX &&
-				tempChunkGlobalPosY < object.PosGlobalY &&
-				tempChunkGlobalPosY + ChunkClass.numLines > object.PosGlobalY)
-			{
-				found = true;
-				if (i != object.OwnedChunkID) {
-					int lastObjectID = object.ObjectID;
-					int lastOwnedChunkID = object.OwnedChunkID;
-
-					for (int i2 = object.ObjectID + 1; i2 < ChunksArray.get(object.OwnedChunkID).ObjectsArray.size(); i2++) {
-						ChunksArray.get(object.OwnedChunkID).ObjectsArray.get(i2).ObjectID--;
-					}
-
-					ChunksArray.get(i).ObjectsArray.add(object);
-					ChunksArray.get(i).ObjectsArray.get(ChunksArray.get(i).ObjectsArray.size() - 1).OwnedChunkID = i;
-					ChunksArray.get(i).ObjectsArray.get(ChunksArray.get(i).ObjectsArray.size() - 1).ObjectID = ChunksArray.get(i).ObjectsArray.size() - 1;
-					ChunksArray.get(lastOwnedChunkID).ObjectsArray.remove(lastObjectID);
-
-					if (object.ObjectType == ObjectTypes.Player)
-						this.createNeededChunksAround(ChunksArray.get(i).ChunkPosX, ChunksArray.get(i).ChunkPosY);
-				}
-			}
-		}
-		return found;
-	}
-
 	// Принимает проверяемый объект; возвращает пересекаемый объект или null
 	// Проверяет только видимые чанки вокруг игрока
 	public BasicObjectClass checkCollision(BasicObjectClass object) {
 		BasicObjectClass result = null;
-		
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			result = VisibleChunksArray.get(i).checkCollision(object);
 			if (result != null)
@@ -151,7 +140,6 @@ public class MapClass {
 
 	public BasicObjectClass getObjectUnderArrowAround(BasicObjectClass object) {
 		BasicObjectClass result = null;
-		
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			result = VisibleChunksArray.get(i).getObjectUnderArrow(object);
 			if (result != null)
@@ -182,20 +170,11 @@ public class MapClass {
 	
 	private void rebuildVisibleChunksArray(){
 		VisibleChunksArray.clear();
-		
-		float tempDistToCutChunksGlobalX = distToCutChunksGlobalX * 0.5f;
-		float tempDistToCutChunksGlobalY = distToCutChunksGlobalY * 0.5f;
-		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX * 0.5f + ChunkClass.numObjectsInLine;
-		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY * 0.5f + ChunkClass.numLines;
-
 		for (int i = 0; i < ChunksArray.size(); i++) {
-			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
-			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
-			
-			if (tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX < PlayerGlobalPosX &&
-				tempChunkGlobalPosX + tempDistToCutChunksGlobalX	  > PlayerGlobalPosX &&
-				tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY < PlayerGlobalPosY &&
-				tempChunkGlobalPosY + tempDistToCutChunksGlobalY	  > PlayerGlobalPosY) 
+			if(ChunksArray.get(i).centerPosX-FlatWorld.mainCamera.getPosX() > viewChunksRect.botX &&
+			   ChunksArray.get(i).centerPosX-FlatWorld.mainCamera.getPosX() < viewChunksRect.width && 
+			   ChunksArray.get(i).centerPosY-FlatWorld.mainCamera.getPosY() > viewChunksRect.botY &&
+			   ChunksArray.get(i).centerPosY-FlatWorld.mainCamera.getPosY() < viewChunksRect.height)
 			{
 				VisibleChunksArray.add(ChunksArray.get(i));
 			}

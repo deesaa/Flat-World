@@ -14,16 +14,18 @@ public class AnimationsList {
 	Map<String, SubAnimation> SubAnimations = new Hashtable<String, SubAnimation>();
 	Map<String, FlaggedAnimation> FlaggedAnimations = new Hashtable<String, FlaggedAnimation>();
 	int numAnimations = 0, numSubAnimations = 0;
-	
+
 	String pickedAnimation;
     String lastSubAnimation, pickedSubAnimation;
-	
+    
+    AnimationsList() {}
+    
 	AnimationsList(String firstAnimationKey){
 		Animations.put(firstAnimationKey, new Animation());
 		FlaggedAnimations.put(firstAnimationKey, new FlaggedAnimation());
 		pickedAnimation = firstAnimationKey;
 	}
-	
+
 	public AnimationsList addAnimationImage(Image Texture, int duration){
 		Animations.get(pickedAnimation).addFrame(Texture, duration);
 		return this;
@@ -118,12 +120,20 @@ public class AnimationsList {
 		ArrayList<ImageTag> temp = SubAnimations.get(pickedSubAnimation).getCurrentTagsList();
 		int i2 = 0;
 		for(; i2 < temp.size(); i2++){
-			if(temp.get(0).Settings.getVal("EP").compareTo(EquipSett.getVal("EP"))     == 0 && EquipSett.getVal("EP").compareTo("Nothing")   != 0 && 
-			   temp.get(0).Settings.getVal("EPPl").compareTo(EquipSett.getVal("EPPl")) == 0 && EquipSett.getVal("EPPl").compareTo("Nothing") != 0){
+			if(temp.get(0).Settings.getVal("EP").compareTo(EquipSett.getVal("EP")) == 0 && EquipSett.getVal("EP").compareTo("Nothing")   != 0){
 				if(SubAnimations.get(pickedSubAnimation).currentFrame == 0)
 					pickedSubAnimation = null;
 				return temp.get(i2);
 			}
+			
+			/*	ÐÀÇÍÈÖÀ ÅÑÒÜ! ß ÂÅÐÞ!
+			 if(temp.get(0).Settings.getVal("EP").compareTo(EquipSett.getVal("EP"))     == 0 && EquipSett.getVal("EP").compareTo("Nothing")   != 0 && 
+			   temp.get(0).Settings.getVal("EPl").compareTo(EquipSett.getVal("EPl"))   == 0 && EquipSett.getVal("EPl").compareTo("Nothing") != 0){
+				if(SubAnimations.get(pickedSubAnimation).currentFrame == 0)
+					pickedSubAnimation = null;
+				return temp.get(i2);
+			 }
+			 */
 		}
 		return null;
 	}

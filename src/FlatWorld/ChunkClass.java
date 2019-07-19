@@ -10,36 +10,35 @@ public class ChunkClass {
 	public ArrayList<BasicObjectClass> ObjectsArray = new ArrayList<BasicObjectClass>();
 	public int chunkID;
 	public int OwnedMap;
+	
+	public ChunkClass chunkAbove, chunkBelow, chunkRight, chunkLeft;
+	public float genPosX, genPosY, genPosZ;
+	public float centerPosX, centerPosY;
 
-	public float ChunkPosX, ChunkPosY, ChunkPosZ;
-	public float ChunkGlobalPosX, ChunkGlobalPosY, ChunkGlobalPosZ;
-
-	ChunkClass(int chunkID, int OwnedMap, float ChunkPosX, float ChunkPosY, float ChunkGlobalPosZ) {
+	ChunkClass(int chunkID, int OwnedMap, float ChunkPosX, float ChunkPosY, float ChunkPosZ) {
 		this.chunkID = chunkID;
 		this.OwnedMap = OwnedMap;
-		this.ChunkPosX = ChunkPosX;
-		this.ChunkPosY = ChunkPosY;
-		this.ChunkPosZ = ChunkGlobalPosZ;
-		this.ChunkGlobalPosZ = ChunkGlobalPosZ;
-		this.ChunkGlobalPosX = ChunkPosX * ChunkClass.numObjectsInLine;
-		this.ChunkGlobalPosY = ChunkPosY * ChunkClass.numLines;
+		this.genPosX = ChunkPosX;
+		this.genPosY = ChunkPosY;
+		this.genPosZ = ChunkPosZ;
+		this.centerPosX = genPosX + ChunkClass.numObjectsInLine*0.5f;
+		this.centerPosY = genPosY + ChunkClass.numLines*0.5f;
 		
 		MapGenerator.generate(this);
-
 		for (int i = 0; i != numObjectsInLine; i++) {
 			for (int i2 = 0; i2 != numLines; i2++) {
-				CellsArray.add(new DirtClass(ChunkGlobalPosX + i, ChunkGlobalPosY + i2, ChunkGlobalPosZ, chunkID, OwnedMap, CellsArray.size()));
+				CellsArray.add(new DirtClass(genPosX + i, genPosY + i2, genPosZ, chunkID, OwnedMap, CellsArray.size()));
 			}
 		}
-	  //  ObjectsArray.add(new ZombieClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 3.3f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+	    ObjectsArray.add(new ZombieClass(genPosX + 5.1f, genPosY + 3.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
 	}
 
 	public void addPlayer(float PlayerPosX, float PlayerPosY) {
-		ObjectsArray.add(new PlayerClass(PlayerPosX, PlayerPosY, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));	
-		ObjectsArray.add(new ChestClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 3.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 5.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 4.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+		ObjectsArray.add(new PlayerClass(PlayerPosX, PlayerPosY, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));	
+		ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new AxeClass(genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
 	}
 
 	public void updateChunk() {
@@ -122,5 +121,14 @@ public class ChunkClass {
 			}
 		}
 		return null;
+	}
+
+	public BasicObjectClass cutObject(int ObjectID) {
+		for (int i = ObjectID+1; i < ObjectsArray.size(); i++) {
+			ObjectsArray.get(i).ObjectID--;
+		}
+		BasicObjectClass object = ObjectsArray.get(ObjectID);
+		ObjectsArray.remove(ObjectID);
+		return object;
 	}
 }

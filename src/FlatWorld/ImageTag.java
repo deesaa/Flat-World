@@ -5,10 +5,6 @@ public class ImageTag {
 	float rotateX, rotateY, rotateZ;
 	float angle;
 	
-	//String localShiftName;
-	//String linkedToLocalShift;
-	//AEList AEel; 
-	//AELList AELel;
 	StringVars Settings = new StringVars();
 	
 	public ImageTag() {}
@@ -23,17 +19,7 @@ public class ImageTag {
 	}
 	
 	public ImageTag linkTo(String settings) {
-		this.Settings.mainString = settings;
+		this.Settings.setString(settings);
 		return this;
 	}
-
-	/*public ImageTag setLocalShift(String string) {
-		localShiftName = string;
-		return this;
-	}
-
-	public ImageTag linkToLocalShift(String string) {
-		linkedToLocalShift = string;
-		return this;
-	}*/
 }

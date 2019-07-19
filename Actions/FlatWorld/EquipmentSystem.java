@@ -105,7 +105,7 @@ public class EquipmentSystem extends Action{
 	}
 
 	public boolean checkEquipPlace(StringVars EquipSetts) {
-		String[] tempEquipPlaces = equipPlaces.getStringVals("EPPl");
+		String[] tempEquipPlaces = equipPlaces.getArrayVals("EPPl");
 		for(int i = 0; i < tempEquipPlaces.length; i++){
 			if(tempEquipPlaces[i].compareTo(EquipSetts.getVal("EP")) == 0)
 				return true;

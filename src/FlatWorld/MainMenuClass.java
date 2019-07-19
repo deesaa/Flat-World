@@ -15,7 +15,7 @@ public class MainMenuClass implements MessagesHandler{
 	String outMessage;
 	
 	public String mainMenu(){
-		mainMenuWindows.addElement(new BackgroundWndEl(0, 0, 10, 10, 20, 20, DirtClass.CellTexture, 4), WinPos.LeftBottom, ScalingMode.Locked);
+		mainMenuWindows.addElement(new BackgroundWndEl(0, 0, 10, 10, 20, 20, DirtClass.CellTexture.image, 4), WinPos.LeftBottom, ScalingMode.Locked);
 		mainMenuWindows.addElement(new ButtonWndEl(-150, -30, 150, 30, newGameButton, "New Game").setTextures(unpressedButton, pressedButton)
 				.setTextSetts(mainMenuTextQuad, WinPos.Center), WinPos.Center, ScalingMode.Locked);
 		mainMenuWindows.addElement(new ButtonWndEl(-150, -30, 150, 30, exitButton, "Exit").setTextures(unpressedButton, pressedButton)

@@ -15,7 +15,15 @@ public class TorchClass extends BasicObjectClass {
 	public static BattleObjectClass battleObjectState = new BattleObjectClass(3.0f, 0.0f, 0.0f, 0.0f);
 	Integer LightID = -1;
 	
+	public static SpriteSheet TorchSheet = new SpriteSheet("data/Objects/Torch.png", 16, 16);
+	
 	{
+		super.Animation = new AnimationClass(0, "TorchBurning");
+		super.Animation.addFrame(new ImageClass(TorchSheet.getSprite(0, 0)), 1000000);
+		super.Animation.addFrame(new ImageClass(TorchSheet.getSprite(1, 0)), 1000000);
+		super.Animation.addFrame(new ImageClass(TorchSheet.getSprite(2, 0)), 1000000);
+		
+		
 		super.Animations = new AnimationsList("torchBurning");
 		for(int i = 0; i < StaticImageArray.size(); i++){
 			super.Animations.addAnimationImage(StaticImageArray.get(i), 300);
