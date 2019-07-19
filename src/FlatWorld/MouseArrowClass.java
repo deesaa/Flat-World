@@ -198,7 +198,7 @@ public class MouseArrowClass {
 			if(pickedObjects.size() > 1)
 			{
 				TextFieldClass.rendText(String.valueOf(pickedObjects.size()),
-						MouseArrowClass.ArrowWorldCoordX-0.23f, MouseArrowClass.ArrowWorldCoordY+0.04f, -24.99f, FlatWorld.InventoryCounterQuad, 0.19f);
+						MouseArrowClass.ArrowWorldCoordX-0.23f, MouseArrowClass.ArrowWorldCoordY+0.04f, -24.99f, QuadClass.inventoryCounterQuad, 0.19f);
 			}
 		}
 	}

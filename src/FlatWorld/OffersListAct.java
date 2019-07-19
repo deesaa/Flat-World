@@ -27,7 +27,8 @@ public class OffersListAct implements Action{
 				this.MoveToActiveOffer(Object);
 			activeOffer.sender.doTheAction(Object, activeOffer);
 		} else {
-			Object.Animations.restart();
+			if(Object.ObjectType != ObjectTypes.Player)
+				Object.Animations.restart();
 		}
 		
 		activeOffer = null;

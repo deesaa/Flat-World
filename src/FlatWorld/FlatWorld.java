@@ -28,9 +28,6 @@ public class FlatWorld {
 		updateDelta();
 		updateTime();
 		initStandardQuad();
-		initPerspectStandardQuad();
-		initIconQuad();
-		initInventoryCounterQuad();
 		TextFieldClass.initSymbols();
 		//awtFont = new Font("Times New Roman", Font.BOLD, 54);
 		//font = new TrueTypeFont(awtFont, false);
@@ -40,14 +37,18 @@ public class FlatWorld {
 	}
 
 	public static void FWMainLoop() {
+		StringVars vv = new StringVars();
+		vv.addVarsArray("EquipPlace", new String[]{"Hand", "Leg", "Arm", "Head"});
+
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			updateDelta();
 			MapsManager.updateMap();
 			MapsManager.rendMap();
-
 			MouseArrowClass.updateArrow();
 			
+			GL11.glLoadIdentity();
+			System.out.println(vv.mainString);
 			Display.update();
 			updateFPS();
 		}
@@ -92,65 +93,5 @@ public class FlatWorld {
 		
 		StandardQuadWidth = 1.0f;
 		StandardQuadHeight = 1.0f;
-	}
-	
-	public static void initPerspectStandardQuad() {
-		PerspectStandardQuad = GL11.glGenLists(1);
-		GL11.glNewList(PerspectStandardQuad, GL11.GL_COMPILE);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex3f(0.0f, 0.0f, 0.0f);
-		
-		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex3f(1.0f, 0.0f, 0.0f);
-		
-		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex3f(1.0f, 1.0f, 0.1f);
-		
-		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex3f(0.0f, 1.0f, 0.1f);
-		GL11.glEnd();
-		GL11.glEndList();
-		
-	//	PerspectStandardQuadWidth = 1.0f;
-	//	PerspectStandardQuadHeight = 1.0f;
-	}
-
-	public static void initIconQuad() {
-		IconQuad = GL11.glGenLists(1);
-		GL11.glNewList(IconQuad, GL11.GL_COMPILE_AND_EXECUTE);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex2f(0.0f, 0.0f);
-		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex2f(0.6f, 0.0f);
-		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex2f(0.6f, 0.6f);
-		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex2f(0.0f, 0.6f);
-		GL11.glEnd();
-		GL11.glEndList();
-		
-		IconQuadWidth = 0.6f;
-		IconQuadHeight = 0.6f;
-	}
-
-	public static void initInventoryCounterQuad() {
-		InventoryCounterQuad = GL11.glGenLists(1);
-		GL11.glNewList(InventoryCounterQuad, GL11.GL_COMPILE_AND_EXECUTE);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex2f(0.0f, 0.0f);
-		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex2f(0.45f, 0.0f);
-		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex2f(0.45f, 0.45f);
-		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex2f(0.0f, 0.45f);
-		GL11.glEnd();
-		GL11.glEndList();
-		
-		InventoryCounterQuadWidth = 0.45f;
-		InventoryCounterQuadHeight = 0.45f;
 	}
 }

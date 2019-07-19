@@ -47,8 +47,8 @@ public class ContainersArrayClass {
 		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()));
 	}
 	
-	public ContainerCell addContainer(float CellPosX, float CellPosY, int equipPlace) {
-		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(equipPlace));
+	public ContainerCell addContainer(float CellPosX, float CellPosY, AEList equipPlace, AELList equipPlaceLoc) {
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(equipPlace, equipPlaceLoc));
 		return InventoryCellsArray.get(InventoryCellsArray.size()-1);
 	}
 	
@@ -203,7 +203,6 @@ public class ContainersArrayClass {
 	
 	private class pCellsGroup {
 		public ArrayList<ContainerCell> pCellsArray;
-		
 		public pCellsGroup(String groupName, ArrayList<ContainerCell> mainCellsArray, int start, int size) {
 			pCellsArray = new ArrayList<ContainerCell>();
 			for(int i = 0; i != size; i++){

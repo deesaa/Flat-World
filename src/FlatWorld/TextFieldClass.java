@@ -149,7 +149,7 @@ public class TextFieldClass {
 				"data/symbols/Point.png", '.'));
 	}
 
-	public static void rendText(String string, float posGlobalX, float posGlobalY, float posGlobalZ, int QuadType, float bIndent) {
+	public static void rendText(String string, float posGlobalX, float posGlobalY, float posGlobalZ, QuadClass quad, float bIndent) {
 		float indent = bIndent;
 		GL11.glTranslatef(posGlobalX, posGlobalY, posGlobalZ);
 		for (int i = 0; i != string.length(); i++) {
@@ -157,7 +157,7 @@ public class TextFieldClass {
 			{
 				GL11.glTranslatef(indent, 0, 0);
 				if (string.charAt(i) != ' ') // ≈сли это пробел, то просто ничеого не выводим
-					Symbols.get(string.charAt(i)).rendSymbol(QuadType);
+					Symbols.get(string.charAt(i)).rendSymbol(quad);
 			} catch (NullPointerException exception) {
 				System.out.println("Symbol " + string.charAt(i) + " not found");
 			}

@@ -10,6 +10,7 @@ enum ObjectTypes {
 
 public class BasicObjectClass {
 	float PosGlobalX, PosGlobalY, PosGlobalZ;
+	float mapRendShiftX, mapRendShiftY;
 	public float CollisionRightX = 0.5f, CollisionLeftX = 0.5f, CollisionUpY = 0.5f, CollisionDownY = 0.5f;
 	int ObjectID;
 	int ObjectTypeID;
@@ -17,7 +18,8 @@ public class BasicObjectClass {
 	ObjectTypes ObjectType;
 	float moveSpeed;
 
-	public AnimationsList Animations;
+	public AnimationsList  Animations;
+
 
 	ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();
@@ -126,6 +128,11 @@ public class BasicObjectClass {
 		GL11.glLoadIdentity();
 		this.rendActions();
 		Modifiers.hasContour = false;
+	}
+	
+	public void setRendShift(float rendShiftX, float rendShiftY){
+		this.mapRendShiftX = rendShiftX;
+		this.mapRendShiftY = rendShiftY;
 	}
 
 	public void overMove(float PosX, float PosY, float PosZ) {

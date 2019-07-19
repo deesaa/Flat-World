@@ -3,15 +3,13 @@ package FlatWorld;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public class AxeClass extends BasicObjectClass{
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
-	public static Image CellTexture;
-	public static ArrayList<Integer> EqipmentPlaces = new ArrayList<Integer>();
+	public static FlaggedImage CellTexture;
+	public static ArrayList<AEList> EqipmentPlaces = new ArrayList<AEList>();
 	
 	{
 		super.Animations = new AnimationsList("axe");
@@ -19,11 +17,10 @@ public class AxeClass extends BasicObjectClass{
 	}
 	
 	public static void initObject() {
-		try {
-			CellTexture = new Image("data/Objects/Axe.png", GL11.GL_NEAREST);
-		} catch (SlickException e) { e.printStackTrace();}
+		CellTexture = new FlaggedImage("data/Objects/Axe.png", GL11.GL_NEAREST);
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(0.0f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
 		
-		EqipmentPlaces.add(AnatomySystem.AnatomyElements.get(4).elementID);
+		EqipmentPlaces.add(AEList.Hand);
 	}
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {

@@ -16,7 +16,8 @@ public class ContainerCell extends BasicObjectClass {
 	public int pickedObjectTypeID = -1;
 	float indentX, indentY;
 	float localPosGlobalX, localPosGlobalY, localPosGlobalZ;
-	int equipPlace = -1;
+	AEList equipPlace = AEList.Nothing;
+	AELList equipPlaceLoc = AELList.Nothing;
 	Image equipPlaceIcon;
 	
 	{
@@ -37,8 +38,9 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	
-	public ContainerCell setEquipPlace(int equipPlace){
+	public ContainerCell setEquipPlace(AEList equipPlace, AELList equipPlaceLoc){
 		this.equipPlace = equipPlace;
+		this.equipPlaceLoc = equipPlaceLoc;
 		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipPlace).Icon;
 		return this;
 	}
@@ -60,7 +62,7 @@ public class ContainerCell extends BasicObjectClass {
 		if (pickedObjectTypeID != -1 && ObjectsArray.size() > 1) {
 			TextFieldClass.rendText(String.valueOf(ObjectsArray.size()),
 					super.PosGlobalX - 0.2f, super.PosGlobalY + 0.05f, super.PosGlobalZ, 
-					FlatWorld.InventoryCounterQuad, 0.19f);
+					QuadClass.inventoryCounterQuad, 0.19f);
 		} else
 			GL11.glLoadIdentity();
 	}
@@ -83,7 +85,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public boolean addObject(BasicObjectClass pickedObject) {
-		if(equipPlace == -1){
+		if(equipPlace == AEList.Nothing){
 			this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 			ObjectsArray.add(pickedObject);
 			return true;

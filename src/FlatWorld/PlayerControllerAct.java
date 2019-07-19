@@ -30,6 +30,7 @@ public class PlayerControllerAct implements Action {
 			Object.Modifiers.pointerToLookingSystem.VecViewDirY = -1.0f; 
 			tempMoveY = -Object.moveSpeed;
 		}
+		
 		if (tempMoveX != 0 || tempMoveY != 0) {
 			Object.move(tempMoveX, tempMoveY, 0.0f);
 			Object.Animations.updateAnimation();

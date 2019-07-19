@@ -14,8 +14,8 @@ public class TorchClass extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
-	public static ArrayList<Image> StaticImageArray = new ArrayList<Image>();	
-	public static ArrayList<Integer> EqipmentPlaces = new ArrayList<Integer>();
+	public static ArrayList<FlaggedImage> StaticImageArray = new ArrayList<FlaggedImage>();	
+	public static ArrayList<AEList> EqipmentPlaces = new ArrayList<AEList>();
 	public static BattleObjectClass battleObjectState = new BattleObjectClass(3.0f, 0.0f, 0.0f, 0.0f);
 	
 	{
@@ -26,17 +26,19 @@ public class TorchClass extends BasicObjectClass {
 	}
 	
 	public static void initObject() {
-		try {
-			StaticImageArray.add(new Image("data/objects/Torch_a1.png", GL11.GL_NEAREST));
-			StaticImageArray.add(new Image("data/objects/Torch_a2.png", GL11.GL_NEAREST));
-			StaticImageArray.add(new Image("data/objects/Torch_a3.png", GL11.GL_NEAREST));
-		} catch (SlickException e) {e.printStackTrace();}
-		
-		EqipmentPlaces.add(AnatomySystem.AnatomyElements.get(4).elementID);
+		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a1.png", GL11.GL_NEAREST));
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
+		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a2.png", GL11.GL_NEAREST));
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
+		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a3.png", GL11.GL_NEAREST));
+		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).setLocalShift("Hand"));
+
+		EqipmentPlaces.add(AEList.Hand);
 	}
 
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
+		super.setRendShift(-0.2f, 0.1f);
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
 		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 	}

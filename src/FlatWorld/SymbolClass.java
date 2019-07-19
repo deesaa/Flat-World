@@ -18,8 +18,8 @@ public class SymbolClass {
 		this.Value = Value;
 	}
 
-	public void rendSymbol(int QuadType) {
+	public void rendSymbol(QuadClass quad) {
 		this.Texture.setTexture();
-		GL11.glCallList(QuadType);
+		quad.rend();
 	}
 }

@@ -77,9 +77,7 @@ public class BattleSystem implements Action{
 		}
 	}
 	
-	public void doTheAction(StructOfOffer Offer) {
-		
-	}
+
 
 	public void rendAction(BasicObjectClass Object) {
 		if(PlayerGUI == null){
@@ -103,6 +101,7 @@ public class BattleSystem implements Action{
 		}
 		
 		if(Offer.message == OffersMessages.DirectRadiusAttack){
+			Object.Animations.pickSubAnimation("simpleAttack");
 			for(int i = 0; i < Offer.OffersElements.size(); i++){
 				BasicObjectClass interactingObject = Offer.OffersElements.get(i).interactingObject;
 				BattleSystem.getDamage(1.0f, interactingObject, Object);

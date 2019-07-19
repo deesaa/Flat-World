@@ -38,13 +38,13 @@ public class TextRenderModule {
 		TextFieldClass.Symbols.put('Z', new SymbolClass("data/symbols/Z.png", -0.2f, 'Z'));
 	}
 	
-	public static void rendText(String string, float posGlobalX, float posGlobalY, float posGlobalZ, int QuadType, float CorrectionIndent) {
+	public static void rendText(String string, float posGlobalX, float posGlobalY, float posGlobalZ, QuadClass Quad, float CorrectionIndent) {
 		GL11.glTranslatef(posGlobalX, posGlobalY, posGlobalZ);
 		for (int i = 0; i != string.length(); i++) {
 			try 
 			{
 				if (string.charAt(i) != ' ') // ≈сли это пробел, то просто ничеого не выводим
-					Symbols.get(string.charAt(i)).rendSymbol(QuadType);
+					Symbols.get(string.charAt(i)).rendSymbol(Quad);
 				GL11.glTranslatef(Symbols.get(string.charAt(i)).symbolLenght+CorrectionIndent, 0, 0);
 				
 			} catch (NullPointerException exception) {
