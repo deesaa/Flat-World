@@ -3,26 +3,25 @@ package FlatWorld;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 
 public class ContainerCell extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
-	
-	private static Image CellTexture;
 
 	public ArrayList<BasicObjectClass> ObjectsArray = new ArrayList<BasicObjectClass>();
 	public int pickedObjectTypeID = -1;
 	float indentX, indentY;
 	float localPosGlobalX, localPosGlobalY, localPosGlobalZ;
-	StringVars equipSetts = new StringVars("EP=Nothing;");
-	Image equipPlaceIcon;
+
+	String EquipPlace = "Nothing", EquipModifier;
+	ImageClass equipPlaceIcon;
 	
+	public static ImageClass CellTexture;
 	{
-		super.Animations = new AnimationsList("container");
-		super.Animations.addAnimationImage(CellTexture, 300);
+		super.Animation = new AnimationClass(0, "Contour");
+		super.Animation.addFrame(CellTexture, 300);
+		super.Animation.pickAnimation();
 	}
 
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
@@ -30,7 +29,7 @@ public class ContainerCell extends BasicObjectClass {
 		
 		this.localPosGlobalX = PosGlobalX;
 		this.localPosGlobalY = PosGlobalY;
-		super.setButtonOnObject();
+//		super.setButtonOnObject();
 	}
 	
 	ContainerCell() {
@@ -38,21 +37,20 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	
-	public ContainerCell setEquipPlace(StringVars equipSetts){
-		this.equipSetts = equipSetts;
-		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipSetts.getVal("EP")).Icon;
+	public ContainerCell setEquipPlace(String EquipPlace, String EquipModifier){
+		this.EquipPlace = EquipPlace;
+		this.EquipModifier= EquipModifier;
+		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(EquipPlace).Icon;
 		return this;
 	}
 
 	public static void initObject() {
-		try {
-			CellTexture = new Image("data/GUI/InventoryCell.png", GL11.GL_NEAREST);
-		} catch (SlickException e) { e.printStackTrace();}
+		CellTexture = new ImageClass("data/GUI/InventoryCell.png");
 	}
 
 	public void rendCellContent() {
 		if (pickedObjectTypeID != -1) {
-			ObjectsArray.get(0).rendObject(super.PosGlobalX + 0.19f, super.PosGlobalY + 0.19f, super.PosGlobalZ, QuadClass.iconQuad);
+			ObjectsArray.get(0).rendObject(super.PosGlobalX+0.19f, super.PosGlobalY+0.19f, super.PosGlobalZ, QuadClass.iconQuad, ObjectsArray.get(0).Animation.getCurrentImage());
 		} else
 			GL11.glLoadIdentity();
 	}
@@ -66,32 +64,31 @@ public class ContainerCell extends BasicObjectClass {
 			GL11.glLoadIdentity();
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad, ImageClass image) {
 		super.PosGlobalX = localPosGlobalX;
 		super.PosGlobalY = localPosGlobalY;
 		super.PosGlobalZ = localPosGlobalZ;
 		super.PosGlobalX += tPosGlobalX;
 		super.PosGlobalY += tPosGlobalY;
 		super.PosGlobalZ += tPosGlobalZ;
-		super.rendObject(Quad);
+		super.rendObject(Quad, image);
 		
 		if(equipPlaceIcon != null){
-			equipPlaceIcon.bind();
 			GL11.glTranslatef(super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ);
-			Quad.rend();
+			Quad.rend(equipPlaceIcon);
 			GL11.glLoadIdentity();
 		}
 	}
 
 	public boolean addObject(BasicObjectClass pickedObject) {
-		if(equipSetts.getVal("EP").compareTo("Nothing") == 0){
+		if(EquipPlace.compareTo("Nothing") == 0){
 			this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 			ObjectsArray.add(pickedObject);
 			//pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);
 			return true;
 		} else {
 			if(pickedObject.Modifiers.pointerToEquipmentSystem != null){
-				if(pickedObject.Modifiers.pointerToEquipmentSystem.checkEquipPlace(equipSetts)){
+				if(pickedObject.Modifiers.pointerToEquipmentSystem.checkEquipPlace(EquipPlace)){
 					this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 					ObjectsArray.add(pickedObject);
 				//	pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);
@@ -126,5 +123,11 @@ public class ContainerCell extends BasicObjectClass {
 
 	public void rendRedContur() {
 		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, QuadClass.standardQuad);
+	}
+
+	public BasicObjectClass getFirstPickedObject() {
+		if(ObjectsArray.size() > 0)
+			return ObjectsArray.get(0);
+		return null;
 	}
 }

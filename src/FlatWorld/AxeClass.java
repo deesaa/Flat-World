@@ -1,22 +1,25 @@
 package FlatWorld;
 
-import org.lwjgl.opengl.GL11;
+import java.util.ArrayList;
 
 
 public class AxeClass extends BasicObjectClass{
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
-	public static FlaggedImage CellTexture;
+	public static ImageClass CellTexture;
+	public static ArrayList<DestructMaterialRatio> DesRatMats = new ArrayList<DestructMaterialRatio>();
 	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,;");
 	{
-		super.Animations = new AnimationsList("axe");
-		super.Animations.addAnimationImage(CellTexture, 300);
+		super.Animation = new AnimationClass(0, "Axe");
+		super.Animation.addFrame(CellTexture, 300);
+		super.Animation.pickAnimation();
 	}
 	
 	public static void initObject() {
-		CellTexture = new FlaggedImage("data/Objects/Axe.png", GL11.GL_NEAREST);
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(0.0f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
+		String sIM1   = new String("{s=0.0f, 0.0f, 0.0f,; a=0.0f; r=0, 0, 1,; d=0,0,; e=Hand; em=NULL;}");
+		CellTexture = new ImageClass("data/Objects/Axe.png").setTags(new StringVars("t["+ sIM1 +"]"));
+		DesRatMats.add(new DestructMaterialRatio(MaterialClass.Wood, 10));
 	}
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
@@ -24,14 +27,15 @@ public class AxeClass extends BasicObjectClass{
 		new PickableModif(this);
 		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 		super.ActionsArray.add(new BattleObjectAct(this, BattleObjectClass.standardAxe));
+		super.ActionsArray.add(new DestructionSystem(this, DesRatMats));
 	}
 
 	public void rendObject(QuadClass Quad) {
-		super.rendObject(Quad);
+		super.rendObject(Quad, CellTexture);
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad, CellTexture);
 	}
 
 	public BasicObjectClass randomize() {

@@ -2,6 +2,7 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
 
 enum ObjectTypes {
@@ -11,23 +12,28 @@ enum ObjectTypes {
 public class BasicObjectClass {
 	float PosGlobalX, PosGlobalY, PosGlobalZ;
 	float mapRendShiftX, mapRendShiftY;
-	public float CollisionRightX = 0.5f, CollisionLeftX = 0.5f, CollisionUpY = 0.5f, CollisionDownY = 0.5f;
 	int ObjectID;
 	public int ObjectTypeID;
 	int OwnedChunkID, OwnedMapID;
 	ObjectTypes ObjectType;
 	float moveSpeed;
+	boolean underArrow = false;
 
-	public AnimationsList  Animations;
 	public AnimationClass  Animation;
 
 	public ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();
 	
 	ColorClass modifColor = ColorClass.Standard;
+	
+	LuaValue updateHook, luaThisObject;
 
+	public BasicObjectClass() {
+		this.ActionsArray.add(new OffersListAct(this));
+	}
+	
 	public BasicObjectClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
-			ObjectTypes ObjectType, float moveSpeed, int ObjectID, int ObjectTypeID, boolean isSolid, boolean isPickable) {
+			ObjectTypes ObjectType, float moveSpeed, int ObjectID, int ObjectTypeID, boolean isSolid, boolean isClickable) {
 		this.PosGlobalX = PosGlobalX;
 		this.PosGlobalY = PosGlobalY;
 		this.PosGlobalZ = PosGlobalZ;
@@ -40,25 +46,17 @@ public class BasicObjectClass {
 		
 		this.ActionsArray.add(new OffersListAct(this));
 		
-		Modifiers.isSolid = isSolid;
-		Modifiers.isClickable = isPickable;
-		if (Modifiers.isClickable)
-			this.setButtonOnObject();
+	//	Modifiers.isSolid = isSolid;
+	//	Modifiers.isClickable = isClickable;
+	//	if (Modifiers.isClickable)
+	//		this.setButtonOnObject();
 	}
 
 	public BasicObjectClass(ObjectTypes ObjectType, float moveSpeed, int ObjectTypeID, boolean isSolid) {
 		this.ObjectType = ObjectType;
 		this.moveSpeed = moveSpeed;
-		Modifiers.isSolid = isSolid;
+	//	Modifiers.isSolid = isSolid;
 		this.ObjectTypeID = ObjectTypeID;
-	}
-
-	public void setCollision(float CollisionRightX, float CollisionLeftX,
-			float CollisionUpY, float CollisionDownY) {
-		this.CollisionRightX = CollisionRightX;
-		this.CollisionLeftX = CollisionLeftX;
-		this.CollisionUpY = CollisionUpY;
-		this.CollisionDownY = CollisionDownY;
 	}
 
 	public void move(float PosX, float PosY, float PosZ) {
@@ -76,11 +74,11 @@ public class BasicObjectClass {
 
 		IntersectedObject = MapsManager.checkNoClip(this);
 		if (IntersectedObject != null) {
-			if (IntersectedObject.Modifiers.isSolid) {
+		//	if (IntersectedObject.Modifiers.pointerToCollisionSystem != null) {
 				this.PosGlobalX -= PosX * FlatWorld.delta;
 				this.PosGlobalY -= PosY * FlatWorld.delta;
 				this.PosGlobalZ -= PosZ * FlatWorld.delta;
-			}
+			//}
 		}
 	}
 
@@ -94,43 +92,43 @@ public class BasicObjectClass {
 		for (int i = 0; i < ActionsArray.size(); i++) {
 			ActionsArray.get(i).updateAction(this);
 		}
+		if(this.updateHook != null && this.updateHook != LuaValue.NIL)
+			this.updateHook.call(luaThisObject);
+		
+		this.underArrow = false;
 	}
 
-	public void setButtonOnObject() {
-		if (Modifiers.isButton == false) {
-			Modifiers.isButton = true;
-		}
-	}
+//	public void setButtonOnObject() {
+//		if (Modifiers.isButton == false) {
+//			Modifiers.isButton = true;
+//		}
+//	}
 
 	public void rendActions() {
 		for (int i = 0; i < ActionsArray.size(); i++) {
 			ActionsArray.get(i).rendAction(this);
 		}
 	}
-
-	public void rendObject(QuadClass Quad) {
+	
+	public void rendObject(QuadClass Quad, ImageClass image) {
 		this.rendActions();
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
 		modifColor.setColorFilter();
-		this.Animations.setAnimation();
-		Quad.rend();
+		Quad.rend(image);
 		if (Modifiers.hasContour) {
 			ContourClass.CellTexture.bind();
 			Quad.rend();
 		}
 		GL11.glLoadIdentity();
-		//this.rendActions();
 		Modifiers.hasContour = false;
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad, ImageClass image) {
 		this.rendActions();
 		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
 		modifColor.setColorFilter();
-		this.Animations.setAnimation();
-		Quad.rend();
+		Quad.rend(image);
 		GL11.glLoadIdentity();
-	//	this.rendActions();
 		Modifiers.hasContour = false;
 	}
 	
@@ -159,5 +157,54 @@ public class BasicObjectClass {
 	public void printDefObjectInfo(){
 		System.out.println("|ObTyID:" + this.ObjectTypeID + "; MID" + this.OwnedMapID +  " CID" + this.OwnedChunkID + " OID" + this.ObjectID + 
 				"; X" + this.PosGlobalX + " Y" + this.PosGlobalY + " Z" + this.PosGlobalZ + "|");
+	}
+	
+	
+	
+	/* OBJECT LOAD */
+	
+	public void setPos(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID){
+		this.PosGlobalX = PosGlobalX;
+		this.PosGlobalY = PosGlobalY;
+		this.PosGlobalZ = PosGlobalZ;
+		this.OwnedChunkID = OwnedChunkID;
+		this.OwnedMapID = OwnedMapID;
+		this.ObjectID = ObjectID;
+	}
+	
+	public AnimationClass initMainAnimation(int animationID, String animationName){
+		this.Animation = new AnimationClass(animationID, animationName);
+		return this.Animation;
+	}
+	
+	public void enableShadows(){
+		this.ActionsArray.add(new LightingSystem(this));
+	}
+	
+	public void pickableTrue(){
+		new PickableModif(this);
+	}
+	
+//	public void clickableTrue(){
+//		Modifiers.isClickable = true;
+//		if (Modifiers.isClickable)
+//			this.setButtonOnObject();
+//	}
+	
+	public void initInventory(int numCellsInLine, int numLines, float shiftX, float shiftY){
+		this.ActionsArray.add(new InventorySystem(this, numCellsInLine, numLines, shiftX, shiftY, null));
+	}
+	
+	public AnimationClass getMainAnimation(){
+		return this.Animation;
+	}
+	
+	public ObjectModifiers getModifiers(){
+		return this.Modifiers;
+	}
+
+	public void setLuaUpdateHook(LuaValue updateHook, LuaValue luaThisObject) {
+		this.updateHook = updateHook;
+		this.luaThisObject = luaThisObject;
 	}
 }

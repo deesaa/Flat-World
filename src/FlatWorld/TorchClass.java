@@ -10,7 +10,7 @@ public class TorchClass extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
-	public static ArrayList<FlaggedImage> StaticImageArray = new ArrayList<FlaggedImage>();	
+	public static ArrayList<ImageClass> ImageArray = new ArrayList<ImageClass>();
 	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,;");
 	public static BattleObjectClass battleObjectState = new BattleObjectClass(3.0f, 0.0f, 0.0f, 0.0f);
 	Integer LightID = -1;
@@ -18,25 +18,21 @@ public class TorchClass extends BasicObjectClass {
 	public static SpriteSheet TorchSheet = new SpriteSheet("data/Objects/Torch.png", 16, 16);
 	
 	{
-		super.Animation = new AnimationClass(0, "TorchBurning");
-		super.Animation.addFrame(new ImageClass(TorchSheet.getSprite(0, 0)), 1000000);
-		super.Animation.addFrame(new ImageClass(TorchSheet.getSprite(1, 0)), 1000000);
-		super.Animation.addFrame(new ImageClass(TorchSheet.getSprite(2, 0)), 1000000);
-		
-		
-		super.Animations = new AnimationsList("torchBurning");
-		for(int i = 0; i < StaticImageArray.size(); i++){
-			super.Animations.addAnimationImage(StaticImageArray.get(i), 300);
-		}
+		super.Animation = new AnimationClass(0, "Torch");
+		super.Animation.addFrame(ImageArray.get(0), 350);
+		super.Animation.addFrame(ImageArray.get(1), 350);
+		super.Animation.addFrame(ImageArray.get(2), 350);
+		super.Animation.pickAnimation();
 	}
 	
 	public static void initObject() {
-		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a1.png", GL11.GL_NEAREST));
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
-		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a2.png", GL11.GL_NEAREST));
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
-		StaticImageArray.add(new FlaggedImage("data/objects/Torch_a3.png", GL11.GL_NEAREST));
-		FlaggedImage.lastCreatedImage.addTag(new ImageTag(-0.15f, 0.0f, 0.0f, 0.0f, 0, 0, 1).linkTo("EP=Hand;"));
+		String sIM1   = new String("{s=-0.15f, 0.0f, 0.0f,; a=0.0f; r=0, 0, 1,; d=0,0,; e=Hand; em=NULL;}");
+		String sIM2   = new String("{s=-0.15f, 0.0f, 0.0f,; a=0.0f; r=0, 0, 1,; d=0,0,; e=Hand; em=NULL;}");
+		String sIM3   = new String("{s=-0.15f, 0.0f, 0.0f,; a=0.0f; r=0, 0, 1,; d=0,0,; e=Hand; em=NULL;}");
+		
+		ImageArray.add(new ImageClass(TorchSheet.getSprite(0, 0)).setTags(new StringVars("t["+ sIM1 + "]")));
+		ImageArray.add(new ImageClass(TorchSheet.getSprite(1, 0)).setTags(new StringVars("t["+ sIM2 + "]")));
+		ImageArray.add(new ImageClass(TorchSheet.getSprite(2, 0)).setTags(new StringVars("t["+ sIM3 + "]")));
 	}
 
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
@@ -51,15 +47,15 @@ public class TorchClass extends BasicObjectClass {
 	}
 
 	public void updateObject() {
-		super.Animations.updateAnimation();
+		super.Animation.updateFrame();
 		super.updateObject();
 	}
 
 	public void rendObject(QuadClass Quad) {
-		super.rendObject(Quad);
+		super.rendObject(Quad, Animation.getCurrentImage());
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad, Animation.getCurrentImage());
 	}
 }

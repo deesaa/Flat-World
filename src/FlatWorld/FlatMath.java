@@ -1,5 +1,7 @@
 package FlatWorld;
 
+import org.lwjgl.util.vector.Vector2f;
+
 public class FlatMath {
 	static double vecPointAngle(float coordObj1X, float coordObj1Y, float coordObj1X2, float coordObj1Y2,
 			float coordObj2X, float coordObj2Y, float coordObj2X2, float coordObj2Y2){
@@ -8,6 +10,10 @@ public class FlatMath {
 		double vecToObjectX = coordObj2X - coordObj2X2;
 		double vecToObjectY = coordObj2Y - coordObj2Y2;
 		return Math.toDegrees(Math.atan2(vecToObjectX*vecY - vecX*vecToObjectY, vecToObjectX*vecX + vecToObjectY*vecY));
+	}
+	
+	static double vecPointAngle(Vector2f Vec1, Vector2f Vec2){
+		return Math.toDegrees(Math.atan2(Vec2.x*Vec1.y - Vec1.x*Vec2.y, Vec2.x*Vec1.x + Vec2.y*Vec1.y));
 	}
 	
 	public static double objectDist(BasicObjectClass Obj1, BasicObjectClass Obj2){

@@ -36,7 +36,7 @@ public class MapsManager {
 	}
 
 	public static BasicObjectClass getObjectUnderArrowAround(BasicObjectClass object){
-		return MapsArray.get(object.OwnedMapID).getObjectUnderArrowAround(object);
+		return MapsArray.get(object.OwnedMapID).objectUnderArrow;
 	}
 
 	public static void deleteObject(int OwnedMapID, int OwnedChunkID, int ObjectID) {

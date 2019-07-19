@@ -1,15 +1,14 @@
 package FlatWorld;
 
+import org.newdawn.slick.tests.xml.Inventory;
+
 public class ObjectModifiers {
 	public PickableModif   pointerToPickableModif;
 	
 	public boolean isContainer = false;
 	public boolean isOpen = false;
 	public boolean isAlphaBlend = false;
-	public boolean isSolid = false;
-	public boolean isClickable = false;
 	public boolean hasContour = false;
-	public boolean isButton = false;
 	
 	public LookingSystemAct pointerToLookingSystem;
 	public OffersListAct    pointerToOffersList;
@@ -21,5 +20,11 @@ public class ObjectModifiers {
 	public EquipmentSystem  pointerToEquipmentSystem;
 	public BattleObjectAct  pointerToBattleObjectAct;
 	public CollisionSystem  pointerToCollisionSystem;
-	public LightingSystem 	pointerToLightingSystem;
+	public LightingSystem 	 pointerToLightingSystem;
+	public DestructionSystem pointerToDestructionSystem;
+	public MaterialSystem pointerToMaterialSystem;
+	
+	public InventorySystem getInventorySystem(){
+		return pointerToInventorySystem;
+	}
 }  

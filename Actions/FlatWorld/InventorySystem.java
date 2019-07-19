@@ -1,5 +1,6 @@
 package FlatWorld;
 
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.input.Keyboard;
 
 
@@ -9,15 +10,29 @@ public class InventorySystem extends Action{
 	boolean isInventoryVisible = false;
 	int cellUnderArrow = -1;
 	
-	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
-			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) 
+	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture) 
 	{
 		super(Object);
 		Object.Modifiers.pointerToInventorySystem = this;
-		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture, BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft);
+		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture);
 		Invntory.pushGroup("Inv");
 	}
-	
+
+	public InventorySystem(BasicObjectClass Object, LuaValue configs) {
+		super(Object);
+		Object.Modifiers.pointerToInventorySystem = this;
+		
+		float numCellsInLine = 1, numLines = 1, shiftX = 0, shiftY = 0;
+		
+		numCellsInLine = ObjectsLoader.getValue(configs, "numCellsInLine", numCellsInLine);
+		numLines       = ObjectsLoader.getValue(configs, "numLines", numLines);
+		shiftX         = ObjectsLoader.getValue(configs, "shiftX", shiftX);
+		shiftY         = ObjectsLoader.getValue(configs, "shiftY", shiftY);
+		
+		Invntory = new ContainersArrayClass((int)numCellsInLine, (int)numLines, shiftX, shiftY, null);
+		Invntory.pushGroup("Inv");
+	}
+
 	public void updateAction(BasicObjectClass Object) {
 		Invntory.setCurrentOwner(Object);
 		if(Object.ObjectType == ObjectTypes.Player){
@@ -78,5 +93,9 @@ public class InventorySystem extends Action{
 
 	public void dropAllAround(BasicObjectClass Object) {
 		Invntory.dropAll(Object);
+	}
+	
+	public boolean isInvVisible(){
+		return isInventoryVisible;
 	}
 }

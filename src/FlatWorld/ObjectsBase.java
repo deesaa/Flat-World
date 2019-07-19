@@ -33,6 +33,8 @@ public class ObjectsBase {
 		ChestClass.ObjectName 				= "Chest";
 		AxeClass.ObjectTypeID 				= this.getNextID();
 		AxeClass.ObjectName 				= "Axe";
+		TreeClass.ObjectTypeID 			    = this.getNextID();
+		TreeClass.ObjectName 				= "Tree";
 		
 		DirtClass.initObject();
 		PlayerClass.initObject();
@@ -42,10 +44,11 @@ public class ObjectsBase {
 		ContourClass.initObject();
 		ChestClass.initObject();
 		AxeClass.initObject();
+		TreeClass.initObject();
 	}
 
 	public void rendObject(int ObjectTypeID, float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
-		StaticObjectsArray.get(ObjectTypeID).rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad);
+		StaticObjectsArray.get(ObjectTypeID).rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad, StaticObjectsArray.get(ObjectTypeID).Animation.getCurrentImage());
 	}
 	
 	public int getNextID(){

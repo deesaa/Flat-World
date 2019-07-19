@@ -23,7 +23,7 @@ public class MovingSystem extends Action{
 		normalY = (float)(y*vecInvLenght);
 		
 		Origin.move(normalX * Origin.moveSpeed, normalY * Origin.moveSpeed, 0.0f);
-		Origin.Animations.updateAnimation();
+		Origin.Animation.updateFrame();
 	}
 	
 	public void directMovingTo(BasicObjectClass Origin, float DirX, float DirY){
@@ -37,7 +37,7 @@ public class MovingSystem extends Action{
 		normalY = (float)(y*vecInvLenght);
 		
 		Origin.move(normalX * Origin.moveSpeed, normalY * Origin.moveSpeed, 0.0f);
-		Origin.Animations.updateAnimation();
+		Origin.Animation.updateFrame();
 	}
 	
 	public void updateAction(BasicObjectClass Object) {

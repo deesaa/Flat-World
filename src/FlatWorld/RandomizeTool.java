@@ -17,8 +17,8 @@ public class RandomizeTool {
 		return false;
 	}
 	
-	public static BasicObjectClass setAnimation(BasicObjectClass Object, AnimationsList newAnimations){
-		Object.Animations = newAnimations;
+	public static BasicObjectClass setAnimation(BasicObjectClass Object, AnimationClass newAnimation){
+		Object.Animation = newAnimation;
 		return Object;
 	}
 
@@ -41,16 +41,27 @@ public class RandomizeTool {
 	}
 	
 	public static boolean percentChance(float chance){
-		try { 
-			Thread.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
-		rand.setSeed((System.currentTimeMillis()));
+		RandomizeTool.updateSeed();
 		randInt = rand.nextInt(100);
 		if(randInt*0.01f < chance){
 			return true;
 		}
 		return false;
+	}
+	
+	public static int randValue(int min, int max){
+		RandomizeTool.updateSeed();
+		return (int)(rand.nextFloat()*(max-min+1))+min;
+	}
+	
+	private static void updateSeed(){
+		//try { 
+		//	Thread.sleep(1);
+		//} catch (InterruptedException e) {
+		//	e.printStackTrace();
+		//} 
+		//rand.setSeed((System.currentTimeMillis()));
+		
+		rand.nextGaussian();
 	}
 }

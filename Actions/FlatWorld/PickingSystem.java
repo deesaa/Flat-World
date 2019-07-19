@@ -2,6 +2,8 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.luaj.vm2.LuaValue;
+
 
 public class PickingSystem extends Action{
 	PickableObjectsList pickableObjectsList;
@@ -51,23 +53,26 @@ public class PickingSystem extends Action{
 			   MapsManager.getPlayerPosY() + expandToUp    < IntersectedObject.PosGlobalY && 
 			   MapsManager.getPlayerPosY() + expandToDown  > IntersectedObject.PosGlobalY)
 			{
-				
-				if(IntersectedObject.Modifiers.isClickable == true){
+				if(IntersectedObject.Modifiers.pointerToPickableModif != null)
 					IntersectedObject.Modifiers.hasContour = true;
-					if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
+				
+				if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
+					if(Object.Modifiers.pointerToInventorySystem != null && IntersectedObject.Modifiers.pointerToPickableModif != null){
 						Object.Modifiers.pointerToInventorySystem.addObject(IntersectedObject);
-						if(IntersectedObject.Modifiers.pointerToPickableModif != null)
-							IntersectedObject.Modifiers.pointerToPickableModif.setOwner(Object);
+						IntersectedObject.Modifiers.pointerToPickableModif.setOwner(Object);
+						IntersectedObject.updateHook.call(IntersectedObject.luaThisObject, LuaValue.valueOf("PICKED_UP"));
 					}
-					if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
-						this.processRightClick(IntersectedObject);
 				}
+				
+				if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
+					this.processRightClick(IntersectedObject);
 			}
 		}
 	}
 	
 	private void processRightClick(BasicObjectClass Object){
-		if(Object.ObjectTypeID == ChestClass.ObjectTypeID){
+		if(Object.Modifiers.pointerToInventorySystem != null){  				// Нужно доработать!
+		//if(Object.ObjectTypeID == ChestClass.ObjectTypeID){
 			Object.Modifiers.pointerToInventorySystem.isInventoryVisible = !Object.Modifiers.pointerToInventorySystem.isInventoryVisible;
 		}
 	}

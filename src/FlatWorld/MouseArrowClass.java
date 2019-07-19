@@ -9,17 +9,16 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.Image;
 
 public class MouseArrowClass {
 	private static ArrayList<BasicObjectClass> pickedObjects = new ArrayList<BasicObjectClass>();
 	private static int pickedObjectTypeID = -1;
 	private static ContainerCell throwerContainer = null;
 	private static ContainerCell catcherContainer = null;
-	static AnimationsList greenContourTex = new AnimationsList("greenContour").addAnimationImage(AnimationsList.loadImage("data/GUI/GreenContour.png"), 300);
+	static AnimationClass greenContourTex = new AnimationClass(0, "greenContour").addFrame(new ImageClass("data/GUI/GreenContour.png"), 300);
 	private static ContourClass greenContour = (ContourClass) RandomizeTool.setAnimation(new ContourClass(), greenContourTex);
 	
-	static AnimationsList redContourTex = new AnimationsList("redContour").addAnimationImage(AnimationsList.loadImage("data/GUI/RedContour.png"), 300);
+	static AnimationClass redContourTex = new AnimationClass(0, "greenContour").addFrame(new ImageClass("data/GUI/RedContour.png"), 300);
 	private static ContourClass redContour = (ContourClass) RandomizeTool.setAnimation(new ContourClass(), redContourTex);
 	
 	static FloatBuffer dbProj  = BufferUtils.createFloatBuffer(16);
@@ -194,7 +193,8 @@ public class MouseArrowClass {
 						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 			}
 			
-			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, QuadClass.iconQuad);
+			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, QuadClass.iconQuad, 
+					MouseArrowClass.pickedObjects.get(0).Animation.getCurrentImage());
 			
 			//FlatWorld.StaticObjectsBase.rendObject(pickedObjectTypeID,
 			//		MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);

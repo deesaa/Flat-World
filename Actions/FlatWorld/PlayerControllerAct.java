@@ -12,25 +12,25 @@ public class PlayerControllerAct extends Action {
 		float tempMoveX = 0.0f, tempMoveY = 0.0f;
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-		    Object.Animations.pickAnimation("left");
+		    Object.Animation.pickAnimation(2);
 			Object.Modifiers.pointerToLookingSystem.VecViewDirX = -1.0f; 
 			Object.Modifiers.pointerToLookingSystem.VecViewDirY =  0.0f; 
 			tempMoveX = -Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			 Object.Animations.pickAnimation("right");
+			Object.Animation.pickAnimation(3);
 			Object.Modifiers.pointerToLookingSystem.VecViewDirX =  1.0f; 
 			Object.Modifiers.pointerToLookingSystem.VecViewDirY =  0.0f; 
 			tempMoveX = Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			 Object.Animations.pickAnimation("forward");
+			 Object.Animation.pickAnimation(1);
 			Object.Modifiers.pointerToLookingSystem.VecViewDirX =  0.0f; 
 			Object.Modifiers.pointerToLookingSystem.VecViewDirY =  1.0f; 
 			tempMoveY = Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			 Object.Animations.pickAnimation("back");
+			Object.Animation.pickAnimation(0);
 			Object.Modifiers.pointerToLookingSystem.VecViewDirX =  0.0f; 
 			Object.Modifiers.pointerToLookingSystem.VecViewDirY = -1.0f; 
 			tempMoveY = -Object.moveSpeed;
@@ -38,11 +38,10 @@ public class PlayerControllerAct extends Action {
 		
 		if (tempMoveX != 0 || tempMoveY != 0) {
 			Object.move(tempMoveX, tempMoveY, 0.0f);
-			Object.Animations.updateAnimation();
 			MapsManager.updatePlayerPos(Object.OwnedMapID, Object.PosGlobalX,
 					Object.PosGlobalY);
 		} else {
-			Object.Animations.restart();
+			Object.Animation.restart();
 		}
 	}
 

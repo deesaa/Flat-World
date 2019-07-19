@@ -2,7 +2,7 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
-enum OffersMessages{Nothing, PickUp, DirectAttack, DirectRadiusAttack, RandomMoving};
+enum OffersMessages{Nothing, PickUp, DirectAttack, DirectRadiusAttack, RandomMoving, Destroy};
 
 public class StructOfOffer {
 	public ArrayOffersElement  OfferElement = null;

@@ -15,25 +15,19 @@ public class ContainersArrayClass {
 	float lenght, height;
 	
 	TexturesClass backgroundTexture;
-	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
 	
 	Map<String, pCellsGroup> cellsGroupsArray = new Hashtable<String, pCellsGroup>();
 	int lastEndID = 0;
 	
 	BasicObjectClass currentOwnerObject;
 	
-	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
-			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
+	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture){
 		this.numCellsInLine = numCellsInLine;
 		this.numLines = numLines;
 		this.indentX  = indentX;
 		this.indentY  = indentY;
 		
-		this.backgroundTexture = backgroundTexture;
-		this.BGExpandUp    = BGExpandUp;
-		this.BGExpandDown  = -BGExpandDown;
-		this.BGExpandRight = BGExpandRight;
-		this.BGExpandLeft  = -BGExpandLeft;
+		this.backgroundTexture = backgroundTexture;;
 		
 		for (int i = 0; i != numCellsInLine; i++) {
 			for (int i2 = 0; i2 != numLines; i2++) {
@@ -48,8 +42,8 @@ public class ContainersArrayClass {
 		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()));
 	}
 	
-	public ContainerCell addContainer(float CellPosX, float CellPosY, StringVars equipSetts) {
-		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(equipSetts));
+	public ContainerCell addContainer(float CellPosX, float CellPosY, String EquipPlace, String EquipModifier) {
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(EquipPlace, EquipModifier));
 		return InventoryCellsArray.get(InventoryCellsArray.size()-1);
 	}
 	
@@ -141,7 +135,7 @@ public class ContainersArrayClass {
 	}
 	
 	public void rend(float PosX, float PosY, float PosZ){
-		if(backgroundTexture != null){
+		/*if(backgroundTexture != null){
 			GL11.glTranslatef(PosX, PosY, PosZ);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -163,10 +157,10 @@ public class ContainersArrayClass {
 			GL11.glVertex2f(0.0f+this.BGExpandLeft, height+this.BGExpandUp);
 			GL11.glEnd();
 			GL11.glLoadIdentity();
-		}
+		}*/
 		
 		for (int i = 0; i != InventoryCellsArray.size(); i++) {
-			InventoryCellsArray.get(i).rendObject(PosX, PosY, PosZ, QuadClass.standardQuad);
+			InventoryCellsArray.get(i).rendObject(PosX, PosY, PosZ, QuadClass.standardQuad, InventoryCellsArray.get(i).Animation.getCurrentImage());
 			InventoryCellsArray.get(i).rendCellContent();
 			InventoryCellsArray.get(i).rendCellContentCounter();
 		}

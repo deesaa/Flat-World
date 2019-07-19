@@ -2,7 +2,11 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
+
+import FlatWorld.ImageTagsClass.ImageTag;
 
 
 enum EquipSysMode{State, Owner};
@@ -30,7 +34,7 @@ public class EquipmentSystem extends Action{
 		for(int i = 0; i != anatomy.anatomy.length; i++){
 			for(int i2 = 0; i2 != anatomy.anatomy[i].length; i2++){
 				if(anatomy.anatomy[i][i2].getVal("EP").compareTo("Nothing") != 0)
-					this.Inventory.addContainer(0.0f+indentX+i2, 0.0f+indentY-i, anatomy.anatomy[i][i2]);
+					this.Inventory.addContainer(0.0f+indentX+i2, 0.0f+indentY-i, anatomy.anatomy[i][i2].getVal("EP"), anatomy.anatomy[i][i2].getVal("EPl"));
 			}
 		}
 		Inventory.pushGroup("EquipInv");
@@ -77,22 +81,33 @@ public class EquipmentSystem extends Action{
 	}
 
 	public void rendAction(BasicObjectClass Object) {
-		String currentAnimation = Object.Animations.pickedAnimation;
-		if(Object.Animations.FlaggedAnimations.get(currentAnimation).pFlaggedImagesArray.size() != 0 && this.euipSysMode == EquipSysMode.Owner){;
+		if(this.euipSysMode == euipSysMode.Owner){
 			for(int i = 0; i < pEqipmentCellsArray.size(); i++){
-				ImageTag currentTag = Object.Animations.getTag(pEqipmentCellsArray.get(i).equipSetts);
-				ImageTag currentSubTag = Object.Animations.getSubTag(pEqipmentCellsArray.get(i).equipSetts);
-				if(pEqipmentCellsArray.get(i).ObjectsArray.size() != 0){
-					ImageTag currentObjTag = pEqipmentCellsArray.get(i).ObjectsArray.get(0).Animations.getTagByLocalShiftName(currentTag.Settings);
-					ImageTag finalTag = FlaggedImage.computeFinalTag(Object, currentTag, currentObjTag, currentSubTag);	
-					GL11.glTranslatef(finalTag.shiftX, finalTag.shiftY, finalTag.shiftZ);
-					GL11.glRotatef(finalTag.angle, currentTag.rotateX, currentTag.rotateY, currentTag.rotateZ);
-					if(currentSubTag != null)
-						GL11.glRotatef(currentSubTag.angle, currentSubTag.rotateX, currentSubTag.rotateY, currentSubTag.rotateZ);
-					pEqipmentCellsArray.get(i).ObjectsArray.get(0).rendObject(0, 0, 0, QuadClass.iconQuad);
-				}
+				if(pEqipmentCellsArray.get(i).ObjectsArray.size() != 0)
+					EquipmentSystem.rendEquippedObject(Object, pEqipmentCellsArray.get(i).ObjectsArray.get(0), pEqipmentCellsArray.get(i).EquipPlace, pEqipmentCellsArray.get(i).EquipModifier);
 			}
-		}  
+		}
+	}
+	
+	public static void rendEquippedObject(BasicObjectClass Owner, BasicObjectClass Object, String EquipPlace, String EquipModifier){
+		ImageClass OwnerImage = Owner.Animation.getCurrentImage();
+		ImageClass ObjectImage = Object.Animation.getCurrentImage();
+		ImageTag currentOwnerTag = OwnerImage.imageTags.getTag(EquipPlace, EquipModifier);
+		ImageTag currentObjectTag = ObjectImage.imageTags.getTag(EquipPlace, EquipModifier);	
+		ImageTag finalTagAnimation = Owner.Animation.getFinalTagAnimation(EquipPlace, EquipModifier);
+		GL11.glTranslatef(
+				Owner.PosGlobalX+currentOwnerTag.shiftX+(currentObjectTag.shiftX*currentOwnerTag.dirX), 
+				Owner.PosGlobalY+currentOwnerTag.shiftY+(currentObjectTag.shiftY*currentOwnerTag.dirX), 
+				Owner.PosGlobalZ+currentOwnerTag.shiftZ+currentObjectTag.shiftZ);
+		
+		GL11.glRotatef(currentOwnerTag.angle, currentOwnerTag.rotateX, currentOwnerTag.rotateY, currentOwnerTag.rotateZ);
+		
+		if(finalTagAnimation != null){
+			GL11.glTranslatef(finalTagAnimation.shiftX, finalTagAnimation.shiftY, finalTagAnimation.shiftZ);
+			GL11.glRotatef(finalTagAnimation.angle, finalTagAnimation.rotateX, finalTagAnimation.rotateY, finalTagAnimation.rotateZ);
+		}
+		
+		Object.rendObject(0, 0, 0, QuadClass.iconQuad, Object.Animation.getCurrentImage());
 	}
 
 	public void zeroAction(BasicObjectClass basicObjectClass) {
@@ -104,12 +119,23 @@ public class EquipmentSystem extends Action{
 		
 	}
 
-	public boolean checkEquipPlace(StringVars EquipSetts) {
+	public boolean checkEquipPlace(String EquipPlace) {
 		String[] tempEquipPlaces = equipPlaces.getArrayVals("EPPl");
 		for(int i = 0; i < tempEquipPlaces.length; i++){
-			if(tempEquipPlaces[i].compareTo(EquipSetts.getVal("EP")) == 0)
+			if(tempEquipPlaces[i].compareTo(EquipPlace) == 0)
 				return true;
 		}
 		return false;
+	}
+
+	public ContainerCell getContainer(String EquipPlace, String EquipModifier) {
+		for(int i = 0; i < pEqipmentCellsArray.size(); i++){
+			if(this.pEqipmentCellsArray.get(i).EquipPlace.compareTo(EquipPlace)       == 0 &&
+			   this.pEqipmentCellsArray.get(i).EquipModifier.compareTo(EquipModifier) == 0)
+			{
+				return this.pEqipmentCellsArray.get(i);	 
+			}
+		}
+		return null;
 	}
 }

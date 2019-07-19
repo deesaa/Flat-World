@@ -4,11 +4,14 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import FlatWorld.ImageTagsClass.ImageTag;
+
 public class ImageClass {
 	Image image;
 	SpriteSheet.SpriteClass sprite;
 	ImageTagsClass imageTags;
 	
+	public ImageClass() {}
 	public ImageClass(SpriteSheet.SpriteClass sprite) {
 		this.sprite = sprite;
 	}
@@ -16,7 +19,7 @@ public class ImageClass {
 	public ImageClass(String name) {
 		image = loadImage(name);
 	}
-	
+
 	public void bind() {
 		if(sprite != null)
 			sprite.pSpriteShield.bind();
@@ -26,6 +29,11 @@ public class ImageClass {
 	
 	public ImageClass setTags(StringVars vars){
 		imageTags = new ImageTagsClass(vars);
+		return this;
+	}
+	
+	public ImageClass setTags(ImageTag[] tagsArray){
+		imageTags = new ImageTagsClass(tagsArray);
 		return this;
 	}
 	

@@ -1,0 +1,44 @@
+ObjectName = "Chest"
+
+Shadows = true
+Pickable = true
+Clickable = true
+
+Inventory =
+{
+	numObjectsInLine = 4, 
+	numLines = 4,
+	shiftX = -4.0f,
+	shiftY = 2.0
+} 
+
+function createObject(Object, stObjectsElements)
+	if not stObjectsElements:openContainer(ObjectName) then
+		loadImages(Object, stObjectsElements)
+	end
+	loadAnimation(Object, stObjectsElements)
+	stObjectsElements:closeContainer()
+	
+	Object:enableShadows()
+	Object:pickableTrue()
+	Object:clickableTrue()
+	Object:initInventory(4, 4, -4.0f, 2.0f)
+end
+
+function invUpdateHook()
+end
+
+function loadAnimation(Object, stImagesArray)
+	MainAnimation = Object:initMainAnimation(0, "Chest")
+	MainAnimation:createAnimation(0, "ChestClose")
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 0)
+	MainAnimation:createAnimation(1, "ChestOpen")
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(1), 0)
+	MainAnimation:pickAnimation(0)
+end
+
+function loadImages(Object, stObjectsElements)
+		stObjectsElements:loadSpriteSheet("data/objects/Chest.png", 16, 16)
+		stObjectsElements:createImage(0, 0)
+		stObjectsElements:createImage(1, 0)
+end

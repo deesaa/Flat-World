@@ -49,7 +49,7 @@ public class BattleSystem extends Action{
 						double angle = Object.Modifiers.pointerToLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
 						Object.Modifiers.pointerToOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
 								OffersMessages.DirectAttack, this, 15);
-					}
+					} 
 				}
 			}
 		} else {
@@ -105,7 +105,7 @@ public class BattleSystem extends Action{
 		}
 		
 		if(Offer.message == OffersMessages.DirectRadiusAttack){
-			Object.Animations.pickSubAnimation("simpleAttack");
+			Object.Animation.getTagAnimation(0).playOnce();
 			for(int i = 0; i < Offer.OffersElements.size(); i++){
 				BasicObjectClass interactingObject = Offer.OffersElements.get(i).interactingObject;
 				BattleSystem.getDamage(1.0f, interactingObject, Object);
@@ -138,7 +138,7 @@ public class BattleSystem extends Action{
 		//}
 		
 		//for(int i = 0; i < doingObjectBOSES.size(); i++){
-	//		finalDamage += doingObjectBOSES.get(i).damage;
+	    //		finalDamage += wwwwwdoingObjectBOSES.get(i).damage;
 		//}
 		
 		Object.Modifiers.pointerToBattleSystem.healpoints -= finalDamage;

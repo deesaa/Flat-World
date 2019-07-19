@@ -9,7 +9,8 @@ import org.lwjgl.util.vector.Vector3f;
 public class MapClass {
 	int MapID;
 	float PlayerGlobalPosX, PlayerGlobalPosY;
-	BasicObjectClass PlayerObject = null;
+	BasicObjectClass pPlayer = null;
+	BasicObjectClass objectUnderArrow = null;
 	
 	float distToCutChunksGlobalX, distToCutChunksGlobalY;
 	int chunksPerScreenX, chunksPerScreenY;
@@ -19,7 +20,7 @@ public class MapClass {
 	public ArrayList<ChunkClass> ChunksArray = new ArrayList<ChunkClass>();
 	public ArrayList<ChunkClass> VisibleChunksArray = new ArrayList<ChunkClass>();
 	public LightingMapClass lightingMap = new LightingMapClass();
-	WeatherGlobalSystem WeatherSystem = new WeatherGlobalSystem(10000);
+	WeatherGlobalSystem WeatherSystem = new WeatherGlobalSystem(500);
 
 	// Ќомер карты; расто€ние до начала обрезани€ чанков по X; расто€ние до
 	// начала обрезани€ чанков по Y; глобальное расположение объекта(игрока) по
@@ -34,7 +35,7 @@ public class MapClass {
 		this.distToCutChunksGlobalY = chunksPerScreenY * ChunkClass.numLines;
 
 		this.loadChunks();
-		this.isChunkCreated(new Vector2f(PlayerGlobalPosX, PlayerGlobalPosY)).addPlayer(PlayerGlobalPosX, PlayerGlobalPosY);
+		pPlayer = this.isChunkCreated(new Vector2f(PlayerGlobalPosX, PlayerGlobalPosY)).addPlayer(PlayerGlobalPosX, PlayerGlobalPosY);
 	}
 	
 	public void loadChunks(){
@@ -93,6 +94,8 @@ public class MapClass {
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).updateChunk();
 		}
+		
+		this.objectUnderArrow = this.getObjectUnderArrowAround();
 	}
 
 	public void rendMap() {
@@ -138,10 +141,10 @@ public class MapClass {
 		ChunksArray.get(object.OwnedChunkID).addObject(object);
 	}
 
-	public BasicObjectClass getObjectUnderArrowAround(BasicObjectClass object) {
+	private BasicObjectClass getObjectUnderArrowAround() {
 		BasicObjectClass result = null;
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
-			result = VisibleChunksArray.get(i).getObjectUnderArrow(object);
+			result = VisibleChunksArray.get(i).getObjectUnderArrow();
 			if (result != null)
 				return result;
 		}

@@ -7,29 +7,29 @@ import org.newdawn.slick.SlickException;
 
 public class SpriteSheet {
 	Image spriteSheet;
-	int titleWidth, titleHeight;
+	int tileWidth, tileHeight;
 	int numTitlesInLine, numLines;
-	SpriteSheet(String name, int titleWidth, int titleHeight){
+	SpriteSheet(String name, int tileWidth, int tileHeight){
 		try {
 			spriteSheet = new Image(name, GL11.GL_NEAREST);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		
-		this.titleWidth = titleWidth;
-		this.titleHeight = titleHeight;
-		numTitlesInLine = spriteSheet.getWidth()/this.titleWidth;
-		numLines = spriteSheet.getHeight()/this.titleHeight;
+		this.tileWidth = tileWidth;
+		this.tileHeight = tileHeight;
+		numTitlesInLine = spriteSheet.getWidth()/this.tileWidth;
+		numLines = spriteSheet.getHeight()/this.tileHeight;
 	}
 	
 	public SpriteClass getSprite(int numberInLine, int line){
 		if(line >= numLines || numberInLine >= numTitlesInLine)
 			return null;
 		
-		int pixelX = numberInLine*titleWidth;
-		int pixelY = line*titleHeight;
-		int pixelEndX = pixelX+titleWidth;
-		int pixelEndY = pixelY+titleHeight;
+		int pixelX = numberInLine*tileWidth;
+		int pixelY = line*tileHeight;
+		int pixelEndX = pixelX+tileWidth;
+		int pixelEndY = pixelY+tileHeight;
 		
 		Vector2f spriteStart = new Vector2f((float)1/spriteSheet.getWidth()*pixelX, (float)1/spriteSheet.getHeight()*pixelY);
 		Vector2f spriteEnd = new Vector2f((float)1/spriteSheet.getWidth()*pixelEndX, (float)1/spriteSheet.getHeight()*pixelEndY);

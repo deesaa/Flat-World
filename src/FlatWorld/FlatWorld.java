@@ -28,6 +28,7 @@ public class FlatWorld {
 	public static int InventoryCounterQuad;
 	public static float InventoryCounterQuadWidth, InventoryCounterQuadHeight;
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
+	public static StaticObjectsElements objectsStatic = new StaticObjectsElements();
 	public static KeyboardManager globalKeyLocker = new KeyboardManager();
 	public static MainMenuClass mainMenu = new MainMenuClass();
 	public static CameraClass mainCamera = new CameraClass(Display.getWidth(), Display.getHeight(), 45.0f, 100.0f);
@@ -39,8 +40,7 @@ public class FlatWorld {
 		TextFieldClass.initSymbols();
 		TextRenderModule.initSymbols();
 		
-		//LuaValue val = JsePlatform.standardGlobals();
-		//val.get("dofile").call(LuaValue.valueOf("LuaScript.txt"));
+		ObjectsLoader.load();
 		
 		String message = mainMenu.mainMenu();
 		if(message.compareTo("ExitGame") != 0){
@@ -93,7 +93,6 @@ public class FlatWorld {
 			updateDelta();
             MapsManager.updateMap();
    			MapsManager.rendMap();
-   		//	System.out.println(delta);
    			
 			MouseArrowClass.updateArrow();
 			GL11.glLoadIdentity();

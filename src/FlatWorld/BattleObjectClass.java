@@ -26,6 +26,8 @@ public class BattleObjectClass {
 		this.resist = resist;
 	}
 	
+	
+	
 	public float getDamage(){
 		return damage;
 	}

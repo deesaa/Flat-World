@@ -22,12 +22,12 @@ public class AnatomySystem extends Action{
 	
 	public static void initElements(){
 		AnatomyElements.put("Nothing", new AnatomyElement("Nothing", 0, null));
-		AnatomyElements.put("Head", new AnatomyElement("Head", 1, "data/GUI/HeadEq.png"));
-		AnatomyElements.put("Arm", new AnatomyElement("Arm", 2, "data/GUI/ArmEq.png"));
-		AnatomyElements.put("Leg", new AnatomyElement("Leg", 3, "data/GUI/LegEq.png"));
-		AnatomyElements.put("Hand", new AnatomyElement("Hand", 4, "data/GUI/HandEq.png"));
-		AnatomyElements.put("Body", new AnatomyElement("Body", 5, "data/GUI/BodyEq.png"));
-		AnatomyElements.put("Foot", new AnatomyElement("Foot", 6, "data/GUI/FootEq.png"));
+		AnatomyElements.put("Head", new AnatomyElement("Head", 1, new ImageClass("data/GUI/HeadEq.png")));
+		AnatomyElements.put("Arm", new AnatomyElement("Arm", 2, new ImageClass("data/GUI/ArmEq.png")));
+		AnatomyElements.put("Leg", new AnatomyElement("Leg", 3, new ImageClass("data/GUI/LegEq.png")));
+		AnatomyElements.put("Hand", new AnatomyElement("Hand", 4, new ImageClass("data/GUI/HandEq.png")));
+		AnatomyElements.put("Body", new AnatomyElement("Body", 5, new ImageClass("data/GUI/BodyEq.png")));
+		AnatomyElements.put("Foot", new AnatomyElement("Foot", 6, new ImageClass("data/GUI/FootEq.png")));
 	}
 
 	public void updateAction(BasicObjectClass Object) {

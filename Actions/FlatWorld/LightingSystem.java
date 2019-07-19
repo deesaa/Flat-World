@@ -68,7 +68,6 @@ public class LightingSystem extends Action{
 			float VecViewDirY = 1.0f;
 			float VecViewDirX = 0.0f;
 			double angle = Math.toDegrees(Math.atan2(vecToObjectX*VecViewDirY - VecViewDirX*vecToObjectY, vecToObjectX*VecViewDirX + vecToObjectY*VecViewDirY));
-			Object.Animations.Animations.get(Object.Animations.pickedAnimation).getCurrentFrame().bind();
 			GL11.glTranslatef(Object.PosGlobalX+QuadClass.standardQuad.width*0.5f, Object.PosGlobalY, Object.PosGlobalZ);
 			GL11.glRotated(-angle, 0, 0, 1);
 			if(Math.abs(angle) > 90)
@@ -85,7 +84,7 @@ public class LightingSystem extends Action{
 			//GL11.glColor4f(0, 0, 0, ((1.0f+TheCostil)-(curr+alpha))/shadowsArray.size());    //оюбепед аюи йняршкэ
 			GL11.glColor4f(0, 0, 0, (1.0f-(curr+alpha))/(shadowsArray.size()*0.8f));
 
-			new QuadClass(QuadClass.standardQuad.width, QuadClass.standardQuad.height*1.25f, false).rend();
+			new QuadClass(QuadClass.standardQuad.width, QuadClass.standardQuad.height*1.25f, false).rend(Object.Animation.getCurrentImage());
 			GL11.glLoadIdentity();
 		}
 	}	
@@ -110,5 +109,9 @@ public class LightingSystem extends Action{
 			this.distToOrigin = distToOrigin;
 			this.origin = origin;
 		}
+	}
+	
+	public void setType(){
+		System.out.println(322);
 	}
 }

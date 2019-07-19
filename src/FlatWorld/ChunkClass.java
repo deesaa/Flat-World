@@ -30,15 +30,23 @@ public class ChunkClass {
 				CellsArray.add(new DirtClass(genPosX + i, genPosY + i2, genPosZ, chunkID, OwnedMap, CellsArray.size()));
 			}
 		}
-	    ObjectsArray.add(new ZombieClass(genPosX + 5.1f, genPosY + 3.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+	   // ObjectsArray.add(new ZombieClass(genPosX + 5.1f, genPosY + 3.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
 	}
 
-	public void addPlayer(float PlayerPosX, float PlayerPosY) {
-		ObjectsArray.add(new PlayerClass(PlayerPosX, PlayerPosY, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));	
-		ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+	public PlayerClass addPlayer(float PlayerPosX, float PlayerPosY) {
+		PlayerClass pPlayer = new PlayerClass(PlayerPosX, PlayerPosY, genPosZ, chunkID, OwnedMap, ObjectsArray.size());
+		ObjectsArray.add(pPlayer);	
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 5.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		//ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new AxeClass(genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+		ObjectsArray.add(new TreeClass(genPosX + 2.1f, genPosY + 5.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 5.1f, genPosY + 4.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 6.9f, genPosY + 1.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 3.1f, genPosY + 3.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		return pPlayer;
 	}
 
 	public void updateChunk() {
@@ -52,7 +60,7 @@ public class ChunkClass {
 			this.qSort(0, ObjectsArray.size()-1);
 		
 		for (int i = 0; i < ObjectsArray.size(); i++) {
-			ObjectsArray.get(i).rendObject(QuadClass.standardQuad);
+			ObjectsArray.get(i).rendObject(QuadClass.standardQuad, ObjectsArray.get(i).Animation.getCurrentImage());
 		}
 	}
 	
@@ -107,16 +115,16 @@ public class ChunkClass {
 		MapsManager.relocateToRelevantChunk(ObjectsArray.get(ObjectsArray.size() - 1));
 	}
 
-	public BasicObjectClass getObjectUnderArrow(BasicObjectClass object) {
-		for (int i = 0; i != ObjectsArray.size(); i++) {
+	public BasicObjectClass getObjectUnderArrow() {
+		for (int i = ObjectsArray.size()-1; i >= 0; i--) {
 			BasicObjectClass tempObject = ObjectsArray.get(i);
-			if (tempObject.Modifiers.isClickable == true &&
-				tempObject.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
+			if (tempObject.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
 				tempObject.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
 				tempObject.PosGlobalY 					            < MouseArrowClass.ArrowWorldCoordY &&
 				tempObject.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
+				objectUnderArrow.underArrow = true;
 				return objectUnderArrow;
 			}
 		}

@@ -1,5 +1,7 @@
 package FlatWorld;
 
+import org.luaj.vm2.LuaValue;
+
 
 
 public class CollisionSystem extends Action{
@@ -16,6 +18,17 @@ public class CollisionSystem extends Action{
 		this.shiftY = shiftY;
 	}
 	
+	public CollisionSystem(BasicObjectClass Object, LuaValue configs) {
+		super(Object);
+		Object.Modifiers.pointerToCollisionSystem = this;
+	//	Object.Modifiers.isSolid = true;
+		
+		float tSphereRadius = -1f,  tShiftX = 0, tShiftY = 0;
+		this.sphereRadius = ObjectsLoader.getValue(configs, "sphereRadius", tSphereRadius);
+		this.shiftX       = ObjectsLoader.getValue(configs, "shiftX", tShiftX);
+		this.shiftY       = ObjectsLoader.getValue(configs, "shiftY", tShiftY);
+	}
+	
 	public static boolean checkCollision(BasicObjectClass Object1, BasicObjectClass Object2){
 		CollisionSystem collSys1 = Object1.Modifiers.pointerToCollisionSystem;
 		CollisionSystem collSys2 = Object2.Modifiers.pointerToCollisionSystem;
@@ -30,7 +43,8 @@ public class CollisionSystem extends Action{
 			return false;
 		}
 		
-		float d = (Object1.PosGlobalX-Object2.PosGlobalX)*(Object1.PosGlobalX-Object2.PosGlobalX)+(Object1.PosGlobalY-Object2.PosGlobalY)*(Object1.PosGlobalY-Object2.PosGlobalY);
+		float d = ((Object1.PosGlobalX+collSys1.shiftX)-(Object2.PosGlobalX+collSys2.shiftX))*((Object1.PosGlobalX+collSys1.shiftX)-(Object2.PosGlobalX+collSys2.shiftX))+
+				  ((Object1.PosGlobalY+collSys1.shiftY)-(Object2.PosGlobalY+collSys2.shiftY))*((Object1.PosGlobalY+collSys1.shiftY)-(Object2.PosGlobalY+collSys2.shiftY));
 		if(d < (collSys1.sphereRadius+collSys2.sphereRadius)*(collSys1.sphereRadius+collSys2.sphereRadius) && d > (collSys1.sphereRadius-collSys2.sphereRadius)*(collSys1.sphereRadius-collSys2.sphereRadius)){
 			return true;
 		}

@@ -3,7 +3,7 @@ package FlatWorld;
 import java.util.ArrayList;
 
 public class StringVars {
-	private String mainString;
+	public String mainString;
 	//private String bindedArray, ;
 	
 	public StringVars() {

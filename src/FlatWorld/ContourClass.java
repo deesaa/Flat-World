@@ -1,17 +1,15 @@
 package FlatWorld;
 
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-
 public class ContourClass extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
 
-	public static Image CellTexture;
+	public static ImageClass CellTexture;
+	
 	{
-		super.Animations = new AnimationsList("contour");
-		super.Animations.addAnimationImage(CellTexture, 300);
+		super.Animation = new AnimationClass(0, "Contour");
+		super.Animation.addFrame(CellTexture, 300);
+		super.Animation.pickAnimation();
 	}
 
 	ContourClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
@@ -24,16 +22,14 @@ public class ContourClass extends BasicObjectClass {
 	}
 
 	public static void initObject() {
-		try {
-			CellTexture = new Image("data/GUI/Contour.png", GL11.GL_NEAREST);
-		} catch (SlickException e) { e.printStackTrace();}
+		CellTexture = new ImageClass("data/GUI/Contour.png");
 	}
 
 	public void rendObject(QuadClass Quad) {
-		super.rendObject(Quad);
+		super.rendObject(Quad, CellTexture);
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad, CellTexture);
 	}
 }

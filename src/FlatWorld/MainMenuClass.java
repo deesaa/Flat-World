@@ -8,8 +8,8 @@ import org.newdawn.slick.Image;
 public class MainMenuClass implements MessagesHandler{
 	Windows mainMenuWindows = new Windows(this);
 	int button1 = 1, exitButton = 2, newGameButton = 3;
-	Image unpressedButton = AnimationsList.loadImage("data/GUI/MenuButton.png");
-	Image pressedButton = AnimationsList.loadImage("data/GUI/PressedMenuButton.png");
+	Image unpressedButton = ImageClass.loadImage("data/GUI/MenuButton.png");
+	Image pressedButton = ImageClass.loadImage("data/GUI/PressedMenuButton.png");
 	QuadClass mainMenuTextQuad = new QuadClass(4.0f, 3.0f, false); 
 	boolean closeMessage = false;
 	String outMessage;
