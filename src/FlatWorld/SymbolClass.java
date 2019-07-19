@@ -19,7 +19,7 @@ public class SymbolClass {
 	}
 
 	public void rendSymbol(int QuadType) {
-		this.Texture.setTextureByAnimation();
+		this.Texture.setTexture();
 		GL11.glCallList(QuadType);
 	}
 }

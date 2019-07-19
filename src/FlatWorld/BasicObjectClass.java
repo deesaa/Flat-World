@@ -18,7 +18,7 @@ public class BasicObjectClass {
 	ObjectTypes ObjectType;
 	float moveSpeed;
 
-	public TexturesClass Textures;
+	public AnimationsList Animations;
 
 	ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();
@@ -37,8 +37,8 @@ public class BasicObjectClass {
 
 		Modifiers.isAlphaBlend = isAlphaBlend;
 		Modifiers.isSolid = isSolid;
-		Modifiers.isPickable = isPickable;
-		if (Modifiers.isPickable)
+		Modifiers.isClickable = isPickable;
+		if (Modifiers.isClickable)
 			this.setButtonOnObject();
 	}
 
@@ -107,7 +107,7 @@ public class BasicObjectClass {
 		}
 	}
 
-	private void rendActions() {
+	public void rendActions() {
 		for (int i = 0; i < ActionsArray.size(); i++) {
 			ActionsArray.get(i).rendAction(this);
 		}
@@ -118,7 +118,7 @@ public class BasicObjectClass {
 		GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
 		GL11.glCallList(QuadType);
 		if (Modifiers.hasContour) {
-			ContourClass.Textures.setTextureByAnimation();
+			ContourClass.Textures.setTexture();
 			GL11.glCallList(QuadType);
 		}
 		GL11.glLoadIdentity();

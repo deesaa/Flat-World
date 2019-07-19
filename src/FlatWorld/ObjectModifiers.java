@@ -5,7 +5,7 @@ public class ObjectModifiers {
 	public boolean isOpen = false;
 	public boolean isAlphaBlend = false;
 	public boolean isSolid = false;
-	public boolean isPickable = false;
+	public boolean isClickable = false;
 	public boolean hasContour = false;
 	public boolean isButton = false;
 	
@@ -14,4 +14,7 @@ public class ObjectModifiers {
     MovingSystem     pointerToMovingSystem;
 	BattleSystem     pointerToBattleSystem;
 	InventorySystem  pointerToInventorySystem;
-}
+	PickingSystem    pointerToPickingSystem;
+	AnatomySystem    pointerToAnatomySystem;
+    EqipmentSystem   pointerToEqipmentSystem;
+}  

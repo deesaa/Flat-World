@@ -50,10 +50,10 @@ public class MouseArrowClass {
 		MouseArrowClass.rend();
 		
 		if(catcherContainer != null){
-			if (catcherContainer.PosGlobalX + catcherContainer.Owner.PosGlobalX + catcherContainer.indentX  								> MouseArrowClass.ArrowWorldCoordX ||
-				catcherContainer.PosGlobalX + catcherContainer.Owner.PosGlobalX + catcherContainer.indentX  + FlatWorld.StandardQuadHeight  < MouseArrowClass.ArrowWorldCoordX ||
-				catcherContainer.PosGlobalY + catcherContainer.Owner.PosGlobalY + catcherContainer.indentY 						            > MouseArrowClass.ArrowWorldCoordY ||
-				catcherContainer.PosGlobalY + catcherContainer.Owner.PosGlobalY + catcherContainer.indentY  + FlatWorld.StandardQuadWidth   < MouseArrowClass.ArrowWorldCoordY)
+			if (catcherContainer.PosGlobalX  								> MouseArrowClass.ArrowWorldCoordX ||
+				catcherContainer.PosGlobalX + FlatWorld.StandardQuadHeight  < MouseArrowClass.ArrowWorldCoordX ||
+				catcherContainer.PosGlobalY						            > MouseArrowClass.ArrowWorldCoordY ||
+				catcherContainer.PosGlobalY + FlatWorld.StandardQuadWidth   < MouseArrowClass.ArrowWorldCoordY)
 			{
 				catcherContainer = null;
 			}
@@ -64,8 +64,12 @@ public class MouseArrowClass {
 				int size = pickedObjects.size();
 				if (catcherContainer.pickedObjectTypeID == -1 || pickedObjectTypeID == catcherContainer.pickedObjectTypeID) {
 					for (int i = 0; i < size; i++) {
-						catcherContainer.addObject(pickedObjects.get(pickedObjects.size()-1));
-						pickedObjects.remove(pickedObjects.size()-1);
+						if(catcherContainer.addObject(pickedObjects.get(pickedObjects.size()-1)) == false){
+							backContainers();
+							break;
+						}
+						else 
+							pickedObjects.remove(pickedObjects.size()-1);
 					}
 					pickedObjectTypeID = -1;
 					throwerContainer = null;
@@ -120,6 +124,18 @@ public class MouseArrowClass {
 		} 
 	}
 	
+	private static void backContainers(){
+		int size = pickedObjects.size();
+		
+		for (int i = 0; i < size; i++) {
+			throwerContainer.addObject(pickedObjects.get(pickedObjects.size()-1));
+			pickedObjects.remove(pickedObjects.size()-1);
+		}
+		pickedObjectTypeID = -1;
+		throwerContainer = null;
+		catcherContainer = null;
+	}
+	
 	private static void rend(){
 		if(throwerContainer != null && pickedObjectTypeID != -1)
 		{	
@@ -150,8 +166,10 @@ public class MouseArrowClass {
 						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
 			}
 			
-			FlatWorld.StaticObjectsBase.rendObject(pickedObjectTypeID,
-					MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);
+			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);
+			
+			//FlatWorld.StaticObjectsBase.rendObject(pickedObjectTypeID,
+			//		MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);
 			
 			if(pickedObjects.size() > 1)
 			{

@@ -36,8 +36,8 @@ public class PlayerGUIAct implements Action{
 		
 		float depthStandard = 0.9968301f;
 		
-		//FloatBuffer z = BufferUtils.createFloatBuffer(3);
-		//GL11.glReadPixels(clickX, clickY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
+	//	FloatBuffer z = BufferUtils.createFloatBuffer(3);
+	//	GL11.glReadPixels(Mouse.getX(), Mouse.getY(), 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
 		
 		int zeroCoordX, CoordX;
 		

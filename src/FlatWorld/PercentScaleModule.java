@@ -32,7 +32,7 @@ public class PercentScaleModule {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
 			
-			backgroundTexture.setTextureByAnimation();
+			backgroundTexture.setTexture();
 
 			GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 			GL11.glTexCoord2f(0.0f, 1.0f);
@@ -54,7 +54,7 @@ public class PercentScaleModule {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
 			
-			fillerTexture.setTextureByAnimation();
+			fillerTexture.setTexture();
 			//float b = maxVal*0.01f; float g = Val/b; float f = lenght*0.01f;
 			float fillerLenght = (lenght*0.01f)*Val/(maxVal*0.01f);
 

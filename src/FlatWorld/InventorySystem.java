@@ -11,7 +11,7 @@ public class InventorySystem implements Action{
 	int cellUnderArrow = -1;
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
-			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) 
+			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft, KeyboardManager localLocker) 
 	{
 		Object.Modifiers.pointerToInventorySystem = this;
 		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture, BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft);
@@ -24,15 +24,29 @@ public class InventorySystem implements Action{
 		if(Object.ObjectType == ObjectTypes.Player){
 			this.updatePlayerAction(Object);
 		} else {
-			
+			if(isInventoryVisible){
+				float tempDistGlobalX = 1.4f;
+				float tempDistGlobalY = 1.4f;
+				float tempHightDistGlobalX = -1.4f;
+				float tempHightDistGlobalY = -1.4f;
+				if (MapsManager.getPlayerPosX() + tempHightDistGlobalX > Object.PosGlobalX ||
+					MapsManager.getPlayerPosX() + tempDistGlobalX 	   < Object.PosGlobalX ||
+					MapsManager.getPlayerPosY() + tempHightDistGlobalY > Object.PosGlobalY ||
+					MapsManager.getPlayerPosY() + tempDistGlobalY	   < Object.PosGlobalY)
+				{
+					isInventoryVisible = false;
+				}
+			}
 		}
 		
-		ContainerCell tempCont = Invntory.getContainerUnderArrow();
-		if(tempCont != null)
-			cellUnderArrow = tempCont.ObjectID;
-		
-		if(cellUnderArrow != -1 && localKeyLocker.isMouseButtonDown(0, true))
-			Invntory.mouseTransfer(cellUnderArrow);
+		if(isInventoryVisible){
+			ContainerCell tempCont = Invntory.getContainerUnderArrow();
+			if(tempCont != null)
+				cellUnderArrow = tempCont.ObjectID;
+			
+			if(cellUnderArrow != -1)
+				Invntory.mouseTransfer(cellUnderArrow);
+		}
 	}
 
 	public void rendAction(BasicObjectClass Object) {
@@ -45,15 +59,24 @@ public class InventorySystem implements Action{
 	}
 
 	public void zeroAction(BasicObjectClass basicObjectClass) {
-		
+		isInventoryVisible = false;
+		cellUnderArrow = -1;
 	}
 	
 	private void updatePlayerAction(BasicObjectClass Object) {
 		if(localKeyLocker.isKeyDown(Keyboard.KEY_E, true))
 			isInventoryVisible = !isInventoryVisible;
 	}
+	
+	public boolean addObject(BasicObjectClass pickedObject) {
+		return Invntory.addObject(pickedObject);
+	}
 
 	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
 		
+	}
+
+	public void dropAllAround(BasicObjectClass Object) {
+		Invntory.dropAll(Object);
 	}
 }

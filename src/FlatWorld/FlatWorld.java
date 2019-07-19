@@ -1,16 +1,11 @@
 package FlatWorld;
 
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
-import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
 public class FlatWorld {
 	private static long lastFrame, fps, lastFPS;
@@ -24,8 +19,9 @@ public class FlatWorld {
 	public static int InventoryCounterQuad;
 	public static float InventoryCounterQuadWidth, InventoryCounterQuadHeight;
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
-	
-	//public static ContainersArrayClass CAC = new ContainersArrayClass(2, 2, 2f, 2f, null, 0, 0, 0, 0);
+	public static KeyboardManager globalContainersTransferLocker = new KeyboardManager();
+	//public static Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+	//public static TrueTypeFont font;
 
 	public static void startFlatWorld() {
 		updateDelta();
@@ -35,9 +31,8 @@ public class FlatWorld {
 		initIconQuad();
 		initInventoryCounterQuad();
 		TextFieldClass.initSymbols();
-
-		//CAC.addContainer(6.0f, 3.0f);
-		//CAC.addContainer(6.0f, 4.0f);
+		//awtFont = new Font("Times New Roman", Font.BOLD, 54);
+		//font = new TrueTypeFont(awtFont, false);;
 		
 		MapsManager.initMap();
 		FWMainLoop();
@@ -51,10 +46,6 @@ public class FlatWorld {
 			MapsManager.rendMap();
 			MouseArrowClass.updateArrow();
 			
-		//	CAC.rend(0, 0, 0);
-			//TextFieldClass.rendText("Inspired by Infiniminer, Dwarf Fortress and Dungeon Keeper, created by Markus Persson, the founder of Mojang AB", 
-			//		-10.0f, 0, -25.0f, StandardQuad, 0.7f);
-
 			Display.update();
 			updateFPS();
 		}
@@ -82,7 +73,7 @@ public class FlatWorld {
 	public static void initStandardQuad() {
 		StandardQuad = GL11.glGenLists(1);
 		GL11.glNewList(StandardQuad, GL11.GL_COMPILE);
-		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0.0f, 1.0f);
 		GL11.glVertex3f(0.0f, 0.0f, 0.0f);
 		
@@ -104,7 +95,7 @@ public class FlatWorld {
 	public static void initPerspectStandardQuad() {
 		PerspectStandardQuad = GL11.glGenLists(1);
 		GL11.glNewList(PerspectStandardQuad, GL11.GL_COMPILE);
-		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0.0f, 1.0f);
 		GL11.glVertex3f(0.0f, 0.0f, 0.0f);
 		
@@ -126,7 +117,7 @@ public class FlatWorld {
 	public static void initIconQuad() {
 		IconQuad = GL11.glGenLists(1);
 		GL11.glNewList(IconQuad, GL11.GL_COMPILE_AND_EXECUTE);
-		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0.0f, 1.0f);
 		GL11.glVertex2f(0.0f, 0.0f);
 		GL11.glTexCoord2f(1.0f, 1.0f);
@@ -145,7 +136,7 @@ public class FlatWorld {
 	public static void initInventoryCounterQuad() {
 		InventoryCounterQuad = GL11.glGenLists(1);
 		GL11.glNewList(InventoryCounterQuad, GL11.GL_COMPILE_AND_EXECUTE);
-		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0.0f, 1.0f);
 		GL11.glVertex2f(0.0f, 0.0f);
 		GL11.glTexCoord2f(1.0f, 1.0f);

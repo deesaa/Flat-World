@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 
 public class BattleSystem implements Action{
-	public ArrayList<Integer> EnemiesArray = new ArrayList<Integer>();
+	public ArrayList<Integer> EnemiesArray;
 	public TexturesClass PerHealScaleTex;
 	public Vector3f PerHealScaleContourColor;
 	public PercentScaleModule PerHealScale;
@@ -15,52 +15,74 @@ public class BattleSystem implements Action{
 	public PlayerGUIAct PlayerGUI;
 	float maxHealpoints, healpoints;
 	
-	BattleSystem(BasicObjectClass Object, TexturesClass PerHealScaleTex, Vector3f PerHealScaleContourColor, int maxHealpoints, int healpoints){
+	KeyboardManager KM;
+	
+	BattleObjectClass battleObjectState;
+	
+	public BattleSystem(BasicObjectClass Object, TexturesClass PerHealScaleTex, Vector3f PerHealScaleContourColor, int maxHealpoints, int healpoints, ArrayList<Integer> EnemiesArray) {
 		Object.Modifiers.pointerToBattleSystem = this;
 		
 		this.PerHealScaleTex = PerHealScaleTex;
 		this.PerHealScaleContourColor = PerHealScaleContourColor;
 		this.maxHealpoints = maxHealpoints;
 		this.healpoints    = healpoints;
-		this.initEnemiesList(Object.ObjectTypeID);
+		this.EnemiesArray = EnemiesArray;
 		
-		PerHealScale = new PercentScaleModule(1.7f, 0.1f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, null, 0, 0, 0, 0);
+		if(PerHealScaleTex != null || PerHealScaleContourColor != null)
+			PerHealScale = new PercentScaleModule(1.7f, 0.1f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, null, 0, 0, 0, 0);
 	}
 	
-	BattleSystem(BasicObjectClass Object, PlayerGUIAct PlayerGUI, int maxHealpoints, int healpoints){
+	public BattleSystem(BasicObjectClass Object, BattleObjectClass battleObjectState){
 		Object.Modifiers.pointerToBattleSystem = this;
-		
-		this.PlayerGUI = PlayerGUI;
-		this.PlayerGUI.initHealScale(maxHealpoints);
-		this.maxHealpoints = maxHealpoints;
-		this.healpoints    = healpoints;
-		this.initEnemiesList(Object.ObjectTypeID);
+		this.battleObjectState = battleObjectState;
 	}
 	
+	public BattleSystem() {}
+
+	public BattleSystem linkPlayerGUI(PlayerGUIAct PlayerGUI){
+		this.PlayerGUI = PlayerGUI;
+		this.PlayerGUI.initHealScale((int) maxHealpoints);
+		KM = new KeyboardManager();
+		return this;
+	}
+
 	public void updateAction(BasicObjectClass Object) {
 		if(PlayerGUI == null){
 			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pointerToLookingSystem.VisibleObjectsArray;
 			for(int i = 0; i < tempVisibleObjectsArray.size(); i++){
 				for(int i2 = 0; i2 < EnemiesArray.size(); i2++){
-					if(tempVisibleObjectsArray.get(i).ObjectTypeID == EnemiesArray.get(i2)){
-						float fObjPosX = Object.PosGlobalX;
-						float fObjPosY = Object.PosGlobalY;
-						float sObjPosX = tempVisibleObjectsArray.get(i).PosGlobalX;
-						float sObjPosY = tempVisibleObjectsArray.get(i).PosGlobalY;
-						
-						double distX = (fObjPosX - sObjPosX) * (fObjPosX - sObjPosX);
-						double distY = (fObjPosY - sObjPosY) * (fObjPosY - sObjPosY);
-						double finalDist = Math.sqrt((distX + distY));
-						
-						double angle = Object.Modifiers.pointerToLookingSystem.findAngle(Object, tempVisibleObjectsArray.get(i));
-						
-						Object.Modifiers.pointerToOffersList.addOffer(tempVisibleObjectsArray.get(i), finalDist, angle, OffersMessages.DirectAttack, this, 15);
+					if(tempVisibleObjectsArray.get(i).ObjectTypeID == EnemiesArray.get(i2)){	
+						double finalDist = FlatMath.objectDist(Object, tempVisibleObjectsArray.get(i));
+						double angle = Object.Modifiers.pointerToLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
+						Object.Modifiers.pointerToOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
+								OffersMessages.DirectAttack, this, 15);
 					}
 				}
 			}
 		} else {
-			if(Mouse.isButtonDown(0)){
-				
+			if(KM.isMouseButtonDown(0, true)){
+				MapClass tempMap = MapsManager.MapsArray.get(Object.OwnedMapID);
+				ArrayList<ArrayOffersElement> OffersElementsArray = new ArrayList<ArrayOffersElement>();
+				for(int i = 0; i < tempMap.ChunksArray.size(); i++){
+					ChunkClass tempChunk = tempMap.ChunksArray.get(i);
+					for(int i2 = 0; i2 < tempChunk.ObjectsArray.size(); i2++){
+						BasicObjectClass tempObject = tempChunk.ObjectsArray.get(i2);
+						for(int i3 = 0; i3 < EnemiesArray.size(); i3++){
+							if(tempObject.ObjectTypeID == EnemiesArray.get(i3) && tempObject.ObjectType != ObjectTypes.Player){
+								double angle = FlatMath.vecPointAngle(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, Object.PosGlobalX, Object.PosGlobalY,
+										tempObject.PosGlobalX, tempObject.PosGlobalY, Object.PosGlobalX, Object.PosGlobalY);
+								if(angle > -60 && angle < 60){
+									double finalDist = FlatMath.objectDist(Object, tempObject);
+									if(finalDist <= 2.2f){
+										OffersElementsArray.add(new ArrayOffersElement(tempObject, finalDist, angle));
+									}
+								}
+							}
+						}
+					}
+				}	
+				if(OffersElementsArray.size() != 0)
+					Object.Modifiers.pointerToOffersList.addOffersArray(OffersElementsArray, OffersMessages.DirectRadiusAttack, this, 15);
 			}
 		}
 	}
@@ -84,16 +106,27 @@ public class BattleSystem implements Action{
 	public void zeroAction(BasicObjectClass basicObjectClass) {
 		
 	}
-	
-	private void initEnemiesList(int ObjectTypeID){
-		if(ObjectTypeID == ZombieClass.ObjectTypeID){
-			EnemiesArray.add(PlayerClass.ObjectTypeID);
+
+	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
+		if(Offer.message == OffersMessages.DirectAttack && Offer.OfferElement.distance < 0.8f){
+			Offer.OfferElement.interactingObject.Modifiers.pointerToBattleSystem.getDamage(0.04f, Offer.OfferElement.interactingObject);
+		}
+		
+		if(Offer.message == OffersMessages.DirectRadiusAttack){
+			for(int i = 0; i < Offer.OffersElements.size(); i++){
+				BasicObjectClass interactingObject = Offer.OffersElements.get(i).interactingObject;
+				interactingObject.Modifiers.pointerToBattleSystem.getDamage(7.0f, interactingObject);
+			}
 		}
 	}
 
-	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
-		if(Offer.distance < 0.8f && Offer.message == OffersMessages.DirectAttack){
-			Offer.interactingObject.Modifiers.pointerToBattleSystem.healpoints -= 0.1;
+	private void getDamage(float damage, BasicObjectClass Object) {
+		this.healpoints -= damage;
+		
+		if(this.healpoints <= 0){
+			Object.Modifiers.pointerToInventorySystem.dropAllAround(Object);
+			MapsManager.deleteObject(Object.OwnedMapID, Object.OwnedChunkID, Object.ObjectID);
 		}
 	}
 }
+

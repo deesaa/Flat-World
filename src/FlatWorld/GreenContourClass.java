@@ -18,12 +18,12 @@ public class GreenContourClass extends BasicObjectClass{
 	}
 
 	public void rendObject(int QuadType) {
-		GreenContourClass.Textures.setTextureByAnimation();
+		GreenContourClass.Textures.setTexture();
 		super.rendObject(QuadType);
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY,float tPosGlobalZ, int QuadType) {
-		GreenContourClass.Textures.setTextureByAnimation();
+		GreenContourClass.Textures.setTexture();
 		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType);
 	}
 }

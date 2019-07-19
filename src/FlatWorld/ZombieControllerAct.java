@@ -43,10 +43,10 @@ public class ZombieControllerAct implements Action {
 		}
 
 		if (tempMoveX != 0 || tempMoveY != 0) {
-			Object.Textures.updateAnimation();
+			Object.Animations.updateAnimation();
 			Object.move(tempMoveX, tempMoveY, 0.0f);
 		} else {
-			Object.Textures.restartAnimation();
+			Object.Animations.restart();
 		}
 	}
 

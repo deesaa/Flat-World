@@ -16,6 +16,8 @@ public class ContainersArrayClass {
 	TexturesClass backgroundTexture;
 	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
 	
+	boolean leftButtonLocked = false;
+	
 	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
 		this.numCellsInLine = numCellsInLine;
@@ -42,6 +44,10 @@ public class ContainersArrayClass {
 		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()));
 	}
 	
+	public void addContainer(float CellPosX, float CellPosY, int equipPlace) {
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size(), equipPlace));
+	}
+	
 	public ContainerCell getContainerUnderArrow(){
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			ContainerCell tempCell = InventoryCellsArray.get(i);
@@ -57,40 +63,48 @@ public class ContainersArrayClass {
 	}
 	
 	public void mouseTransfer(int ContainerID){
-		MouseArrowClass.addContainer(InventoryCellsArray.get(ContainerID));
+		if (Mouse.isButtonDown(0)) {
+			MouseArrowClass.addContainer(InventoryCellsArray.get(ContainerID));
+			if (leftButtonLocked == false) {
 				
-		int size = InventoryCellsArray.get(ContainerID).ObjectsArray.size();
-		if(size > 0){
-			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-				for (int i2 = 0; i2 < size; i2++) {
-					MouseArrowClass.addObject(InventoryCellsArray.get(ContainerID).ObjectsArray.get(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1));
-					InventoryCellsArray.get(ContainerID).ObjectsArray.remove(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1);
+				int size = InventoryCellsArray.get(ContainerID).ObjectsArray.size();
+				if(size > 0){
+					if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+						for (int i2 = 0; i2 < size; i2++) {
+							MouseArrowClass.addObject(InventoryCellsArray.get(ContainerID).ObjectsArray.get(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1));
+							InventoryCellsArray.get(ContainerID).ObjectsArray.remove(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1);
+						}
+					} else {
+						MouseArrowClass.addObject(InventoryCellsArray.get(ContainerID).ObjectsArray.get(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1));
+						InventoryCellsArray.get(ContainerID).ObjectsArray.remove(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1);
+					}
 				}
-			} else {
-				MouseArrowClass.addObject(InventoryCellsArray.get(ContainerID).ObjectsArray.get(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1));
-				InventoryCellsArray.get(ContainerID).ObjectsArray.remove(InventoryCellsArray.get(ContainerID).ObjectsArray.size() - 1);
-			}
-		}
 				
-		if (InventoryCellsArray.get(ContainerID).ObjectsArray.size() == 0)
-			InventoryCellsArray.get(ContainerID).pickedObjectTypeID = -1;
+				if (InventoryCellsArray.get(ContainerID).ObjectsArray.size() == 0)
+					InventoryCellsArray.get(ContainerID).pickedObjectTypeID = -1;
+			}
+			leftButtonLocked = true;
+		} else
+			leftButtonLocked = false;
 	}
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			if (InventoryCellsArray.get(i).pickedObjectTypeID == pickedObject.ObjectTypeID) {
-				InventoryCellsArray.get(i).addObject(pickedObject);
-				pickedObject.zeroObject();
-				MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
-				return true;
+				if(InventoryCellsArray.get(i).addObject(pickedObject)){
+					pickedObject.zeroObject();
+					MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
+					return true;
+				}
 			}
 		}
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			if (InventoryCellsArray.get(i).pickedObjectTypeID == -1) {
-				InventoryCellsArray.get(i).addObject(pickedObject);
-				pickedObject.zeroObject();
-				MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
-				return true;
+				if(InventoryCellsArray.get(i).addObject(pickedObject)){
+					pickedObject.zeroObject();
+					MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -109,7 +123,7 @@ public class ContainersArrayClass {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
 			
-			backgroundTexture.setTextureByAnimation();
+			backgroundTexture.setTexture();
 
 			GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 			GL11.glTexCoord2f(0.0f, 1.0f);
@@ -131,6 +145,24 @@ public class ContainersArrayClass {
 			InventoryCellsArray.get(i).rendObject(PosX, PosY, PosZ, FlatWorld.StandardQuad);
 			InventoryCellsArray.get(i).rendCellContent();
 			InventoryCellsArray.get(i).rendCellContentCounter();
+		}
+	}
+
+	public void dropAll(BasicObjectClass Object) {
+		for(int i = 0; i < InventoryCellsArray.size(); i++){
+			int size = InventoryCellsArray.get(i).ObjectsArray.size();
+			if(size > 0){
+				for (int i2 = 0; i2 < size; i2++) {
+					BasicObjectClass tempObject = null;
+					tempObject = InventoryCellsArray.get(i).ObjectsArray.get(InventoryCellsArray.get(i).ObjectsArray.size()-1);
+					tempObject.PosGlobalX = Object.PosGlobalX-0.5f;
+					tempObject.PosGlobalY = Object.PosGlobalY;
+					tempObject.PosGlobalZ = -25.0f;
+
+					MapsManager.addObject(tempObject);
+					InventoryCellsArray.get(i).ObjectsArray.remove(InventoryCellsArray.get(i).ObjectsArray.size() - 1);
+				}
+			}
 		}
 	}
 }

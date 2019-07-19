@@ -161,6 +161,26 @@ public class MapClass {
 		return null;
 	}
 	
+	public ArrayList<BasicObjectClass> buildObjectListBy(BasicObjectClass Origin, float distance){
+		ArrayList<BasicObjectClass> objectsList = new ArrayList<BasicObjectClass>();
+		
+		for(int i = 0; i < this.ChunksArray.size(); i++){
+			ChunkClass tempChunk = this.ChunksArray.get(i);
+			for(int i2 = 0; i2 < tempChunk.ObjectsArray.size(); i2++){
+				BasicObjectClass tempObject = tempChunk.ObjectsArray.get(i2);
+				double finalDist = FlatMath.objectDist(Origin, tempObject);
+				if(finalDist <= distance){
+					objectsList.add(tempObject);
+				}
+			}
+		}	
+		
+		if(objectsList.size() != 0)
+			return objectsList;
+		else 
+			return null;
+	}
+	
 	private void rebuildVisibleChunksArray(){
 		VisibleChunksArray.clear();
 		

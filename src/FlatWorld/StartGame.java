@@ -11,6 +11,7 @@ public class StartGame {
 	public static void main(String[] args) {
 		initDisplay();
 		startOpenGL();
+		AnatomySystem.initElements();
 		FlatWorld.startFlatWorld();
 
 		finalDestroy();

@@ -6,7 +6,7 @@ import java.util.Collections;
 import org.lwjgl.input.Mouse;
 
 public class ChunkClass {
-	public static int numObjectsInLine = 16, numLines = 16;
+	public static int numObjectsInLine = 8, numLines = 8;
 	public ArrayList<BasicObjectClass> CellsArray = new ArrayList<BasicObjectClass>();
 	public ArrayList<BasicObjectClass> ObjectsArray = new ArrayList<BasicObjectClass>();
 	public int chunkID;
@@ -31,16 +31,15 @@ public class ChunkClass {
 				CellsArray.add(new DirtClass(ChunkGlobalPosX + i, ChunkGlobalPosY + i2, ChunkGlobalPosZ, chunkID, OwnedMap, CellsArray.size()));
 			}
 		}
-		ObjectsArray.add(new ZombieClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 6.3f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-	    ObjectsArray.add(new ZombieClass(ChunkGlobalPosX + 4.1f, ChunkGlobalPosY + 7.3f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+	    ObjectsArray.add(new ZombieClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 3.3f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 	}
 
 	public void addPlayer(float PlayerPosX, float PlayerPosY) {
 		ObjectsArray.add(new PlayerClass(PlayerPosX, PlayerPosY, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 8.1f, ChunkGlobalPosY + 7.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 6.1f, ChunkGlobalPosY + 7.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new ChestClass(ChunkGlobalPosX + 2.1f, ChunkGlobalPosY + 9.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 7.1f, ChunkGlobalPosY + 9.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 1.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 3.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new ChestClass(ChunkGlobalPosX + 4.1f, ChunkGlobalPosY + 3.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TorchClass(ChunkGlobalPosX + 6.1f, ChunkGlobalPosY + 4.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 	}
 
 	public void updateChunk() {
@@ -50,7 +49,8 @@ public class ChunkClass {
 	}
 
 	public void rendChunkObjects() {
-		this.qSort(0, ObjectsArray.size()-1);
+		if(ObjectsArray.size() != 0)
+			this.qSort(0, ObjectsArray.size()-1);
 		
 		for (int i = 0; i < ObjectsArray.size(); i++) {
 			ObjectsArray.get(i).rendObject(FlatWorld.StandardQuad);
@@ -121,9 +121,7 @@ public class ChunkClass {
 				tempCell.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
-				if(objectUnderArrow.Modifiers.isPickable == true){
-					return objectUnderArrow;
-				}
+				return objectUnderArrow;
 			}
 		}
 		return null;
