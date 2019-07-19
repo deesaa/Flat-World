@@ -111,8 +111,8 @@ public class BattleSystem implements Action{
 	}
 
 	private static void getDamage(float initialDamage, BasicObjectClass Object, BasicObjectClass Owner) {
-		ArrayList<BattleObjectClass> gettingObjectFBOS = Object.Modifiers.pointerToEqipmentSystem.getBattleObjectsList();
-		ArrayList<BattleObjectClass> doingObjectFBOS = Owner.Modifiers.pointerToEqipmentSystem.getBattleObjectsList();
+		ArrayList<BattleObjectClass> gettingObjectFBOS = Object.Modifiers.pointerToEquipmentSystem.getBattleObjectsList();
+		ArrayList<BattleObjectClass> doingObjectFBOS = Owner.Modifiers.pointerToEquipmentSystem.getBattleObjectsList();
 		
 		float finalDamage = initialDamage;
 		float finalResist = 0;

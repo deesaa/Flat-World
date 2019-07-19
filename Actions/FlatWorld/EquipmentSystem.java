@@ -21,7 +21,7 @@ public class EquipmentSystem implements Action{
 	AnatomySystem anatomy;
 
 	EquipmentSystem(BasicObjectClass Object, AnatomySystem anatomy, float indentX, float indentY, ContainersArrayClass Inventory){
-		Object.Modifiers.pointerToEqipmentSystem = this;
+		Object.Modifiers.pointerToEquipmentSystem = this;
 		this.euipSysMode = EquipSysMode.Owner;
 		this.anatomy = anatomy;
 		this.Inventory = Inventory;
@@ -37,7 +37,7 @@ public class EquipmentSystem implements Action{
 	}
 	
 	public EquipmentSystem(BasicObjectClass Object, StringVars equipPlaces){
-		Object.Modifiers.pointerToEqipmentSystem = this;
+		Object.Modifiers.pointerToEquipmentSystem = this;
 		this.euipSysMode = EquipSysMode.State;
 		this.equipPlaces = equipPlaces;
 		

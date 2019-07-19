@@ -89,8 +89,8 @@ public class ContainerCell extends BasicObjectClass {
 			ObjectsArray.add(pickedObject);
 			return true;
 		} else {
-			if(pickedObject.Modifiers.pointerToEqipmentSystem != null){
-				if(pickedObject.Modifiers.pointerToEqipmentSystem.checkEquipPlace(equipSetts)){
+			if(pickedObject.Modifiers.pointerToEquipmentSystem != null){
+				if(pickedObject.Modifiers.pointerToEquipmentSystem.checkEquipPlace(equipSetts)){
 					this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 					ObjectsArray.add(pickedObject);
 					return true;

@@ -17,7 +17,7 @@ public class ObjectModifiers {
 	public InventorySystem  pointerToInventorySystem;
 	public PickingSystem    pointerToPickingSystem;
 	public AnatomySystem    pointerToAnatomySystem;
-	public EquipmentSystem  pointerToEqipmentSystem;
+	public EquipmentSystem  pointerToEquipmentSystem;
 	public BattleObjectAct  pointerToBattleObjectAct;
 	public CollisionSystem  pointerToCollisionSystem;
 }  

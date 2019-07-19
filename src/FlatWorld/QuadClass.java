@@ -10,6 +10,7 @@ public class QuadClass {
 	public static final QuadClass standardQuad 		   = new QuadClass(1.0f, 1.0f, true);
 	public static final QuadClass iconQuad 			   = new QuadClass(0.6f, 0.6f, true);
 	public static final QuadClass inventoryCounterQuad = new QuadClass(0.45f, 0.45f, true);
+	public static final QuadClass menuSymbols		   = new QuadClass(2.0f, 2.0f, true);
 	
 	public QuadClass(float width, float height, boolean addToList) {
 		this.width  = width;

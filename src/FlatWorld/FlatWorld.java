@@ -1,5 +1,7 @@
 package FlatWorld;
 
+import java.awt.Font;
+
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -7,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.TrueTypeFont;
 
 public class FlatWorld {
 	private static long lastFrame, fps, lastFPS;
@@ -22,30 +25,29 @@ public class FlatWorld {
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
 	public static KeyboardManager globalKeyLocker = new KeyboardManager();
 	public static MainMenuClass mainMenu = new MainMenuClass();
-	//public static Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-	//public static TrueTypeFont font;
 
 	public static void startFlatWorld() {
 		updateDelta();
 		updateTime();
 		initStandardQuad();
 		TextFieldClass.initSymbols();
-		//awtFont = new Font("Times New Roman", Font.BOLD, 54);
-		//font = new TrueTypeFont(awtFont, false);
-		mainMenu.mainMenu();
-		MapsManager.initMap();
-		FWMainLoop();
+		TextRenderModule.initSymbols();
+		String message = mainMenu.mainMenu();
+		if(message.compareTo("ExitGame") != 0){
+			if(message.compareTo("NewGame") == 0){
+				MapsManager.initMap();
+				FWMainLoop();
+			}
+		}
 	}
 
 	public static void FWMainLoop() {
-
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			updateDelta();
 			MapsManager.updateMap();
 			MapsManager.rendMap();
 			MouseArrowClass.updateArrow();
-			
 			GL11.glLoadIdentity();
 			Display.update();
 			updateFPS();
