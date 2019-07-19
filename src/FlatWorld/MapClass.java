@@ -2,6 +2,8 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 public class MapClass {
 	int MapID;
 	float PlayerGlobalPosX, PlayerGlobalPosY;
@@ -60,7 +62,8 @@ public class MapClass {
 		float tempDistToCutChunksGlobalY      =  distToCutChunksGlobalY*0.5f;
 		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX*0.5f+ChunkClass.numObjectsInLine;
 		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY*0.5f+ChunkClass.numLines;
-		   
+		GL11.glClear( GL11.GL_COLOR_BUFFER_BIT |  GL11.GL_DEPTH_BUFFER_BIT); 
+		
 		for(int i = 0; i < ChunksArray.size(); i++){
 			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
 			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
@@ -70,7 +73,22 @@ public class MapClass {
 			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
 			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY	     >  PlayerGlobalPosY)
 			{
-					ChunksArray.get(i).updateChunk();
+					ChunksArray.get(i).rendButtons();
+			}
+		}
+		
+		FlatWorld.updateColorUnderArrow();
+		
+		for(int i = 0; i < ChunksArray.size(); i++){
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&
+			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
+			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
+			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY	     >  PlayerGlobalPosY)
+			{
+				ChunksArray.get(i).updateChunk();
 			}
 		}
 	}
@@ -126,19 +144,17 @@ public class MapClass {
 			{
 				found = true;
 				if(i != object.OwnedChunkID){
+					int lastObjectID     = object.ObjectID;
+					int lastOwnedChunkID = object.OwnedChunkID;
+					
 					for(int i2 = object.ObjectID+1; i2 < ChunksArray.get(object.OwnedChunkID).ObjectsArray.size(); i2++){
 						ChunksArray.get(object.OwnedChunkID).ObjectsArray.get(i2).ObjectID--;
 					}
 					
-					try {
-						ChunksArray.get(i).ObjectsArray.add(ChunksArray.get(object.OwnedChunkID).ObjectsArray.get(object.ObjectID).clone());
-					} catch (CloneNotSupportedException e) {
-						e.printStackTrace();
-					}
-					
+					ChunksArray.get(i).ObjectsArray.add(object);
 					ChunksArray.get(i).ObjectsArray.get(ChunksArray.get(i).ObjectsArray.size()-1).OwnedChunkID = i;
 					ChunksArray.get(i).ObjectsArray.get(ChunksArray.get(i).ObjectsArray.size()-1).ObjectID     = ChunksArray.get(i).ObjectsArray.size()-1;
-					ChunksArray.get(object.OwnedChunkID).ObjectsArray.remove(object.ObjectID);
+					ChunksArray.get(lastOwnedChunkID).ObjectsArray.remove(lastObjectID);
 					
 					if(object.ObjectType == ObjectTypes.Player)
 						this.createNeededChunksAround(ChunksArray.get(i).ChunkPosX, ChunksArray.get(i).ChunkPosY);
@@ -147,29 +163,66 @@ public class MapClass {
 		}
 		return found;
 	}
-
-	public boolean checkNoClip(BasicObjectClass object) {
-		
+	
+	//Принимает проверяемый объект; возвращает пересекаемый объект или null
+	//Проверяет только видимые чанки вокруг игрока
+	public BasicObjectClass checkCollision(BasicObjectClass object) {
 		float tempDistToCutChunksGlobalX	  =  distToCutChunksGlobalX*0.5f;
 		float tempDistToCutChunksGlobalY      =  distToCutChunksGlobalY*0.5f;
 		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX*0.5f+ChunkClass.numObjectsInLine;
 		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY*0.5f+ChunkClass.numLines;
-		boolean result = false;
+		BasicObjectClass result = null;
 		
 		for(int i = 0; i < ChunksArray.size(); i++){
 			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
 			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
 			
-			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&  //Проверка идет только в видимых чанках
 			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
 			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
 			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY 	 >  PlayerGlobalPosY)
 			{	
-				result = ChunksArray.get(i).checkNoClip(object);
-				if(result == true)
-					return true;
+				result = ChunksArray.get(i).checkCollision(object);
+				if(result != null)
+					return result;
 			}
 		}
-		return false;
+		return null;
+	}
+	
+
+	public void deleteObject(int OwnedChunkID, int ObjectID) {
+		for(int i2 = ObjectID+1; i2 < ChunksArray.get(OwnedChunkID).ObjectsArray.size(); i2++){
+			ChunksArray.get(OwnedChunkID).ObjectsArray.get(i2).ObjectID--;
+		}
+		ChunksArray.get(OwnedChunkID).ObjectsArray.remove(ObjectID);
+	}
+
+	public void addObject(BasicObjectClass object) {
+		ChunksArray.get(object.OwnedChunkID).addObject(object);
+	}
+
+	public BasicObjectClass getObjectUnderArrowAround(BasicObjectClass object) {
+		float tempDistToCutChunksGlobalX	  =  distToCutChunksGlobalX*0.5f;
+		float tempDistToCutChunksGlobalY      =  distToCutChunksGlobalY*0.5f;
+		float tempHightDistToCutChunksGlobalX = -distToCutChunksGlobalX*0.5f+ChunkClass.numObjectsInLine;
+		float tempHightDistToCutChunksGlobalY = -distToCutChunksGlobalY*0.5f+ChunkClass.numLines;
+		BasicObjectClass result = null;
+		
+		for(int i = 0; i < ChunksArray.size(); i++){
+			float tempChunkGlobalPosX = ChunksArray.get(i).ChunkGlobalPosX;
+			float tempChunkGlobalPosY = ChunksArray.get(i).ChunkGlobalPosY;
+			
+			if(tempChunkGlobalPosX + tempHightDistToCutChunksGlobalX <  PlayerGlobalPosX &&  //Проверка идет только в видимых чанках
+			   tempChunkGlobalPosX + tempDistToCutChunksGlobalX 	 >  PlayerGlobalPosX &&	
+			   tempChunkGlobalPosY + tempHightDistToCutChunksGlobalY <  PlayerGlobalPosY &&
+			   tempChunkGlobalPosY + tempDistToCutChunksGlobalY 	 >  PlayerGlobalPosY)
+			{	
+				result = ChunksArray.get(i).getObjectUnderArrow(object);
+				if(result != null)
+					return result;
+			}
+		}
+		return null;
 	}
 }

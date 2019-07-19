@@ -3,7 +3,7 @@ package FlatWorld;
 import org.lwjgl.input.Keyboard;
 
 public class PlayerControllerAct implements Action{
-	public void update(BasicObjectClass Object) {
+	public void updateAction(BasicObjectClass Object) {
 		float tempMoveX = 0.0f, tempMoveY = 0.0f;
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)){
@@ -29,5 +29,21 @@ public class PlayerControllerAct implements Action{
 		} else {
 			Object.Textures.restartAnimation();
 		}
+	}
+
+	public void rendAction(BasicObjectClass Object) {
+		
+	}
+
+	@Override
+	public void rendButtons(BasicObjectClass Object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroAction(BasicObjectClass basicObjectClass) {
+		// TODO Auto-generated method stub
+		
 	}
 }

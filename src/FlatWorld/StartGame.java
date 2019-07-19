@@ -38,7 +38,7 @@ public class StartGame {
 		GL11.glLoadIdentity(); // Reset The Modelview Matrix 
 
 		GL11.glShadeModel(GL11.GL_SMOOTH); // Enables Smooth Shading 
-		GL11.glClearColor(0.0f, 0.3f, 0.45f, 0.0f); // Black Background 
+		GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Black Background 
 		GL11.glClearDepth(1.0f); // Depth Buffer Setup 
 		GL11.glEnable(GL11.GL_DEPTH_TEST); // Enables Depth Testing 
 		GL11.glDepthFunc(GL11.GL_LEQUAL); // The Type Of Depth Test To Do 

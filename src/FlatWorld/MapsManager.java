@@ -31,7 +31,27 @@ public class MapsManager {
 		return MapsArray.get(object.OwnedMapID).relocateToRelevantChunk(object);
 	}
 
-	public static boolean checkNoClip(BasicObjectClass object) {
-		return MapsArray.get(object.OwnedMapID).checkNoClip(object);
+	public static BasicObjectClass checkNoClip(BasicObjectClass object) {
+		return MapsArray.get(object.OwnedMapID).checkCollision(object);
+	}
+	
+	public static BasicObjectClass getObjectUnderArrowAround(BasicObjectClass object){
+		return MapsArray.get(object.OwnedMapID).getObjectUnderArrowAround(object);
+	}
+
+	public static void deleteObject(int OwnedMapID, int OwnedChunkID,int ObjectID) {
+		MapsArray.get(OwnedMapID).deleteObject(OwnedChunkID, ObjectID);
+	}
+
+	public static void addObject(BasicObjectClass object) {
+		MapsArray.get(object.OwnedMapID).addObject(object);
+	}
+	
+	public static float getPlayerPosX(){
+		return MapsArray.get(pickedMap).PlayerGlobalPosX;
+	}
+	
+	public static float getPlayerPosY(){
+		return MapsArray.get(pickedMap).PlayerGlobalPosY;
 	}
 }

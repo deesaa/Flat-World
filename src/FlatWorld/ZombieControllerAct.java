@@ -3,7 +3,7 @@ package FlatWorld;
 import java.util.Random;
 
 public class ZombieControllerAct implements Action{
-	public void update(BasicObjectClass Object) {
+	public void updateAction(BasicObjectClass Object) {
 		
 		int minGenMoveVec = 1, maxGenMoveVec = 8;
 		Random generator = new Random(System.currentTimeMillis() >> 1 * Object.ObjectID);
@@ -48,5 +48,20 @@ public class ZombieControllerAct implements Action{
 		} else {
 			Object.Textures.restartAnimation();
 		}
+	}
+
+	public void rendAction(BasicObjectClass Object) {
+	}
+
+	@Override
+	public void rendButtons(BasicObjectClass Object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void zeroAction(BasicObjectClass basicObjectClass) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.newdawn.slick.opengl.Texture;
 
 public class PlayerClass extends BasicObjectClass{
+	public static int ObjectTypeID;
 	public static Map<Integer, Texture> TexturesArray = new Hashtable<Integer, Texture>(4, (float)0.8);
 	{
 		super.Textures = new TexturesClass(TexturesArray);
@@ -25,17 +26,32 @@ public class PlayerClass extends BasicObjectClass{
 	}
 	
 	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID){
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, true, ObjectID);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, true, ObjectID, PlayerClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new PlayerControllerAct());
+		super.ActionsArray.add(new PlayerInventoryAct(3, 3));
+	}
+	
+	PlayerClass(){
+		super(ObjectTypes.Player, 0.005f, true, PlayerClass.ObjectTypeID, true);
+		super.ActionsArray.add(new PlayerControllerAct());
+		super.ActionsArray.add(new PlayerInventoryAct(3, 3));
+	}
+	
+	public static void initObject(int bObjectTypeID){
+		ObjectTypeID = bObjectTypeID;
 	}
 	
 	public void updateObject(){
-		//System.out.println( "Player :  Map "+super.OwnedMapID + " Chunk " + super.OwnedChunkID +  " ID " + super.ObjectID);
 		super.updateObject();
 	}
 	
-	public void rendObject(){
+	public void rendObject(int QuadType, boolean rendAsButton){
 		super.Textures.setTextureByAnimation();
-		super.rendObject();
+		super.rendObject(QuadType, rendAsButton);
+	}
+	
+	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType, boolean rendAsButton){
+		super.Textures.setTextureByAnimation();
+		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType, rendAsButton);
 	}
 }

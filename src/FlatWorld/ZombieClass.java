@@ -6,6 +6,7 @@ import java.util.Map;
 import org.newdawn.slick.opengl.Texture;
 
 public class ZombieClass extends BasicObjectClass{
+	public static int ObjectTypeID;
 	public static Map<Integer, Texture> TexturesArray = new Hashtable<Integer, Texture>(4, (float)0.8);
 	{
 		super.Textures = new TexturesClass(TexturesArray);
@@ -17,17 +18,30 @@ public class ZombieClass extends BasicObjectClass{
 	}
 	
 	ZombieClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID){
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, 0.001f, true, ObjectID);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, 0.001f, true, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new ZombieControllerAct());
 	}
 	
+	ZombieClass(){
+		super(ObjectTypes.Mob, 0.001f, true, ZombieClass.ObjectTypeID, true);
+		super.ActionsArray.add(new ZombieControllerAct());
+	}
+	
+	public static void initObject(int bObjectTypeID){
+		ObjectTypeID = bObjectTypeID;
+	}
+	
 	public void updateObject(){
-		//System.out.println( "Zombie :  Map "+super.OwnedMapID + " Chunk " + super.OwnedChunkID +  " ID " + super.ObjectID);
 		super.updateObject();
 	}
 	
-	public void rendObject(){
+	public void rendObject(int QuadType, boolean rendAsButton){
 		super.Textures.setTextureByAnimation();
-		super.rendObject();
+		super.rendObject(QuadType, rendAsButton);
+	}
+	
+	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType, boolean rendAsButton){
+		super.Textures.setTextureByAnimation();
+		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType, rendAsButton);
 	}
 }
