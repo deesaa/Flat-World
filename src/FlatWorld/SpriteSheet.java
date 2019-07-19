@@ -1,5 +1,6 @@
 package FlatWorld;
 
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
@@ -22,6 +23,20 @@ public class SpriteSheet {
 		numLines = spriteSheet.getHeight()/this.tileHeight;
 	}
 	
+	public SpriteSheet(LuaValue luaSheet) {
+		String name = luaSheet.get(1).tojstring();
+		try {
+			spriteSheet = new Image(name, GL11.GL_NEAREST);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
+		this.tileWidth = luaSheet.get(2).toint();
+		this.tileHeight = luaSheet.get(3).toint();
+		numTitlesInLine = spriteSheet.getWidth()/this.tileWidth;
+		numLines = spriteSheet.getHeight()/this.tileHeight;
+	}
+
 	public SpriteClass getSprite(int numberInLine, int line){
 		if(line >= numLines || numberInLine >= numTitlesInLine)
 			return null;

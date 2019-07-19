@@ -24,8 +24,8 @@ public class ChestClass extends BasicObjectClass {
 		ImageArray.add(new ImageClass(chestSheet.getSprite(1, 0)));
 	}
 
-	ChestClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, ChestClass.ObjectTypeID, true, true);
+	ChestClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, ChestClass.ObjectTypeID, true, true);
 		new PickableModif(this);
 		super.ActionsArray.add(new InventorySystem(this, 4, 4, -4.0f, 2.0f, null));
 		super.ActionsArray.add(new ShadowsSystem(this));
@@ -41,8 +41,8 @@ public class ChestClass extends BasicObjectClass {
 		super.rendObject(Quad, Animation.getCurrentImage());
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad, Animation.getCurrentImage());
+	public void rendObject(float GlobalPosX, float GlobalPosY, QuadClass Quad) {
+		super.rendObject(GlobalPosX, GlobalPosY, Quad, Animation.getCurrentImage());
 	}
 	
 	public void fixSpriteState(){

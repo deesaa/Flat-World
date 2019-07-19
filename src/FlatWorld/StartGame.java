@@ -13,6 +13,11 @@ public class StartGame {
 		startOpenGL();
 		
 		AnatomySystem.extendSystemStatics("data/systems/AnatomySystem.txt");
+		LayerClass.createLevel("Objects", LayerClass.LEVEL_ABOVE, null);
+		LayerClass.createLevel("ObjectsGUI", LayerClass.LEVEL_ABOVE, null);
+		LayerClass.createLevel("ContourGUI", LayerClass.LEVEL_ABOVE, null);
+		LayerClass.createLevel("PlayerGUI", LayerClass.LEVEL_ABOVE, null);
+		
 		FlatWorld.startFlatWorld();
 
 		finalDestroy();
@@ -31,7 +36,7 @@ public class StartGame {
 
 	static void startOpenGL() {
 		GL11.glShadeModel(GL11.GL_SMOOTH); // Enables Smooth Shading
-		GL11.glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Black Background
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black Background
 		GL11.glClearDepth(1.0f); // Depth Buffer Setup
 		GL11.glEnable(GL11.GL_DEPTH_TEST); // Enables Depth Testing
 		GL11.glDepthFunc(GL11.GL_LEQUAL); // The Type Of Depth Test To Do

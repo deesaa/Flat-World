@@ -46,8 +46,8 @@ public class ObjectsBase {
 		TreeClass.initObject();
 	}
 
-	public void rendObject(int ObjectTypeID, float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
-		StaticObjectsArray.get(ObjectTypeID).rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad, StaticObjectsArray.get(ObjectTypeID).Animation.getCurrentImage());
+	public void rendObject(int ObjectTypeID, float GlobalPosX, float GlobalPosY, QuadClass Quad) {
+		StaticObjectsArray.get(ObjectTypeID).rendObject(GlobalPosX, GlobalPosY, Quad, StaticObjectsArray.get(ObjectTypeID).Animation.getCurrentImage());
 	}
 	
 	public int getNextID(){

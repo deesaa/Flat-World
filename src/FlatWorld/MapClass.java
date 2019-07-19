@@ -110,9 +110,8 @@ public class MapClass {
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).rendChunkCells();
 		}
-		GL11.glDisable(GL11.GL_LIGHTING);
+		
 		lightingMap.rendShadows();
-		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).rendChunkObjects();

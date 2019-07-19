@@ -16,6 +16,7 @@ public class ContainerCell extends BasicObjectClass {
 
 	String EquipPlace = "Nothing", EquipModifier;
 	ImageClass equipPlaceIcon;
+	static float contLayerDepth = LayerClass.getDepth("ObjectsGUI");
 	
 	public static ImageClass CellTexture;
 	{
@@ -24,16 +25,18 @@ public class ContainerCell extends BasicObjectClass {
 		super.Animation.pickAnimation();
 	}
 
-	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, ObjectID, ContainerCell.ObjectTypeID, false, false);
+	ContainerCell(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, ObjectID, ContainerCell.ObjectTypeID, false, false);
 		
 		this.localPosGlobalX = PosGlobalX;
 		this.localPosGlobalY = PosGlobalY;
+		super.layerDepth = contLayerDepth;
 //		super.setButtonOnObject();
 	}
 	
 	ContainerCell() {
 		super(ObjectTypes.Cell, ContainerCell.ObjectTypeID, false);
+		super.layerDepth = contLayerDepth;
 	}
 
 	
@@ -53,7 +56,7 @@ public class ContainerCell extends BasicObjectClass {
 
 	public void rendCellContent() {
 		if (pickedObjectTypeID != -1) {
-			ObjectsArray.get(0).rendObject(super.PosGlobalX+0.19f, super.PosGlobalY+0.19f, super.PosGlobalZ, QuadClass.iconQuad, ObjectsArray.get(0).Animation.getCurrentImage());
+			ObjectsArray.get(0).rendObject(super.PosGlobalX+0.19f, super.PosGlobalY+0.19f, QuadClass.iconQuad, ObjectsArray.get(0).Animation.getCurrentImage());
 		} else
 			GL11.glLoadIdentity();
 	}
@@ -61,24 +64,24 @@ public class ContainerCell extends BasicObjectClass {
 	public void rendCellContentCounter() {
 		if (pickedObjectTypeID != -1 && ObjectsArray.size() > 1) {
 			TextFieldClass.rendText(String.valueOf(ObjectsArray.size()),
-					super.PosGlobalX - 0.2f, super.PosGlobalY + 0.05f, super.PosGlobalZ, 
+					super.PosGlobalX - 0.2f, super.PosGlobalY + 0.05f, layerDepth, 
 					QuadClass.inventoryCounterQuad, 0.19f);
 		} else
 			GL11.glLoadIdentity();
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad, ImageClass image) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, QuadClass Quad, ImageClass image) {
 		super.PosGlobalX = localPosGlobalX;
 		super.PosGlobalY = localPosGlobalY;
-		super.PosGlobalZ = localPosGlobalZ;
+		//super.PosGlobalZ = localPosGlobalZ;
 		super.PosGlobalX += tPosGlobalX;
 		super.PosGlobalY += tPosGlobalY;
-		super.PosGlobalZ += tPosGlobalZ;
+	//	super.PosGlobalZ += tPosGlobalZ;
 		super.rendObject(Quad, image);
 		
 		if(equipPlaceIcon != null){
-			GL11.glTranslatef(super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ);
-			Quad.rend(equipPlaceIcon);
+			GL11.glTranslatef(super.PosGlobalX, super.PosGlobalY, layerDepth);
+			Quad.rend(equipPlaceIcon, ColorRGBAClass.Standard);
 			GL11.glLoadIdentity();
 		}
 	}
@@ -104,10 +107,10 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public void rendContour() {
-		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, QuadClass.standardQuad);
+		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, QuadClass.standardQuad);
 	}
 
-	public void dropObject(float PosGlobalX, float PosGlobalY, float PosGlobalZ) {
+	public void dropObject(float PosGlobalX, float PosGlobalY) {
 		if (pickedObjectTypeID != -1 || ObjectsArray.size() < 0) {
 			BasicObjectClass tempObject = null;
 			
@@ -115,7 +118,6 @@ public class ContainerCell extends BasicObjectClass {
 		
 			tempObject.PosGlobalX = PosGlobalX;
 			tempObject.PosGlobalY = PosGlobalY;
-			tempObject.PosGlobalZ = PosGlobalZ;
 
 			ObjectsArray.remove(ObjectsArray.size() - 1);
 			MapsManager.addObject(tempObject);
@@ -126,7 +128,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public void rendRedContur() {
-		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, QuadClass.standardQuad);
+		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, QuadClass.standardQuad);
 	}
 
 	public BasicObjectClass getFirstPickedObject() {

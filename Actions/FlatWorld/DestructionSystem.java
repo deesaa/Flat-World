@@ -26,7 +26,7 @@ public class DestructionSystem extends Action{
 		
 		if(destructRatioMaterials == null){
 			if(Object.underArrow){
-				if(desSysLocker.isMouseButtonDown(0, true)){
+				if(desSysLocker.isMouseButtonDown(0, true) == KeyboardManager.MOUSE_PUSHED){
 					BasicObjectClass pPlayer = MapsManager.MapsArray.get(Object.OwnedMapID).pPlayer;
 					BasicObjectClass destroyerObject = pPlayer.Modifiers.pEquipmentSystem.getContainer("Hand", "Right").getFirstPickedObject();
 					

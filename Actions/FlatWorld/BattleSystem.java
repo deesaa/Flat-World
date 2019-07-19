@@ -2,18 +2,23 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.util.vector.Vector3f;
 
 
 
 public class BattleSystem extends Action{
-	public ArrayList<Integer> EnemiesArray;
 	public TexturesClass PerHealScaleTex;
 	public Vector3f PerHealScaleContourColor;
 	public BarWindow PerHealScale;
 	
 	public PlayerGUIAct PlayerGUI;
+	
+	
 	float maxHealpoints, healpoints;
+	public ArrayList<String> EnemiesArray;
+	WindowElement healthBar;
+	FillingBarWindow pHealthScale;
 	
 	public BattleSystem(BasicObjectClass Object, TexturesClass PerHealScaleTex, Vector3f PerHealScaleContourColor, int maxHealpoints, int healpoints, ArrayList<Integer> EnemiesArray) {
 		super(Object, "BATT");
@@ -23,7 +28,7 @@ public class BattleSystem extends Action{
 		this.PerHealScaleContourColor = PerHealScaleContourColor;
 		this.maxHealpoints = maxHealpoints;
 		this.healpoints    = healpoints;
-		this.EnemiesArray = EnemiesArray;
+		//this.EnemiesArray = EnemiesArray;
 		
 		if(PerHealScaleTex != null || PerHealScaleContourColor != null)
 			PerHealScale = new BarWindow(1.7f, 0.1f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, null, 0, 0, 0, 0);
@@ -33,6 +38,22 @@ public class BattleSystem extends Action{
 		super(null, "BATT");
 	}
 
+	public BattleSystem(BasicObjectClass Object, LuaValue tempLuaValue, LuaValue luaMainFile) {
+		super(Object, "BATT");
+		Object.Modifiers.pBattleSystem = this;
+		
+		this.maxHealpoints = tempLuaValue.get("maxHealth").tofloat();
+		this.healpoints    = tempLuaValue.get("health").tofloat();	
+		
+		healthBar = new WindowElement(tempLuaValue.get("HealthBar"), luaMainFile, null);
+		pHealthScale = (FillingBarWindow) healthBar.getWindow("HealthOutput");
+		
+		LuaValue luaEnemies =  tempLuaValue.get("Enemies");
+		if(!luaEnemies.isnil()){
+			EnemiesArray = new ArrayList<String>();
+		}
+	}
+
 	public BattleSystem linkPlayerGUI(PlayerGUIAct PlayerGUI){
 		this.PlayerGUI = PlayerGUI;
 		this.PlayerGUI.initHealScale((int) maxHealpoints);
@@ -40,11 +61,11 @@ public class BattleSystem extends Action{
 	}
 
 	public void updateAction(BasicObjectClass Object) {
-		if(PlayerGUI == null){
+		if(!Object.isPlayer){
 			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pLookingSystem.VisibleObjectsArray;
 			for(int i = 0; i < tempVisibleObjectsArray.size(); i++){
 				for(int i2 = 0; i2 < EnemiesArray.size(); i2++){
-					if(tempVisibleObjectsArray.get(i).ObjectTypeID == EnemiesArray.get(i2)){	
+					if(EnemiesArray.get(i2).compareTo(tempVisibleObjectsArray.get(i).objectName) == 0){	
 						double finalDist = FlatMath.objectDist(Object, tempVisibleObjectsArray.get(i));
 						double angle = Object.Modifiers.pLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
 						Object.Modifiers.pOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
@@ -53,7 +74,8 @@ public class BattleSystem extends Action{
 				}
 			}
 		} else {
-			if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
+			healthBar.update(Object);
+			if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true) == KeyboardManager.MOUSE_PUSHED){
 				MapClass tempMap = MapsManager.MapsArray.get(Object.OwnedMapID);
 				ArrayList<ArrayOffersElement> OffersElementsArray = new ArrayList<ArrayOffersElement>();
 				for(int i = 0; i < tempMap.ChunksArray.size(); i++){
@@ -61,7 +83,7 @@ public class BattleSystem extends Action{
 					for(int i2 = 0; i2 < tempChunk.ObjectsArray.size(); i2++){
 						BasicObjectClass tempObject = tempChunk.ObjectsArray.get(i2);
 						for(int i3 = 0; i3 < EnemiesArray.size(); i3++){
-							if(tempObject.ObjectTypeID == EnemiesArray.get(i3) && tempObject.ObjectType != ObjectTypes.Player){
+							if(EnemiesArray.get(i3).compareTo(tempObject.objectName) == 0 && tempObject.isPlayer == false){
 								double angle = FlatMath.vecPointAngle(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, Object.PosGlobalX, Object.PosGlobalY,
 										tempObject.PosGlobalX, tempObject.PosGlobalY, Object.PosGlobalX, Object.PosGlobalY);
 								if(angle > -60 && angle < 60){
@@ -84,10 +106,11 @@ public class BattleSystem extends Action{
 
 
 	public void rendAction(BasicObjectClass Object) {
-		if(PlayerGUI == null){
-			PerHealScale.rendScale(Object.PosGlobalX-0.15f, Object.PosGlobalY+1.1f, Object.PosGlobalZ+0.02f, (int)healpoints);
+		if(!Object.isPlayer){
+			PerHealScale.rendScale(Object.PosGlobalX-0.15f, Object.PosGlobalY+1.1f, Object.layerDepth+0.02f, (int)healpoints);
 		} else {
-			PlayerGUI.rendHealScale((int)healpoints);
+			pHealthScale.percentFill = (float) (maxHealpoints * 0.01 * healpoints);
+			healthBar.rend(Object);
 		}
 	}
 

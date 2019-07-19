@@ -35,21 +35,21 @@ public class BasicCellClass {
 
 	public void rendObject(QuadClass Quad) {
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
-		ColorClass.Standard.setColorFilter();
+	//	ColorClass.Standard.setColorFilter();
 		Quad.rend();
 		GL11.glLoadIdentity();
 	}
 	
 	public void rendObject(QuadClass Quad, ImageClass image) {
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
-		ColorClass.Standard.setColorFilter();
-		Quad.rend(image);
+	//	ColorClass.Standard.setColorFilter();
+		Quad.rend(image, null);
 		GL11.glLoadIdentity();
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
 		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
-		ColorClass.Standard.setColorFilter();
+	//	ColorClass.Standard.setColorFilter();
 		Quad.rend();
 		GL11.glLoadIdentity();
 	}

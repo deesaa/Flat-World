@@ -1,14 +1,71 @@
-Windows =
+MainMenu =
 {
-	Static =
+	UpdateHook = "MainMenuUpdateHook",
+	Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {100, "Percent"}, height = {100, "Percent"}},
+	Contains =
 	{
 		{
-			Name = "MainMenu",
-			Type = "Window",
+			Name = "NewGame",
+			Type = "Button",
+			Lighting = false,
+			Color = {Mode = 1, 127, 127, 127, 127, GlassMode = true},
+			Texture = "data/GUI/InventoryCell.png",
+			Location = {x = {40, "Percent"}, y = {500, "Pixel"}, width = {20, "Percent"}, height = {50, "Pixel"}},
 			Contains =
 			{
-				
+				{
+					Name = "t1",
+					Type = "Text",
+					Lighting = false,
+					Text = {{Font ="Dirty", Color = {Mode = 1, 0, 127, 127, 127, Light = "False"}, Text = "NEW GAME  ", Quad = {1, 1}, Correction = 0.5}},
+					Location = {x = {10, "Percent"}, y = {10, "Pixel"}, width = {50, "Percent"}, height = {50, "Percent"}},
+					Contains =
+					{
+						{
+							Name = "HealthOutputBorder",
+							Type = "Border",
+							Lighting = false,
+							Color = {Mode = 1, 127, 127, 0, 127},
+							Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {100, "Percent"}, height = {100, "Percent"}},
+							Contains = 
+							{
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			Name = "Exit",
+			Type = "Button",
+			Lighting = false,
+			Color = {Mode = 1, 0, 127, 127, 127, GlassMode = true, Light = "False"},
+			Texture = "data/GUI/InventoryCell.png",
+			Location = {x = {40, "Percent"}, y = {400, "Pixel"}, width = {20, "Percent"}, height = {50, "Pixel"}},
+			Contains =
+			{
+				{
+					Name = "t2",
+					Type = "Text",
+					Lighting = false,
+					Text = {{Font ="Dirty", Color = {Mode = 1, 127, 0, 0, 127, Light = "False"}, Text = "EXIT", Quad = {1, 1}, Correction = 0}},
+					Location = {x = {25, "Percent"}, y = {10, "Pixel"}, width = {50, "Percent"}, height = {50, "Percent"}},
+				}
 			}
 		}
 	}
 }
+
+function MainMenuUpdateHook(Console, Message)
+	if(Message["WndInf"]["Name"] == "NewGame") then
+		if(Message["ArrowReleased"]) then
+			print("NewGame") 
+		end
+	end
+	if(Message["WndInf"]["Name"] == "Exit") then
+		if(Message["ArrowReleased"]) then
+			print("EXIT") 
+		end
+	end
+--Console:msg();
+end

@@ -21,8 +21,8 @@ public class TreeClass extends BasicObjectClass{
 		super.Animation.getTagAnimation(0).addFrame(ImageArray.get(5), 100);
 	}
 	
-	TreeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, TreeClass.ObjectTypeID, true, false);
+	TreeClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, TreeClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new ShadowsSystem(this));
 		super.ActionsArray.add(new DestructionSystem(this, 100));
 		super.ActionsArray.add(new CollisionSystem(this, 0.085f, 0.0f, 0.0f));

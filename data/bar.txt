@@ -1,15 +1,24 @@
 Windows =
 {
-	{
+	{ 
 		Name = "HealthBar",
-		Type = "Bar",
-		Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {500, "Pixel"}, height = {500, "Pixel"}, AttachToObject = true},
+		Type = "Window",
+		Location = {x = {30, "Percent"}, y = {50, "Pixel"}, width = {40, "Percent"}, height = {50, "Pixel"}, AttachToObject = true},
 		Contains =
 		{
 			{
-				Name = "UnderHealthBar",
-				Type = "Bar",
-				Location = {x = {75, "Percent"}, y = {50, "Percent"}, width = {90, "Percent"}, height = {50, "Pixel"}},
+				Name = "HealthBar",
+				Type = "FillingBar",
+				Texture = "data/GUI/PerHealScale.png",
+				Location = {x = {5, "Percent"}, y = {25, "Percent"}, width = {90, "Percent"}, height = {50, "Percent"}},
+				Contains = 
+				{
+				--	{
+				--		Name = "HealthBar",
+				--		Type = "Slider",
+				--		Location = {x = {0, "Pixel"}, y = {-7, "Pixel"}, width = {50, "Pixel"}, height = {40, "Pixel"}}
+				--	}
+				}
 			}
 		}
 	}

@@ -117,8 +117,8 @@ public class PlayerClass extends BasicObjectClass {
 		EnemiesArray.add(ZombieClass.ObjectTypeID);
 	}
 
-	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, ObjectID, PlayerClass.ObjectTypeID, true, false);
+	PlayerClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, ObjectTypes.Player, ObjectID, PlayerClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new PlayerControllerAct(this));
 		super.ActionsArray.add(new PickingSystem(this, null, true));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, null));
@@ -139,7 +139,7 @@ public class PlayerClass extends BasicObjectClass {
 		super.rendObject(Quad, super.Animation.getCurrentImage());
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad, super.Animation.getCurrentImage());
+	public void rendObject(float GlobalPosX, float GlobalPosY, QuadClass Quad) {
+		super.rendObject(GlobalPosX, GlobalPosY, Quad, super.Animation.getCurrentImage());
 	}
 }

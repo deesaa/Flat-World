@@ -67,18 +67,62 @@ Looking =
 	rotateSpeed = 0.1f;
 }
 
-Windows =
+Battle = 
 {
+	maxHealth = 100,
+	health = 90,
+	HealthBar = 
 	{
-		Name = "HeathBar",
-		Type = "Bar",
-		Location = {CoordSpace = "Screen", x = "Center", y = 100, width = 600, height = 200, AttachToObject = true},
+		UpdateHook = "HealthBarUpdateHook",
+		Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {100, "Percent"}, height = {100, "Percent"}},
 		Contains =
-		{
-				
+		{ 
+			{
+				Name = "HealthBarBackground",
+				Type = "Window",
+				Location = {x = {25, "Percent"}, y = {2, "Percent"}, width = {50, "Percent"}, height = {50, "Pixel"}},
+				Contains =
+				{
+					{
+						Name = "HealthBarBorder",
+						Type = "Border",
+						Lighting = false,
+						Color = {Mode = 1, "Red"},
+						Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {100, "Percent"}, height = {100, "Percent"}},
+						Contains = 
+						{
+						}
+					},
+					{
+						Name = "HealthOutput",
+						Type = "FillingBar",
+						Texture = "data/GUI/PerHealScale.png",
+
+						Location = {x = {5, "Percent"}, y = {25, "Percent"}, width = {90, "Percent"}, height = {50, "Percent"}},
+						Border = {Color = {Mode = 1, 127, 0, 0, 127}, Lighting = false},
+						Contains = 
+						{
+							{
+								Name = "HealthOutputBorder",
+								Type = "Border",
+								Lighting = false,
+								Color = {Mode = 1, 127, 127, 0, 127},
+								Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {100, "Percent"}, height = {100, "Percent"}},
+								Contains = 
+								{
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
+
+function HealthBarUpdateHook(SenderProgramm, Message)
+	
+end
 
 SpriteSheet = 
 {

@@ -157,7 +157,7 @@ public class TextFieldClass {
 			{
 				GL11.glTranslatef(indent, 0, 0);
 				if (string.charAt(i) != ' ') // ≈сли это пробел, то просто ничеого не выводим
-					Symbols.get(string.charAt(i)).rendSymbol(quad);
+					Symbols.get(string.charAt(i)).rendSymbol(quad, null);
 			} catch (NullPointerException exception) {
 				System.out.println("Symbol " + string.charAt(i) + " not found");
 			}

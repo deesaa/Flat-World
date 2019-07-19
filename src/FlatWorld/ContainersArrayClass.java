@@ -31,19 +31,19 @@ public class ContainersArrayClass {
 		
 		for (int i = 0; i != numCellsInLine; i++) {
 			for (int i2 = 0; i2 != numLines; i2++) {
-				InventoryCellsArray.add(new ContainerCell(0.0f+i+indentX-0.0001f, 0.0f+i2+indentY-0.0001f, -25.0f, 0, 0, InventoryCellsArray.size()));
+				InventoryCellsArray.add(new ContainerCell(0.0f+i+indentX-0.0001f, 0.0f+i2+indentY-0.0001f, 0, 0, InventoryCellsArray.size()));
 			}
 		}
-		lenght = (numCellsInLine*FlatWorld.StandardQuadWidth)+(numCellsInLine*indentX);
-		height = (numLines*FlatWorld.StandardQuadHeight)+(numLines*indentY);
+		lenght = (numCellsInLine*QuadClass.standardQuad.width)+(numCellsInLine*indentX);
+		height = (numLines*QuadClass.standardQuad.height)+(numLines*indentY);
 	}
 	
 	public void addContainer(float CellPosX, float CellPosY){
-		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()));
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, 0, 0, InventoryCellsArray.size()));
 	}
 	
 	public ContainerCell addContainer(float CellPosX, float CellPosY, String EquipPlace, String EquipModifier) {
-		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, -25.0f, 0, 0, InventoryCellsArray.size()).setEquipPlace(EquipPlace, EquipModifier));
+		InventoryCellsArray.add(new ContainerCell(CellPosX, CellPosY, 0, 0, InventoryCellsArray.size()).setEquipPlace(EquipPlace, EquipModifier));
 		return InventoryCellsArray.get(InventoryCellsArray.size()-1);
 	}
 	
@@ -51,9 +51,9 @@ public class ContainersArrayClass {
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			ContainerCell tempCell = InventoryCellsArray.get(i);
 			if (tempCell.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
-				tempCell.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
+				tempCell.PosGlobalX + QuadClass.standardQuad.height  > MouseArrowClass.ArrowWorldCoordX &&
 				tempCell.PosGlobalY 						        < MouseArrowClass.ArrowWorldCoordY &&
-				tempCell.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
+				tempCell.PosGlobalY + QuadClass.standardQuad.width   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				return tempCell;
 			}
@@ -131,10 +131,10 @@ public class ContainersArrayClass {
 	public void rendObjectOver(int ObjectTypeID, int ContainerID, float indentX, float indentY, QuadClass Quad){
 		ContainerCell tempContainer = InventoryCellsArray.get(ContainerID);
 		FlatWorld.StaticObjectsBase.rendObject(ObjectTypeID,  
-				tempContainer.PosGlobalX+indentX, tempContainer.PosGlobalY+indentY, InventoryCellsArray.get(ContainerID).PosGlobalZ, Quad);
+				tempContainer.PosGlobalX+indentX, tempContainer.PosGlobalY+indentY, Quad);
 	}
 	
-	public void rend(float PosX, float PosY, float PosZ){
+	public void rend(float PosX, float PosY){
 		/*if(backgroundTexture != null){
 			GL11.glTranslatef(PosX, PosY, PosZ);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -160,7 +160,7 @@ public class ContainersArrayClass {
 		}*/
 		
 		for (int i = 0; i != InventoryCellsArray.size(); i++) {
-			InventoryCellsArray.get(i).rendObject(PosX, PosY, PosZ, QuadClass.standardQuad, InventoryCellsArray.get(i).Animation.getCurrentImage());
+			InventoryCellsArray.get(i).rendObject(PosX, PosY, QuadClass.standardQuad, InventoryCellsArray.get(i).Animation.getCurrentImage());
 			InventoryCellsArray.get(i).rendCellContent();
 			InventoryCellsArray.get(i).rendCellContentCounter();
 		}
@@ -175,7 +175,7 @@ public class ContainersArrayClass {
 					tempObject = InventoryCellsArray.get(i).ObjectsArray.get(InventoryCellsArray.get(i).ObjectsArray.size()-1);
 					tempObject.PosGlobalX = Object.PosGlobalX-0.5f;
 					tempObject.PosGlobalY = Object.PosGlobalY;
-					tempObject.PosGlobalZ = -25.0f;
+			//		tempObject.PosGlobalZ = Object.layerDepth;
 
 					MapsManager.addObject(tempObject);
 					InventoryCellsArray.get(i).ObjectsArray.remove(InventoryCellsArray.get(i).ObjectsArray.size() - 1);

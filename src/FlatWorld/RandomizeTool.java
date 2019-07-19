@@ -6,16 +6,16 @@ import java.util.Random;
 public class RandomizeTool {
 	private static Random rand = new Random();
 	private static int randInt = 0;
-	public static boolean setColor(BasicObjectClass Object, ColorClass newColor, int minChange, int maxChange, float chanceOfDoing){
+	/*public static boolean setColor(BasicObjectClass Object, ColorClass newColor, int minChange, int maxChange, float chanceOfDoing){
 		if(RandomizeTool.percentChance(chanceOfDoing)){
-			if(minChange != 0 || maxChange != 0)
-				Object.modifColor = ColorClass.randomColor(newColor, minChange, maxChange);
-			else
-				Object.modifColor = newColor;
+			//if(minChange != 0 || maxChange != 0)
+			//	Object.modifColor = ColorClass.randomColor(newColor, minChange, maxChange);
+			//else
+				//Object.modifColor = newColor;
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	public static BasicObjectClass setAnimation(BasicObjectClass Object, AnimationClass newAnimation){
 		Object.Animation = newAnimation;

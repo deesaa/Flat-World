@@ -114,14 +114,14 @@ public class EquipmentSystem extends Action{
 		ImageClass OwnerImage = Owner.Animation.getCurrentImage();
 		ImageClass ObjectImage = Object.Animation.getCurrentImage();
 		
-		float posX = Owner.PosGlobalX, posY = Owner.PosGlobalY, posZ = Owner.PosGlobalZ;
+		float posX = Owner.PosGlobalX, posY = Owner.PosGlobalY; // posZ = Owner.PosGlobalZ;
 		float angle = 0, rotateX = 0, rotateY = 0, rotateZ = 0;
 		
 		ImageTag currentOwnerTag = OwnerImage.imageTags.getTag(EquipPlace, EquipModifier);
 		if(currentOwnerTag != null){
 			posX+=currentOwnerTag.shiftX;
 			posY+=currentOwnerTag.shiftY;
-			posZ+=currentOwnerTag.shiftZ;
+			//posZ+=currentOwnerTag.shiftZ;
 			angle+=currentOwnerTag.angle;
 			rotateX+=currentOwnerTag.rotateX;
 			rotateY+=currentOwnerTag.rotateY;
@@ -133,15 +133,15 @@ public class EquipmentSystem extends Action{
 			if(currentOwnerTag != null){
 				posX+=(currentObjectTag.shiftX*currentOwnerTag.dirX);
 				posY+=(currentObjectTag.shiftY*currentOwnerTag.dirY);
-				posZ+=currentObjectTag.shiftZ;
+			//	posZ+=currentObjectTag.shiftZ;
 			} else {
 				posX+=currentObjectTag.shiftX;
 				posY+=currentObjectTag.shiftY;
-				posZ+=currentObjectTag.shiftZ;
+			//	posZ+=currentObjectTag.shiftZ;
 			}
 		}
 		
-		GL11.glTranslatef(posX, posY, posZ);
+		GL11.glTranslatef(posX, posY, Owner.layerDepth);
 		GL11.glRotatef(angle, rotateX, rotateY, rotateZ);
 		
 		ImageTag finalTagAnimation = Owner.Animation.getFinalTagAnimation(EquipPlace, EquipModifier);
@@ -150,7 +150,7 @@ public class EquipmentSystem extends Action{
 			GL11.glRotatef(finalTagAnimation.angle, finalTagAnimation.rotateX, finalTagAnimation.rotateY, finalTagAnimation.rotateZ);
 		}
 		
-		Object.rendObject(0, 0, 0, QuadClass.iconQuad, Object.Animation.getCurrentImage());
+		Object.rendObject(0, 0, QuadClass.iconQuad, Object.Animation.getCurrentImage());
 	}
 
 	public void zeroAction(BasicObjectClass basicObjectClass) {

@@ -40,8 +40,8 @@ public class ZombieClass extends BasicObjectClass {
 		EnemiesArray.add(PlayerClass.ObjectTypeID);
 	}
 
-	ZombieClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, ObjectID, ZombieClass.ObjectTypeID, true, false);
+	ZombieClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LookingSystem(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new ShadowsSystem(this));
 		super.ActionsArray.add(new MovingSystem(this));
@@ -61,11 +61,11 @@ public class ZombieClass extends BasicObjectClass {
 		super.rendObject(Quad, Animation.getCurrentImage());
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad, Animation.getCurrentImage());
+	public void rendObject(float GlobalPosX, float GlobalPosY, QuadClass Quad) {
+		super.rendObject(GlobalPosX, GlobalPosY, Quad, Animation.getCurrentImage());
 	}
 	
-	public BasicObjectClass randomize() {
+	/*public BasicObjectClass randomize() {
 		if(RandomizeTool.setColor(this, ColorClass.Red, -30, 25, 0.03f)){
 		} else {
 		if(RandomizeTool.setColor(this, ColorClass.Blue, -25, 35, 0.04f)){
@@ -73,5 +73,5 @@ public class ZombieClass extends BasicObjectClass {
 		if(RandomizeTool.setColor(this, ColorClass.Green, -40, 30, 0.05f)){
 		}}}
 		return this;
-	}
+	}*/
 }

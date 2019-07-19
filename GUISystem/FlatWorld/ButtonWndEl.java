@@ -35,7 +35,7 @@ public class ButtonWndEl extends WindowElement{
 			texHeight += Math.abs((finalLTY-finalRBY)/8);
 			textWidth -= Math.abs((finalRBX-finalLTX)/32);
 		}
-		TextRenderModule.rendText(text, finalLTX+(((finalRBX-finalLTX)-textWidth)*0.5f), finalLTY+texHeight*0.5f, -99, this.textQuad, 3.1f);
+		//TextRenderModule.rendText(text, finalLTX+(((finalRBX-finalLTX)-textWidth)*0.5f), finalLTY+texHeight*0.5f, -99, this.textQuad, 3.1f);
 	}
 	
 	public ButtonWndEl setTextures(Image unpressed, Image pressed){
@@ -67,8 +67,8 @@ public class ButtonWndEl extends WindowElement{
 					currentImage = pressed;
 					bs = ButtonState.Pressed;
 				}
-				else
-					super.modifColor = ColorClass.Red;
+				//else
+					//super.modifColor = ColorClass.Red;
 			}
 		} else {
 			if(this.elID == clickedButtonID)
@@ -78,8 +78,8 @@ public class ButtonWndEl extends WindowElement{
 				currentImage = unpressed;
 				bs = ButtonState.Unpressed;
 			}
-			else
-				super.modifColor = ColorClass.Standard;
+			//else
+				//super.modifColor = ColorClass.Standard;
 		}
 	}
 

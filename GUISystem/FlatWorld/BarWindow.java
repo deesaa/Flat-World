@@ -2,7 +2,6 @@ package FlatWorld;
 
 import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -12,6 +11,9 @@ public class BarWindow extends WindowElement{
 	TexturesClass fillerTexture, backgroundTexture;
 	Vector3f contourColor;
 	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
+	
+	//WindowElement pScaleWnd = null;
+	//WindowElement pSliderWnd = null;
 	
 	public BarWindow(float lenght, float height, int maxVal, TexturesClass fillerTexture, Vector3f contourColor, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
@@ -29,12 +31,12 @@ public class BarWindow extends WindowElement{
 		
 	}
 	
-	public BarWindow(LuaValue luaScript){
-		super(luaScript);
+	public BarWindow(LuaValue luaScript, LuaValue luaMainFile, WindowElement ownerWnd){
+		super(luaScript, luaMainFile, ownerWnd);
 	}
 	
-	public void rend() {	
-		Vector4f pos = super.getFinalWorldPos();
+	public void rend(BasicObjectClass Owner) {	
+		Vector4f pos = super.getFinalWorldPos(Owner);
 		float worldXPos = pos.x, worldYPos = pos.y;
 		float worldWidth = pos.z, worldHeight = pos.w;
 
@@ -48,7 +50,7 @@ public class BarWindow extends WindowElement{
         GL11.glEnd();
 		GL11.glLoadIdentity();
 		
-		super.rend(); // Сначало рендерим все рендерим
+		super.rend(Owner); // Сначало рендерим все рендерим
 		
 		//Тут рендерим само окно, перекрывая все низшие
 	}

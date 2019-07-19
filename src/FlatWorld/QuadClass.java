@@ -1,5 +1,11 @@
 package FlatWorld;
 
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+
+import javax.swing.text.AttributeSet.ColorAttribute;
+
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
 
 public class QuadClass {
@@ -20,6 +26,11 @@ public class QuadClass {
 			this.addToList();
 	}
 	
+	public QuadClass(LuaValue luaValue) {
+		this.width  = luaValue.get(1).tofloat();
+		this.height = luaValue.get(2).tofloat();
+	}
+
 	public void rend(){
 		if(this.listID != -1){
 			GL11.glCallList(listID);
@@ -62,7 +73,10 @@ public class QuadClass {
 		GL11.glEndList();
 	}
 
-	public void rend(ImageClass image) {
+	public void rend(ImageClass image, UniteColorClass color) {
+		if(color != null)
+			color.setColor();
+		
 		if(image.sprite != null){
 			image.bind();
 			GL11.glBegin(rendType);
@@ -89,5 +103,7 @@ public class QuadClass {
 			this.rend();
 			//GL11.glDisable(GL11.GL_COLOR_MATERIAL);
 		}
+		
+		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 }

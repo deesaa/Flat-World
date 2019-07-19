@@ -3,6 +3,8 @@ package FlatWorld;
 public class ContourClass extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
+	
+	static float contourLayerDepth = LayerClass.getDepth("ContourGUI");
 
 	public static ImageClass CellTexture;
 	
@@ -12,13 +14,15 @@ public class ContourClass extends BasicObjectClass {
 		super.Animation.pickAnimation();
 	}
 
-	ContourClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ - 0.001f, OwnedChunkID, OwnedMapID, 
+	ContourClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, 
 				ObjectTypes.Cell, ObjectID, DirtClass.ObjectTypeID, false, false);
+		super.layerDepth = contourLayerDepth;
 	}
 
 	ContourClass() {
 		super(ObjectTypes.Cell, DirtClass.ObjectTypeID, false);
+		super.layerDepth = contourLayerDepth;
 	}
 
 	public static void initObject() {
@@ -29,7 +33,7 @@ public class ContourClass extends BasicObjectClass {
 		super.rendObject(Quad, CellTexture);
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad, CellTexture);
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, QuadClass Quad) {
+		super.rendObject(tPosGlobalX, tPosGlobalY, Quad, CellTexture);
 	}
 }

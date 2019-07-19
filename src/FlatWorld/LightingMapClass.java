@@ -37,7 +37,7 @@ public class LightingMapClass {
 		for(int i = 0; i < LightsObjectArray.size(); i++){
 			LightsObjectArray.get(i).enableLight();
 		}
-		this.clearAndUnite();
+		//this.clearAndUnite();
 	}
 	
 	public void clearAndUnite(){

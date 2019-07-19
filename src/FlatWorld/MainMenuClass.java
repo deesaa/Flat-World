@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
 
-public class MainMenuClass implements MessagesHandler{
-	Windows mainMenuWindows = new Windows(this);
+public class MainMenuClass /*implements MessagesHandler*/{
+	/*Windows mainMenuWindows = new Windows(this);
 	int button1 = 1, exitButton = 2, newGameButton = 3;
 	Image unpressedButton = ImageClass.loadImage("data/GUI/MenuButton.png");
 	Image pressedButton = ImageClass.loadImage("data/GUI/PressedMenuButton.png");
@@ -26,8 +26,8 @@ public class MainMenuClass implements MessagesHandler{
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			mainMenuWindows.update();
 			mainMenuWindows.rend();
-			TextRenderModule.rendText("Do not even try to steal anything or i'll ban your computer by IP", 46, -41, -99, QuadClass.standardQuad, 0.9f);
-			TextRenderModule.rendText("Created by Dmitry Deeem_ER", -91, -41, -99, QuadClass.standardQuad, 1.0f);
+			//TextRenderModule.rendText("Do not even try to steal anything or i'll ban your computer by IP", 46, -41, -99, QuadClass.standardQuad, 0.9f);
+			//TextRenderModule.rendText("Created by Dmitry Deeem_ER", -91, -41, -99, QuadClass.standardQuad, 1.0f);
 			MouseArrowClass.updateArrow();
 			GL11.glLoadIdentity();
 			Display.update();
@@ -47,5 +47,5 @@ public class MainMenuClass implements MessagesHandler{
 			closeMessage = true;
 			outMessage = "ExitGame";
 		}
-	}
+	}*/
 }

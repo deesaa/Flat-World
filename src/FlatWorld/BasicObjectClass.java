@@ -17,7 +17,7 @@ enum ObjectTypes {
 };
 
 public class BasicObjectClass {
-	float PosGlobalX, PosGlobalY, PosGlobalZ;
+	float PosGlobalX, PosGlobalY;
 	float mapRendShiftX, mapRendShiftY;
 	int ObjectID;
 	public int ObjectTypeID;
@@ -30,23 +30,25 @@ public class BasicObjectClass {
 	public ObjectModifiers Modifiers = new ObjectModifiers();
 	public ArrayList<Action> ActionsArray = new ArrayList<Action>();
 	
-	ColorClass modifColor = ColorClass.Standard;
+//	ColorClass modifColor = ColorClass.Standard;
+	UniteColorClass color = ColorRGBAClass.Standard;
 	
 	private LuaValue updateHook;
 	public LuaValue luaThisObject;
 	public String objectName;
 	
 	public boolean isPlayer = false;
+	float layerDepth = LayerClass.getDepth("Objects");
 
 	public BasicObjectClass() {
 		this.ActionsArray.add(new OffersListAct(this));
 	}
 	
-	public BasicObjectClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
+	public BasicObjectClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID,
 			ObjectTypes ObjectType, int ObjectID, int ObjectTypeID, boolean isSolid, boolean isClickable) {
 		this.PosGlobalX = PosGlobalX;
 		this.PosGlobalY = PosGlobalY;
-		this.PosGlobalZ = PosGlobalZ;
+		//this.PosGlobalZ = PosGlobalZ;
 		this.OwnedChunkID = OwnedChunkID;
 		this.OwnedMapID = OwnedMapID;
 		this.ObjectType = ObjectType;
@@ -61,17 +63,17 @@ public class BasicObjectClass {
 		this.ObjectTypeID = ObjectTypeID;
 	}
 
-	public void move(float PosX, float PosY, float PosZ) {
+	public void move(float PosX, float PosY) {
 		BasicObjectClass IntersectedObject = MapsManager.checkNoClip(this);
 
 		this.PosGlobalX += PosX * FlatWorld.delta;
 		this.PosGlobalY += PosY * FlatWorld.delta;
-		this.PosGlobalZ += PosZ * FlatWorld.delta;
+	//	this.PosGlobalZ += PosZ * FlatWorld.delta;
 
 		if (MapsManager.relocateToRelevantChunk(this) == false) {
 			this.PosGlobalX -= PosX * FlatWorld.delta;
 			this.PosGlobalY -= PosY * FlatWorld.delta;
-			this.PosGlobalZ -= PosZ * FlatWorld.delta;
+		//	this.PosGlobalZ -= PosZ * FlatWorld.delta;
 		}
 
 		IntersectedObject = MapsManager.checkNoClip(this);
@@ -79,15 +81,15 @@ public class BasicObjectClass {
 		//	if (IntersectedObject.Modifiers.pointerToCollisionSystem != null) {
 				this.PosGlobalX -= PosX * FlatWorld.delta;
 				this.PosGlobalY -= PosY * FlatWorld.delta;
-				this.PosGlobalZ -= PosZ * FlatWorld.delta;
+			//	this.PosGlobalZ -= PosZ * FlatWorld.delta;
 			//}
 		}
 	}
 
-	public void warpObject(float PosX, float PosY, float PosZ) {
+	public void warpObject(float PosX, float PosY) {
 		this.PosGlobalX = PosX;
 		this.PosGlobalY = PosY;
-		this.PosGlobalZ = PosZ;
+//		this.PosGlobalZ = PosZ;
 	}
 
 	public void updateObject() {
@@ -108,9 +110,9 @@ public class BasicObjectClass {
 	
 	public void rendObject(QuadClass Quad, ImageClass image) {
 		this.rendActions();
-		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
-		modifColor.setColorFilter();
-		Quad.rend(image);
+		GL11.glTranslatef(PosGlobalX, PosGlobalY, layerDepth);
+	//	modifColor.setColorFilter();
+		Quad.rend(image, color);
 		if (Modifiers.hasContour) {
 			ContourClass.CellTexture.bind();
 			Quad.rend();
@@ -119,11 +121,11 @@ public class BasicObjectClass {
 		Modifiers.hasContour = false;
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad, ImageClass image) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, QuadClass Quad, ImageClass image) {
 		this.rendActions();
-		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
-		modifColor.setColorFilter();
-		Quad.rend(image);
+		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, layerDepth);
+	//	modifColor.setColorFilter();
+		Quad.rend(image, color);
 		GL11.glLoadIdentity();
 		Modifiers.hasContour = false;
 	}
@@ -133,10 +135,10 @@ public class BasicObjectClass {
 		this.mapRendShiftY = rendShiftY;
 	}
 
-	public void overMove(float PosX, float PosY, float PosZ) {
+	public void overMove(float PosX, float PosY) {
 		this.PosGlobalX += PosX * FlatWorld.delta;
 		this.PosGlobalY += PosY * FlatWorld.delta;
-		this.PosGlobalZ += PosZ * FlatWorld.delta;
+		//this.PosGlobalZ += PosZ * FlatWorld.delta;
 	}
 
 	public void overRelocateObject(float PosX, float PosY, float PosZ) {
@@ -152,7 +154,7 @@ public class BasicObjectClass {
 	
 	public void printDefObjectInfo(){
 		System.out.println("|ObjectTypeID:" + this.ObjectTypeID + "; MapID" + this.OwnedMapID +  " ChunkID" + this.OwnedChunkID + " ObjectID" + this.ObjectID + 
-				"; X" + this.PosGlobalX + " Y" + this.PosGlobalY + " Z" + this.PosGlobalZ + "|");
+				"; X" + this.PosGlobalX + " Y" + this.PosGlobalY + " Z" + layerDepth + "|");
 	}
 	
 	public void printFullObjectInfo(){
@@ -204,7 +206,7 @@ public class BasicObjectClass {
 			else
 				System.out.println("|MovingSystem: false; MoveSpeed = 0.0|");
 				
-			this.move(tempMoveSpeed*moveDir.get(1).tofloat(), tempMoveSpeed*moveDir.get(2).tofloat(), 0.0f);
+			this.move(tempMoveSpeed*moveDir.get(1).tofloat(), tempMoveSpeed*moveDir.get(2).tofloat());
 			if(luaMessage.get("AUTO_VIEW_DIRECTION").toboolean()){
 				if(this.Modifiers.pLookingSystem != null){
 					Vector2f viewDir = new Vector2f(moveDir.get(1).tofloat(), moveDir.get(2).tofloat());
@@ -217,19 +219,19 @@ public class BasicObjectClass {
 		}
 		
 		if (message.compareTo("MOVE_LEFT") == 0) { 
-			this.move(-tempMoveSpeed, 0.0f, 0.0f);
+			this.move(-tempMoveSpeed, 0.0f);
 			return null;
 		}
 		if (message.compareTo("MOVE_RIGHT") == 0) {
-			this.move(tempMoveSpeed, 0.0f, 0.0f);
+			this.move(tempMoveSpeed, 0.0f);
 			return null;
 		}
 		if (message.compareTo("MOVE_FORWARD") == 0) {
-			this.move(0.0f, tempMoveSpeed, 0.0f);
+			this.move(0.0f, tempMoveSpeed);
 			return null;
 		}
 		if (message.compareTo("MOVE_BACK") == 0) {
-			this.move(0.0f, -tempMoveSpeed, 0.0f);
+			this.move(0.0f, -tempMoveSpeed);
 			return null;
 		}
 		
@@ -336,10 +338,10 @@ public class BasicObjectClass {
 	
 	/* OBJECT LOAD */
 	
-	public void setPos(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID){
+	public void setPos(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID){
 		this.PosGlobalX = PosGlobalX;
 		this.PosGlobalY = PosGlobalY;
-		this.PosGlobalZ = PosGlobalZ;
+	//	this.PosGlobalZ = PosGlobalZ;
 		this.OwnedChunkID = OwnedChunkID;
 		this.OwnedMapID = OwnedMapID;
 		this.ObjectID = ObjectID;

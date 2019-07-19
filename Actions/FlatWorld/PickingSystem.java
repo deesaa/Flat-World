@@ -68,7 +68,7 @@ public class PickingSystem extends Action{
 				if(IntersectedObject.Modifiers.pPickableModif != null)
 					IntersectedObject.Modifiers.hasContour = true;
 				
-				if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
+				if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true) == KeyboardManager.MOUSE_PUSHED){
 					if(Object.Modifiers.pInventorySystem != null && IntersectedObject.Modifiers.pPickableModif != null){
 						Object.callUpdateHook("PICKING_OBJECT", super.systemIdent, IntersectedObject.luaThisObject);
 						Object.Modifiers.pInventorySystem.addObject(IntersectedObject);
@@ -77,7 +77,7 @@ public class PickingSystem extends Action{
 					}
 				}
 				
-				if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
+				if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true) == KeyboardManager.MOUSE_PUSHED)
 					this.processRightClick(IntersectedObject, Object);
 			}
 		}

@@ -31,7 +31,7 @@ SpriteSheet =
 	}
 }
 
-function updateHook(SenderObject, Message, InteractObject)
+function updateHook(SenderObject, Message)
 	if(Message) then
 		if(Message["Arg"] == "PICKED_UP") then
 			SenderObject:getMainAnimation():pickAnimation(0)

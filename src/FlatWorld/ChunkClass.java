@@ -36,21 +36,21 @@ public class ChunkClass {
 	}
 
 	public PlayerClass addPlayer(float PlayerPosX, float PlayerPosY) {
-		PlayerClass pPlayer = new PlayerClass(PlayerPosX, PlayerPosY, genPosZ, chunkID, OwnedMap, ObjectsArray.size());
+		PlayerClass pPlayer = new PlayerClass(PlayerPosX, PlayerPosY, chunkID, OwnedMap, ObjectsArray.size());
 	//	ObjectsArray.add(pPlayer);	
-		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 5.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(ObjectsLoader.createObject("data/players/Player.txt", genPosX + 7.1f, genPosY + 7.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Torch.txt", genPosX + 1.1f, genPosY + 7.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 1.1f, genPosY + 3.1f, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 5.1f, genPosY + 3.1f, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/players/Player.txt", genPosX + 7.1f, genPosY + 7.1f, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Torch.txt", genPosX + 1.1f, genPosY + 7.1f, chunkID, OwnedMap, ObjectsArray.size()));
 		//ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		//ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		//ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(ObjectsLoader.createObject("data/objects/IronAxe.txt", genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/IronAxe.txt", genPosX + 5.1f, genPosY + 2.1f, chunkID, OwnedMap, ObjectsArray.size()));
 	//	ObjectsArray.add(new AxeClass(genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
-		ObjectsArray.add(new TreeClass(genPosX + 2.1f, genPosY + 5.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TreeClass(genPosX + 5.1f, genPosY + 4.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TreeClass(genPosX + 6.9f, genPosY + 1.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TreeClass(genPosX + 3.1f, genPosY + 3.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 2.1f, genPosY + 5.3f, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 5.1f, genPosY + 4.3f, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 6.9f, genPosY + 1.3f, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(new TreeClass(genPosX + 3.1f, genPosY + 3.3f, chunkID, OwnedMap, ObjectsArray.size()));
 		return pPlayer;
 	}
 
@@ -124,9 +124,9 @@ public class ChunkClass {
 		for (int i = ObjectsArray.size()-1; i >= 0; i--) {
 			BasicObjectClass tempObject = ObjectsArray.get(i);
 			if (tempObject.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
-				tempObject.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
+				tempObject.PosGlobalX + QuadClass.standardQuad.height  > MouseArrowClass.ArrowWorldCoordX &&
 				tempObject.PosGlobalY 					            < MouseArrowClass.ArrowWorldCoordY &&
-				tempObject.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
+				tempObject.PosGlobalY + QuadClass.standardQuad.width   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
 				objectUnderArrow.underArrow = true;
@@ -149,9 +149,9 @@ public class ChunkClass {
 		for (int i = ObjectsArray.size()-1; i >= 0; i--) {
 			BasicObjectClass tempObject = ObjectsArray.get(i);
 			if (tempObject.PosGlobalX   							 < position.x &&
-				tempObject.PosGlobalX + FlatWorld.StandardQuadHeight > position.x &&
+				tempObject.PosGlobalX + QuadClass.standardQuad.height > position.x &&
 				tempObject.PosGlobalY 					             < position.y &&
-				tempObject.PosGlobalY + FlatWorld.StandardQuadWidth  > position.y)
+				tempObject.PosGlobalY + QuadClass.standardQuad.width  > position.y)
 			{
 				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
 				objectUnderArrow.underArrow = true;

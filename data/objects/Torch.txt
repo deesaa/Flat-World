@@ -14,9 +14,9 @@ Equipment =
 Lighting = 
 {
 	lightingDistance = 12.0,
-	diffuse  = {1.0f, 0.9f, 0.8f, 0.0f},
-	specular = {1.0f, 1.0f, 1.0f, 0.0f},
-	ambient  = {1.0f, 0.7f, 0.7f, 0.0f},
+	diffuse  = {1.0f, 0.9f, 0.8f, 1.0f},
+	specular = {1.0f, 1.0f, 1.0f, 1.0f},
+	ambient  = {1.0f, 0.7f, 0.7f, 1.0f},
 }
 
 SpriteSheet = 

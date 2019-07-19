@@ -35,8 +35,8 @@ public class TorchClass extends BasicObjectClass {
 		ImageArray.add(new ImageClass(TorchSheet.getSprite(2, 0)).setTags(new StringVars("t["+ sIM3 + "]")));*/
 	}
 
-	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, TorchClass.ObjectTypeID, false, true);
+	TorchClass(float PosGlobalX, float PosGlobalY, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, TorchClass.ObjectTypeID, false, true);
 
 		super.setRendShift(-0.2f, 0.1f);
 		super.ActionsArray.add(new PickableModif(this));
@@ -56,7 +56,7 @@ public class TorchClass extends BasicObjectClass {
 		super.rendObject(Quad, Animation.getCurrentImage());
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad, Animation.getCurrentImage());
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, QuadClass Quad) {
+		super.rendObject(tPosGlobalX, tPosGlobalY, Quad, Animation.getCurrentImage());
 	}
 }

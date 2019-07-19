@@ -59,9 +59,9 @@ public class MouseArrowClass {
 		
 		if(catcherContainer != null){
 			if (catcherContainer.PosGlobalX  								> MouseArrowClass.ArrowWorldCoordX ||
-				catcherContainer.PosGlobalX + FlatWorld.StandardQuadHeight  < MouseArrowClass.ArrowWorldCoordX ||
+				catcherContainer.PosGlobalX + QuadClass.standardQuad.height  < MouseArrowClass.ArrowWorldCoordX ||
 				catcherContainer.PosGlobalY						            > MouseArrowClass.ArrowWorldCoordY ||
-				catcherContainer.PosGlobalY + FlatWorld.StandardQuadWidth   < MouseArrowClass.ArrowWorldCoordY)
+				catcherContainer.PosGlobalY + QuadClass.standardQuad.width   < MouseArrowClass.ArrowWorldCoordY)
 			{
 				catcherContainer = null;
 			}
@@ -132,7 +132,7 @@ public class MouseArrowClass {
 						tempObject = pickedObjects.get(pickedObjects.size()-1);
 						tempObject.PosGlobalX = sObjPosX-0.5f;
 						tempObject.PosGlobalY = sObjPosY;
-						tempObject.PosGlobalZ = -25.0f;
+				//		tempObject.PosGlobalZ = -25.0f;
 
 						pickedObjects.get(pickedObjects.size()-1).Modifiers.pOffersList.addCommand(Commands.FreeFromOwners);
 						pickedObjects.remove(pickedObjects.size()-1);
@@ -180,20 +180,20 @@ public class MouseArrowClass {
 				
 				if(finalDist <= 3.0d)
 				{
-					greenContour.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
+					greenContour.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, QuadClass.standardQuad);
 				} else {
-					redContour.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
+					redContour.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, QuadClass.standardQuad);
 				}
 				
 			} else {
 				FlatWorld.StaticObjectsBase.rendObject(ContainerCell.ObjectTypeID,
-						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
+						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, QuadClass.standardQuad);
 				
 				FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
-						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
+						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, QuadClass.standardQuad);
 			}
 			
-			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, QuadClass.iconQuad, 
+			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, QuadClass.iconQuad, 
 					MouseArrowClass.pickedObjects.get(0).Animation.getCurrentImage());
 			
 			//FlatWorld.StaticObjectsBase.rendObject(pickedObjectTypeID,
@@ -215,14 +215,13 @@ public class MouseArrowClass {
 		int clickX = Mouse.getX();
 		int clickY = Mouse.getY();
 		FloatBuffer z = BufferUtils.createFloatBuffer(3);
-		GL11.glReadPixels(clickX, clickY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
+		GL11.glReadPixels(1, 1, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
 		
-		GLU.gluUnProject(clickX, clickY, z.get(0), dbModel, dbProj, dbPort, obj_pos);
-		depth = z.get(0);
-		
+		GLU.gluUnProject(clickX, clickY, 0.9981501f, dbModel, dbProj, dbPort, obj_pos);
+		depth = 0.9981501f;
+	
 		ArrowWorldCoordX = obj_pos.get(0);
 		ArrowWorldCoordY = obj_pos.get(1);
-		
 		mouseWheel = Mouse.getDWheel();
 	}
 	
@@ -234,10 +233,8 @@ public class MouseArrowClass {
 		FloatBuffer z = BufferUtils.createFloatBuffer(3);
 		GL11.glReadPixels(1, 1, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, z);
 		
-		GLU.gluUnProject(pointX, pointY, z.get(0), dbModel, dbProj, dbPort, obj_pos);
+		GLU.gluUnProject(pointX, pointY, 0.9981501f, dbModel, dbProj, dbPort, obj_pos);
 		
-		ArrowWorldCoordX = obj_pos.get(0);
-		ArrowWorldCoordY = obj_pos.get(1);
-		return new Vector2f(ArrowWorldCoordX, ArrowWorldCoordY);
+		return new Vector2f(obj_pos.get(0), obj_pos.get(1));
 	}
 }

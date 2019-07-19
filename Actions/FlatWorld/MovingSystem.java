@@ -34,7 +34,7 @@ public class MovingSystem extends Action{
 		normalX = (float)(x*vecInvLenght);
 		normalY = (float)(y*vecInvLenght);
 		
-		Origin.move(normalX * this.moveSpeed, normalY * this.moveSpeed, 0.0f);
+		Origin.move(normalX * this.moveSpeed, normalY * this.moveSpeed);
 		Origin.Animation.updateFrame();
 	}
 	
@@ -48,7 +48,7 @@ public class MovingSystem extends Action{
 		normalX = (float)(x*vecInvLenght);
 		normalY = (float)(y*vecInvLenght);
 		
-		Origin.move(normalX * this.moveSpeed, normalY * this.moveSpeed, 0.0f);
+		Origin.move(normalX * this.moveSpeed, normalY * this.moveSpeed);
 		Origin.Animation.updateFrame();
 	}
 	
@@ -57,7 +57,7 @@ public class MovingSystem extends Action{
 			if(randomPosition == null){
 				float randomPositionToMovingX = (float) (Object.PosGlobalX + (Math.random()*20) - 10);
 				float randomPositionToMovingY = (float) (Object.PosGlobalY + (Math.random()*20) - 10);
-				randomPosition = new ContourClass(randomPositionToMovingX, randomPositionToMovingY, -25.0f, -1, -1, -1);   //Пустой, никому не нужный, невидимый объект-указатель
+				randomPosition = new ContourClass(randomPositionToMovingX, randomPositionToMovingY, -1, -1, -1);   //Пустой, никому не нужный, невидимый объект-указатель
 			}
 		
 			if(randomPosition != null){

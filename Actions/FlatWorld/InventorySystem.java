@@ -69,7 +69,7 @@ public class InventorySystem extends Action{
 
 	public void rendAction(BasicObjectClass Object) {
 		if(isInventoryVisible){
-			Invntory.rend(Object.PosGlobalX, Object.PosGlobalY, Object.PosGlobalZ);
+			Invntory.rend(Object.PosGlobalX, Object.PosGlobalY);
 			if(cellUnderArrow != -1)
 				Invntory.rendObjectOver(ContourClass.ObjectTypeID, cellUnderArrow, 0.0f, 0.0f, QuadClass.standardQuad);
 		}

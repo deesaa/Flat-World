@@ -37,7 +37,7 @@ public class PlayerControllerAct extends Action {
 		}
 		
 		if (tempMoveX != 0 || tempMoveY != 0) {
-			Object.move(tempMoveX, tempMoveY, 0.0f);
+			Object.move(tempMoveX, tempMoveY);
 			MapsManager.updatePlayerPos(Object.OwnedMapID, Object.PosGlobalX,
 					Object.PosGlobalY);
 		} else {

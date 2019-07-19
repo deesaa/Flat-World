@@ -1,5 +1,7 @@
 package FlatWorld;
 
+import java.io.File;
+
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.CoerceLuaToJava;
@@ -8,11 +10,11 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 import FlatWorld.ImageTagsClass.ImageTag;
 
 public class ObjectsLoader {
-	public static BasicObjectClass createObject(String pathToFile, float posX, float posY, float posZ, int ownedChunk, int ownedMap, int objectID) {
+	public static BasicObjectClass createObject(String pathToFile, float posX, float posY, int ownedChunk, int ownedMap, int objectID) {
 		BasicObjectClass newObject = new BasicObjectClass();
 		LuaValue tempLuaValue = null;
 		LuaValue g = JsePlatform.standardGlobals();
-		newObject.setPos(posX, posY, posZ, ownedChunk, ownedMap, objectID);
+		newObject.setPos(posX, posY, ownedChunk, ownedMap, objectID);
 		
 		g.get("dofile").call(LuaValue.valueOf(pathToFile));
 		
@@ -107,6 +109,10 @@ public class ObjectsLoader {
 		if(tempLuaValue != LuaValue.NIL)
 			newObject.ActionsArray.add(new PickingSystem(newObject, tempLuaValue));
 		
+		tempLuaValue = g.get("Battle");
+		if(tempLuaValue != LuaValue.NIL)
+			newObject.ActionsArray.add(new BattleSystem(newObject, tempLuaValue, g));
+		
 		tempLuaValue = g.get("Collision");
 		if(tempLuaValue != LuaValue.NIL)
 			newObject.ActionsArray.add(new CollisionSystem(newObject, tempLuaValue));
@@ -132,5 +138,30 @@ public class ObjectsLoader {
 		Class<BasicObjectClass> cl = BasicObjectClass.class;
 		Object obj = CoerceLuaToJava.coerce(object, cl);
 		return (BasicObjectClass) obj;
+	}
+
+	public static LuaValue luaOf(String path) {
+		LuaValue luaVal = JsePlatform.standardGlobals();
+		luaVal.get("dofile").call(LuaValue.valueOf(path));
+		  
+		return luaVal;
+	}
+
+	public static LuaValue luaOf(File file) {
+		if(file.isDirectory())
+			return null;
+		
+		String fileName = file.getName();
+		int mid = fileName.lastIndexOf(".");
+		String fname =fileName.substring(0, mid);
+		String ext =fileName.substring(mid+1,fileName.length());
+		
+		if(ext.compareTo("txt") == 0 || ext.compareTo("lua") == 0){
+			LuaValue luaVal = JsePlatform.standardGlobals();
+			luaVal.get("dofile").call(LuaValue.valueOf(file.getAbsolutePath()));
+			return luaVal;
+		}
+		
+		return null;
 	}
 }

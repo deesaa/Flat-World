@@ -43,7 +43,7 @@ public class LightObject {
 		lightID = getNextLightID();
 		
 		GL11.glLight(lightID, GL11.GL_POSITION,FlatWorld.floatBuffer(OriginObject.PosGlobalX+QuadClass.standardQuad.width*0.5f, 
-				OriginObject.PosGlobalY+QuadClass.standardQuad.height*0.5f, OriginObject.PosGlobalZ+2, 1));
+				OriginObject.PosGlobalY+QuadClass.standardQuad.height*0.5f, OriginObject.layerDepth+2, 1));
         GL11.glLight(lightID, GL11.GL_DIFFUSE,FlatWorld.floatBuffer(Diffuse.x, Diffuse.y, Diffuse.z, Diffuse.w));
         GL11.glLight(lightID, GL11.GL_SPECULAR,FlatWorld.floatBuffer(Specular.x, Specular.y, Specular.z, Specular.w));
         GL11.glLight(lightID, GL11.GL_AMBIENT,FlatWorld.floatBuffer(Ambient.x, Ambient.y, Ambient.z, Ambient.w));
@@ -68,12 +68,12 @@ public class LightObject {
 			finalOrigin = tempPickable.getOwner();
 			if(finalOrigin != null){
 				GL11.glLight(lightID, GL11.GL_POSITION,FlatWorld.floatBuffer(finalOrigin.PosGlobalX+QuadClass.standardQuad.width*0.5f, 
-						finalOrigin.PosGlobalY+QuadClass.standardQuad.height*0.5f, finalOrigin.PosGlobalZ+2, 1));
+						finalOrigin.PosGlobalY+QuadClass.standardQuad.height*0.5f, finalOrigin.layerDepth+2, 1));
 				return;
 			}
 		}
 		GL11.glLight(lightID, GL11.GL_POSITION,FlatWorld.floatBuffer(OriginObject.PosGlobalX+QuadClass.standardQuad.width*0.5f, 
-				OriginObject.PosGlobalY+QuadClass.standardQuad.height*0.5f, OriginObject.PosGlobalZ+2, 1));
+				OriginObject.PosGlobalY+QuadClass.standardQuad.height*0.5f, OriginObject.layerDepth+2, 1));
 	}
 	
 	public void setOwner(BasicObjectClass Owner){

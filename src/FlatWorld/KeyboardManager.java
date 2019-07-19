@@ -12,6 +12,8 @@ public class KeyboardManager {
 	public ArrayList<Integer> lockedKeys = new ArrayList<Integer>();
 	public ArrayList<Integer> lockedMouseButtons = new ArrayList<Integer>();
 	
+	public static final short MOUSE_UNPUSHED = 0, MOUSE_PUSHED = 1, MOUSE_RELEASED = 2;
+	
 	public boolean isKeyDown(int keyID, boolean lock){
 		if (Keyboard.isKeyDown(keyID)) {
 			for(int i = 0; i < lockedKeys.size(); i++){
@@ -89,27 +91,27 @@ public class KeyboardManager {
 		return 0;
 	}
 
-	public boolean isMouseButtonDown(int buttonID, boolean lock){
+	public int isMouseButtonDown(int buttonID, boolean lock){
 		if (Mouse.isButtonDown(buttonID)) {
 			for(int i = 0; i < lockedMouseButtons.size(); i++){
 				if(lockedMouseButtons.get(i) == buttonID){
-					return false;
+					return MOUSE_UNPUSHED;
 				}
 			}
 			
 			if(lock)
 				lockedMouseButtons.add(buttonID);
-			return true;
+			return MOUSE_PUSHED;
 			
 		} else {
 			
 			for(int i = 0; i < lockedMouseButtons.size(); i++){
 				if(lockedMouseButtons.get(i) == buttonID){
 					lockedMouseButtons.remove(i);
-					return false;
+					return MOUSE_RELEASED;
 				}
 			}
 		}
-		return false;
+		return MOUSE_UNPUSHED;
 	}
 }

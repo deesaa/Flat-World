@@ -1,9 +1,11 @@
 package FlatWorld;
 
-import org.lwjgl.opengl.GL11;
+import FlatWorld.SpriteSheet.SpriteClass;
 
 public class SymbolClass {
 	public TexturesClass Texture;
+	public SpriteClass sprite;
+	public ImageClass image;
 	char Value;
 	float symbolLenght;
 
@@ -13,13 +15,18 @@ public class SymbolClass {
 		this.Value = Value;
 	}
 	
+	public SymbolClass(SpriteClass pSprite, float symbolLenght) {
+		this.sprite = pSprite;
+		this.symbolLenght = symbolLenght;
+		this.image = new ImageClass(sprite);
+	}
+	
 	public SymbolClass(String TexturePath, char Value) {
 		Texture = new TexturesClass("png", TexturePath);
 		this.Value = Value;
 	}
 
-	public void rendSymbol(QuadClass quad) {
-		this.Texture.setTexture();
-		quad.rend();
+	public void rendSymbol(QuadClass quad, UniteColorClass color) {
+		quad.rend(image, color);
 	}
 }

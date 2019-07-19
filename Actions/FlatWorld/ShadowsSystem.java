@@ -46,7 +46,7 @@ public class ShadowsSystem extends Action{
 			float VecViewDirY = 1.0f;
 			float VecViewDirX = 0.0f;
 			double angle = Math.toDegrees(Math.atan2(vecToObjectX*VecViewDirY - VecViewDirX*vecToObjectY, vecToObjectX*VecViewDirX + vecToObjectY*VecViewDirY));
-			GL11.glTranslatef(Object.PosGlobalX+QuadClass.standardQuad.width*0.5f, Object.PosGlobalY, Object.PosGlobalZ);
+			GL11.glTranslatef(Object.PosGlobalX+QuadClass.standardQuad.width*0.5f, Object.PosGlobalY, Object.layerDepth);
 			GL11.glRotated(-angle, 0, 0, 1);
 			if(Math.abs(angle) > 90)
 				GL11.glRotated(-180, 0, 1, 0);
@@ -61,8 +61,13 @@ public class ShadowsSystem extends Action{
 			//float TheCostil = 0.3f; // йняршкэ
 			//GL11.glColor4f(0, 0, 0, ((1.0f+TheCostil)-(curr+alpha))/shadowsArray.size());    //оюбепед аюи йняршкэ
 			GL11.glColor4f(0, 0, 0, (1.0f-(curr+alpha))/(shadowsArray.size()*0.8f));
-
-			new QuadClass(QuadClass.standardQuad.width, QuadClass.standardQuad.height*1.25f, false).rend(Object.Animation.getCurrentImage());
+			
+			int b = (int) (127*(1.0f-(curr+alpha))/(shadowsArray.size()*0.8f));
+			if(b > 127)
+				b = 127;
+			
+			ColorRGBAClass shadow = new ColorRGBAClass((byte)0, (byte) 0, (byte) 0, (byte) b, false);
+			new QuadClass(QuadClass.standardQuad.width, QuadClass.standardQuad.height*1.25f, false).rend(Object.Animation.getCurrentImage(), shadow);
 			GL11.glLoadIdentity();
 		}
 	}	
