@@ -2,38 +2,38 @@ package FlatWorld;
 
 import java.util.Random;
 
-public class ZombieControllerAct implements Action{
+public class ZombieControllerAct implements Action {
 	public void updateAction(BasicObjectClass Object) {
-		
+
 		int minGenMoveVec = 1, maxGenMoveVec = 8;
 		Random generator = new Random(System.currentTimeMillis() >> 1 * Object.ObjectID);
 		int moveVector = minGenMoveVec + generator.nextInt(maxGenMoveVec - minGenMoveVec + 1);
-		
+
 		float tempMoveX = 0.0f, tempMoveY = 0.0f;
-		
-		switch(moveVector){
+
+		switch (moveVector) {
 		case 1:
-			tempMoveX =  Object.moveSpeed;
+			tempMoveX = Object.moveSpeed;
 			break;
 		case 2:
 			tempMoveX = -Object.moveSpeed;
 			break;
 		case 3:
-			tempMoveY =  Object.moveSpeed;
+			tempMoveY = Object.moveSpeed;
 			break;
 		case 4:
 			tempMoveY = -Object.moveSpeed;
 			break;
 		case 5:
-			tempMoveX =  Object.moveSpeed;
-			tempMoveY =  Object.moveSpeed;
+			tempMoveX = Object.moveSpeed;
+			tempMoveY = Object.moveSpeed;
 			break;
 		case 6:
 			tempMoveX = -Object.moveSpeed;
-			tempMoveY =  Object.moveSpeed;
+			tempMoveY = Object.moveSpeed;
 			break;
 		case 7:
-			tempMoveX =  Object.moveSpeed;
+			tempMoveX = Object.moveSpeed;
 			tempMoveY = -Object.moveSpeed;
 			break;
 		case 8:
@@ -41,8 +41,8 @@ public class ZombieControllerAct implements Action{
 			tempMoveY = -Object.moveSpeed;
 			break;
 		}
-		
-		if(tempMoveX != 0 || tempMoveY != 0) {
+
+		if (tempMoveX != 0 || tempMoveY != 0) {
 			Object.Textures.updateAnimation();
 			Object.move(tempMoveX, tempMoveY, 0.0f);
 		} else {
@@ -56,11 +56,17 @@ public class ZombieControllerAct implements Action{
 	@Override
 	public void rendButtons(BasicObjectClass Object) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void zeroAction(BasicObjectClass basicObjectClass) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
 		// TODO Auto-generated method stub
 		
 	}
