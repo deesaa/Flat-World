@@ -22,7 +22,7 @@ public class ContainerCell extends BasicObjectClass {
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
 			int ObjectID, float indentX, float indentY) 
 	{
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, false, ObjectID, ContainerCell.ObjectTypeID, false, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
 		
 		this.indentX = indentX;
 		this.indentY = indentY;
@@ -32,7 +32,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 	
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, false, ObjectID, ContainerCell.ObjectTypeID, false, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
 		
 		this.localPosGlobalX = PosGlobalX;
 		this.localPosGlobalY = PosGlobalY;
@@ -40,7 +40,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 	
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID, int equipPlace) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, false, ObjectID, ContainerCell.ObjectTypeID, false, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, ContainerCell.ObjectTypeID, false, false);
 		
 		this.equipPlace = equipPlace;
 		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(equipPlace).Icon;
@@ -50,7 +50,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	ContainerCell() {
-		super(ObjectTypes.Cell, 0.0f, false, ContainerCell.ObjectTypeID, false);
+		super(ObjectTypes.Cell, 0.0f, ContainerCell.ObjectTypeID, false);
 	}
 
 	public static void initObject() {
@@ -128,6 +128,6 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public void rendRedContur() {
-		FlatWorld.StaticObjectsBase.rendObject(RedContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad);
+		FlatWorld.StaticObjectsBase.rendObject(ContourTemplateClass.childrenBase.getChild("ROCo"), super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad);
 	}
 }

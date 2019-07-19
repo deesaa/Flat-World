@@ -10,14 +10,13 @@ public class InventorySystem implements Action{
 	
 	boolean isInventoryVisible = false;
 	int cellUnderArrow = -1;
-	public ArrayList<ContainerCell> pInventoryCellsArray = new ArrayList<ContainerCell>();
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) 
 	{
 		Object.Modifiers.pointerToInventorySystem = this;
 		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture, BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft);
-		Invntory.getPointers(pInventoryCellsArray);
+		Invntory.pushGroup("Inv");
 	}
 	
 	public void updateAction(BasicObjectClass Object) {
@@ -69,7 +68,7 @@ public class InventorySystem implements Action{
 	}
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
-		return Invntory.addObjectAtGroup(pickedObject, pInventoryCellsArray);
+		return Invntory.addObjectAtGroup(pickedObject, Invntory.getCellsGroup("Inv"));
 	}
 
 	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {

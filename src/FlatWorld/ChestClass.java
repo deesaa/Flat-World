@@ -31,12 +31,12 @@ public class ChestClass extends BasicObjectClass {
 	}
 
 	ChestClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, true, ObjectID, ChestClass.ObjectTypeID, true, true);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, ChestClass.ObjectTypeID, true, true);
 		super.ActionsArray.add(new InventorySystem(this, 4, 4, -4.0f, 2.0f, null, 0, 0, 0, 0));
 	}
 
 	ChestClass() {
-		super(ObjectTypes.Object, 0.0f, true, ChestClass.ObjectTypeID, true);
+		super(ObjectTypes.Object, 0.0f, ChestClass.ObjectTypeID, true);
 	}
 
 	public void updateObject() {

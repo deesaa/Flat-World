@@ -1,6 +1,8 @@
 package FlatWorld;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -16,7 +18,7 @@ public class ContainersArrayClass {
 	TexturesClass backgroundTexture;
 	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
 	
-	ArrayList<pCellsGroup> cellsGroupsArray = new ArrayList<pCellsGroup>();
+	Map<String, pCellsGroup> cellsGroupsArray = new Hashtable<String, pCellsGroup>();
 	int lastEndID = 0;
 	
 	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
@@ -187,8 +189,10 @@ public class ContainersArrayClass {
 		}
 	}
 	
-	public void pushGroup(){
-		
+	public void pushGroup(String groupName){
+		int size = InventoryCellsArray.size() - lastEndID;
+		this.cellsGroupsArray.put(groupName, new pCellsGroup(groupName, InventoryCellsArray, lastEndID, size));
+		lastEndID = InventoryCellsArray.size();
 	}
 
 	public void getPointers(ArrayList<ContainerCell> pCellsArray) {
@@ -201,7 +205,14 @@ public class ContainersArrayClass {
 		public ArrayList<ContainerCell> pCellsArray;
 		
 		public pCellsGroup(String groupName, ArrayList<ContainerCell> mainCellsArray, int start, int size) {
-			pCellsArray = (ArrayList<ContainerCell>) mainCellsArray.subList(start, start+size);
+			pCellsArray = new ArrayList<ContainerCell>();
+			for(int i = 0; i != size; i++){
+				pCellsArray.add(mainCellsArray.get(start+i));
+			}
 		}
+	}
+
+	public ArrayList<ContainerCell> getCellsGroup(String groupName) {
+		return this.cellsGroupsArray.get(groupName).pCellsArray;
 	}
 }

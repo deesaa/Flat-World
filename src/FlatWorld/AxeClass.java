@@ -25,13 +25,13 @@ public class AxeClass extends BasicObjectClass{
 	}
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, true, ObjectID, DirtClass.ObjectTypeID, false, true);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, DirtClass.ObjectTypeID, false, true);
 		super.ActionsArray.add(new EqipmentSystem(this, EqipmentPlaces));
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
 	}
 	
 	AxeClass() {
-		super(ObjectTypes.Object, 0.0f, true, TorchClass.ObjectTypeID, false);
+		super(ObjectTypes.Object, 0.0f, TorchClass.ObjectTypeID, false);
 	}
 
 	public void rendObject(int QuadType) {

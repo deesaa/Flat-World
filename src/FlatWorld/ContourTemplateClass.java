@@ -10,11 +10,11 @@ public class ContourTemplateClass extends BasicObjectClass{
 
 	ContourTemplateClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ - 0.001f, OwnedChunkID, OwnedMapID, 
-				ObjectTypes.Cell, 0.0f, true, ObjectID, ContourTemplateClass.ObjectTypeID, false, false);
+				ObjectTypes.Cell, 0.0f, ObjectID, ContourTemplateClass.ObjectTypeID, false, false);
 	}
 
 	ContourTemplateClass() {
-		super(ObjectTypes.Cell, 0.0f, true, ContourTemplateClass.ObjectTypeID, false);
+		super(ObjectTypes.Cell, 0.0f, ContourTemplateClass.ObjectTypeID, false);
 	}
 
 	public static void initObject() {

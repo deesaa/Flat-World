@@ -151,10 +151,10 @@ public class MouseArrowClass {
 				
 				if(finalDist <= 3.0d)
 				{
-					FlatWorld.StaticObjectsBase.rendObject(GreenContourClass.ObjectTypeID,
+					FlatWorld.StaticObjectsBase.rendObject(ContourTemplateClass.childrenBase.getChild("GCo"),
 							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
 				} else {
-					FlatWorld.StaticObjectsBase.rendObject(RedContourClass.ObjectTypeID,
+					FlatWorld.StaticObjectsBase.rendObject(ContourTemplateClass.childrenBase.getChild("RCo"),
 							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
 				}
 				

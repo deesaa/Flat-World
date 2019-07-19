@@ -1,18 +1,16 @@
 package FlatWorld;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
-public class ZombieClass extends BasicObjectClass {
-	public static int ObjectTypeID;
+
+public class ZombieTemplateClass extends BasicObjectClass {
+	public static int ObjectTypeID = -1;
+	public static TemplateChildrenBase childrenBase = new TemplateChildrenBase();
 	public static String ObjectName;
 	
 	public static TexturesClass PerHealScaleTex = new TexturesClass("png", "data/GUI/PerHealScale.png");
@@ -34,19 +32,8 @@ public class ZombieClass extends BasicObjectClass {
 			super.Animations.addAnimationImage(StaticImageArray.get(i), 300);
 		}
 	}
-	
-	public static void initObject() {
-		try {
-			StaticImageArray.add(new Image("data/mobs/Zombie_a1.png", GL11.GL_NEAREST));
-			StaticImageArray.add(new Image("data/mobs/Zombie_a2.png", GL11.GL_NEAREST));
-			StaticImageArray.add(new Image("data/mobs/Zombie_a3.png", GL11.GL_NEAREST));
-		} catch (SlickException e) { e.printStackTrace();}
-		
-		PickableObjectsArray.add(TorchClass.ObjectTypeID);
-		EnemiesArray.add(PlayerClass.ObjectTypeID);
-	}
 
-	ZombieClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+	ZombieTemplateClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, 0.001f, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new MovingSystem(this));
@@ -58,12 +45,21 @@ public class ZombieClass extends BasicObjectClass {
 		super.ActionsArray.add(new OffersListAct(this));
 	}
 
-	ZombieClass() {
+	ZombieTemplateClass() {
 		super(ObjectTypes.Mob, 0.001f, ZombieClass.ObjectTypeID, true);
+		
+		
 	}
 
-	public void updateObject() {
-		super.updateObject();
+	public static void initObject() {
+		try {
+			StaticImageArray.add(new Image("data/mobs/TemplateZombie_a1.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/mobs/TemplateZombie_a2.png", GL11.GL_NEAREST));
+			StaticImageArray.add(new Image("data/mobs/TemplateZombie_a3.png", GL11.GL_NEAREST));
+		} catch (SlickException e) { e.printStackTrace();}
+		
+		PickableObjectsArray.add(TorchClass.ObjectTypeID);
+		EnemiesArray.add(PlayerClass.ObjectTypeID);
 	}
 
 	public void rendObject(int QuadType) {

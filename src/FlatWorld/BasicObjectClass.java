@@ -1,7 +1,6 @@
 package FlatWorld;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
@@ -26,7 +25,7 @@ public class BasicObjectClass {
 	ColorClass modifColor = ColorClass.Standard;
 
 	public BasicObjectClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
-			ObjectTypes ObjectType, float moveSpeed, boolean isAlphaBlend, int ObjectID, int ObjectTypeID, boolean isSolid, boolean isPickable) {
+			ObjectTypes ObjectType, float moveSpeed, int ObjectID, int ObjectTypeID, boolean isSolid, boolean isPickable) {
 		this.PosGlobalX = PosGlobalX;
 		this.PosGlobalY = PosGlobalY;
 		this.PosGlobalZ = PosGlobalZ;
@@ -37,18 +36,15 @@ public class BasicObjectClass {
 		this.ObjectID = ObjectID;
 		this.ObjectTypeID = ObjectTypeID;
 
-		Modifiers.isAlphaBlend = isAlphaBlend;
 		Modifiers.isSolid = isSolid;
 		Modifiers.isClickable = isPickable;
 		if (Modifiers.isClickable)
 			this.setButtonOnObject();
 	}
 
-	public BasicObjectClass(ObjectTypes ObjectType, float moveSpeed,
-			boolean isAlphaBlend, int ObjectTypeID, boolean isSolid) {
+	public BasicObjectClass(ObjectTypes ObjectType, float moveSpeed, int ObjectTypeID, boolean isSolid) {
 		this.ObjectType = ObjectType;
 		this.moveSpeed = moveSpeed;
-		Modifiers.isAlphaBlend = isAlphaBlend;
 		Modifiers.isSolid = isSolid;
 		this.ObjectTypeID = ObjectTypeID;
 	}

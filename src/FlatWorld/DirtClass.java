@@ -14,12 +14,17 @@ public class DirtClass extends BasicObjectClass {
 	public static String ObjectName;
 	public static Image CellTexture;
 	
+	{
+		super.Animations = new AnimationsList("dirt");
+		super.Animations.addAnimationImage(CellTexture, 300);
+	}
+	
 	DirtClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, false, ObjectID, DirtClass.ObjectTypeID, false, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, ObjectID, DirtClass.ObjectTypeID, false, false);
 	}
 
 	DirtClass() {
-		super(ObjectTypes.Cell, 0.0f, false, DirtClass.ObjectTypeID, false);
+		super(ObjectTypes.Cell, 0.0f, DirtClass.ObjectTypeID, false);
 	}
 
 	public static void initObject() {
@@ -31,12 +36,12 @@ public class DirtClass extends BasicObjectClass {
 	}
 
 	public void rendObject(int QuadType) {
-		DirtClass.CellTexture.bind();
+		super.Animations.setAnimation();
 		super.rendObject(QuadType);
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
-		DirtClass.CellTexture.bind();
+		super.Animations.setAnimation();
 		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType);
 	}
 }

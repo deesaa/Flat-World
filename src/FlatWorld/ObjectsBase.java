@@ -18,8 +18,6 @@ public class ObjectsBase {
 		StaticObjectsArray.put(ContainerCell.ObjectTypeID, 	      new ContainerCell());
 		StaticObjectsArray.put(ContourClass.ObjectTypeID, 	      new ContourClass());
 		StaticObjectsArray.put(ChestClass.ObjectTypeID, 	      new ChestClass());
-		StaticObjectsArray.put(RedContourClass.ObjectTypeID,      new RedContourClass());
-		StaticObjectsArray.put(GreenContourClass.ObjectTypeID,    new GreenContourClass());
 		StaticObjectsArray.put(AxeClass.ObjectTypeID, 		      new AxeClass());
 		StaticObjectsArray.put(ContourTemplateClass.ObjectTypeID, new ContourTemplateClass());
 	}
@@ -40,10 +38,6 @@ public class ObjectsBase {
 		ContourClass.ObjectName 			= "Contour";
 		ChestClass.ObjectTypeID 			= this.getNextID();
 		ChestClass.ObjectName 				= "Chest";
-		RedContourClass.ObjectTypeID 		= this.getNextID();
-		RedContourClass.ObjectName 			= "RedContour";
-		GreenContourClass.ObjectTypeID 		= this.getNextID();
-		GreenContourClass.ObjectName 		= "GreenContour";
 		AxeClass.ObjectTypeID 				= this.getNextID();
 		AxeClass.ObjectName 				= "Axe";
 		ContourTemplateClass.ObjectTypeID 	= this.getNextID();
@@ -56,14 +50,13 @@ public class ObjectsBase {
 		ContainerCell.initObject();
 		ContourClass.initObject();
 		ChestClass.initObject();
-		RedContourClass.initObject();
-		GreenContourClass.initObject();
 		AxeClass.initObject();
 		ContourTemplateClass.initObject();
 		
 		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.RedOrange, this, "ROCo");
-		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Blue, this, "BCo");
+		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Yellow, this, "YCo");
 		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Green, this, "GCo");
+		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Red, this, "RCo");
 	}
 
 	public void rendObject(int ObjectTypeID, float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType) {

@@ -58,7 +58,7 @@ public class PlayerClass extends BasicObjectClass {
 	}
 
 	PlayerClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, true, ObjectID, PlayerClass.ObjectTypeID, true, false);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Player, 0.005f, ObjectID, PlayerClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new PlayerControllerAct());
 		super.ActionsArray.add(new PickingSystem(this, PickableObjectsArray));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));
@@ -70,7 +70,7 @@ public class PlayerClass extends BasicObjectClass {
 	}
 
 	PlayerClass() {
-		super(ObjectTypes.Player, 0.005f, true, PlayerClass.ObjectTypeID, true);
+		super(ObjectTypes.Player, 0.005f, PlayerClass.ObjectTypeID, true);
 	}
 
 	public void updateObject() {

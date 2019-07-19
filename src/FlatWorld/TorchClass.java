@@ -37,13 +37,13 @@ public class TorchClass extends BasicObjectClass {
 	}
 
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
-		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, true, ObjectID, TorchClass.ObjectTypeID, false, true);
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
 		super.ActionsArray.add(new EqipmentSystem(this, EqipmentPlaces));
 	}
 
 	TorchClass() {
-		super(ObjectTypes.Object, 0.0f, true, TorchClass.ObjectTypeID, false);
+		super(ObjectTypes.Object, 0.0f, TorchClass.ObjectTypeID, false);
 	}
 
 	public void updateObject() {
