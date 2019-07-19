@@ -1,7 +1,7 @@
 # Flat World
  __Unfinished Java Lwjgl Game__
  
- ## Whats happening
+ ## Whats Happening
  - Zombies walking around
  - Items lay on the ground, u can take them. Zombies can too
  - There is a chest, u can open it(left click) and store your items
@@ -12,5 +12,5 @@
  
  ![GameView](readmepics/PicFW.png)
  
- ## Video how u should play this game
+ ## Video How You Should Play This Game
  __https://youtu.be/xMfsJyDvdjI__
