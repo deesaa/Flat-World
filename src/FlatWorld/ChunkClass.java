@@ -21,15 +21,17 @@ public class ChunkClass {
 		this.ChunkGlobalPosX = ChunkPosX*ChunkClass.numObjectsInLine;
 		this.ChunkGlobalPosY = ChunkPosY*ChunkClass.numLines;
 		
+		System.out.println("X "+(ChunkGlobalPosX) + " Y " + (ChunkGlobalPosY));
+		
 		for(int i = 0; i != numObjectsInLine; i++){
 			for(int i2 = 0; i2 != numLines; i2++){
-				ObjectsArray.add(new DirtClass(ChunkGlobalPosX+i, ChunkGlobalPosY+i2, ChunkGlobalPosZ, chunkID, OwnedMap));
+				ObjectsArray.add(new DirtClass(ChunkGlobalPosX+i, ChunkGlobalPosY+i2, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 			}
 		}
 	}
 	
 	public void addPlayer(float PlayerPosX, float PlayerPosY){
-		ObjectsArray.add(new PlayerClass(PlayerPosX, PlayerPosY, ChunkGlobalPosZ, chunkID, OwnedMap));
+		ObjectsArray.add(new PlayerClass(PlayerPosX, PlayerPosY, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 	}
 	
 	public void updateChunk(){

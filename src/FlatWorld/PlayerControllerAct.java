@@ -25,6 +25,7 @@ public class PlayerControllerAct implements Action{
 		if(tempMoveX != 0 || tempMoveY != 0) {
 			Object.Textures.updateAnimation();
 			Object.move(tempMoveX, tempMoveY, 0.0f);
+			MapsManager.updatePlayerPos(Object.OwnedMapID, Object.PosGlobalX, Object.PosGlobalY);
 		} else {
 			Object.Textures.restartAnimation();
 		}
