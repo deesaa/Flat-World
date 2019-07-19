@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PickableObjectsList {
 	public static final PickableObjectsList zombieStandardPickingList = new PickableObjectsList(new PickableObjectsList[]{
-			new PickableObjectsList(TorchClass.ObjectTypeID, 2), new PickableObjectsList(AxeClass.ObjectTypeID, 4)});
+			new PickableObjectsList(AxeClass.ObjectTypeID, 4)});
 	
 	public ArrayList<PickableObjectsList> objectsList;
 	int pickingPriority;

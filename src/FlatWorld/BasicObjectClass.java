@@ -107,6 +107,7 @@ public class BasicObjectClass {
 	}
 
 	public void rendObject(QuadClass Quad) {
+		this.rendActions();
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
 		modifColor.setColorFilter();
 		this.Animations.setAnimation();
@@ -116,17 +117,18 @@ public class BasicObjectClass {
 			Quad.rend();
 		}
 		GL11.glLoadIdentity();
-		this.rendActions();
+		//this.rendActions();
 		Modifiers.hasContour = false;
 	}
 
 	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
+		this.rendActions();
 		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
 		modifColor.setColorFilter();
 		this.Animations.setAnimation();
 		Quad.rend();
 		GL11.glLoadIdentity();
-		this.rendActions();
+	//	this.rendActions();
 		Modifiers.hasContour = false;
 	}
 	

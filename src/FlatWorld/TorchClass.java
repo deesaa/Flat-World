@@ -39,6 +39,7 @@ public class TorchClass extends BasicObjectClass {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
 		super.setRendShift(-0.2f, 0.1f);
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
+		super.ActionsArray.add(new LightingSystem(this, 7.0f));
 		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 	}
 

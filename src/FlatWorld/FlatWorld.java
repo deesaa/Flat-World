@@ -1,15 +1,12 @@
 package FlatWorld;
 
-import java.awt.Font;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.TrueTypeFont;
 
 public class FlatWorld {
 	private static long lastFrame, fps, lastFPS;
@@ -32,6 +29,7 @@ public class FlatWorld {
 		initStandardQuad();
 		TextFieldClass.initSymbols();
 		TextRenderModule.initSymbols();
+		
 		String message = mainMenu.mainMenu();
 		if(message.compareTo("ExitGame") != 0){
 			if(message.compareTo("NewGame") == 0){
@@ -42,17 +40,39 @@ public class FlatWorld {
 	}
 
 	public static void FWMainLoop() {
+		 GL11.glEnable(GL11.GL_LIGHTING);
+		 GL11.glLightModelf(GL11.GL_LIGHT_MODEL_TWO_SIDE, GL11.GL_TRUE);
+	     GL11.glEnable(GL11.GL_NORMALIZE);;
+
+         // use the defined color as the material for the square
+        // GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+     //    GL11.glColorMaterial(GL11.GL_FRONT_AND_BACK,GL11.GL_AMBIENT_AND_DIFFUSE);
+         
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			updateDelta();
-			MapsManager.updateMap();
-			MapsManager.rendMap();
+            MapsManager.updateMap();
+   			MapsManager.rendMap();
+			
 			MouseArrowClass.updateArrow();
 			GL11.glLoadIdentity();
 			Display.update();
 			updateFPS();
 		}
 	}
+
+	private static FloatBuffer allocFloats(float[] fs) {
+		return (FloatBuffer) ByteBuffer.allocateDirect(fs.length*8).asFloatBuffer().put(fs).flip();
+	}
+	
+	 public static FloatBuffer floatBuffer(float a, float b, float c, float d)
+     {
+		 float[] data = new float[]{a,b,c,d};
+		 FloatBuffer fb = BufferUtils.createFloatBuffer(data.length);
+		 fb.put(data);
+		 fb.flip();
+		 return fb;
+     }
 
 	private static void updateDelta() {
 		long time = Sys.getTime();

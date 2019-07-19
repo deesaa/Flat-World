@@ -24,15 +24,20 @@ public class QuadClass {
 			GL11.glCallList(listID);
 		} else {
 			GL11.glBegin(rendType);
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 			GL11.glTexCoord2f(0.0f, 1.0f);
 			GL11.glVertex3f(0.0f, 0.0f, 0.0f);
 		
+			
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 			GL11.glTexCoord2f(1.0f, 1.0f);
 			GL11.glVertex3f(width, 0.0f, 0.0f);
 		
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 			GL11.glTexCoord2f(1.0f, 0.0f);
 			GL11.glVertex3f(width, height, 0.0f);
 		
+			GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 			GL11.glTexCoord2f(0.0f, 0.0f);
 			GL11.glVertex3f(0.0f, height, 0.0f);
 			GL11.glEnd();
@@ -44,15 +49,19 @@ public class QuadClass {
 		GL11.glNewList(this.listID, GL11.GL_COMPILE);
 		
 		GL11.glBegin(rendType);
+		GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 		GL11.glTexCoord2f(0.0f, 1.0f);
 		GL11.glVertex3f(0.0f, 0.0f, 0.0f);
 		
+		GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 		GL11.glTexCoord2f(1.0f, 1.0f);
 		GL11.glVertex3f(width, 0.0f, 0.0f);
 		
+		GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 		GL11.glTexCoord2f(1.0f, 0.0f);
 		GL11.glVertex3f(width, height, 0.0f);
 		
+		GL11.glNormal3f(0.0f, 0.0f, 1.0f);
 		GL11.glTexCoord2f(0.0f, 0.0f);
 		GL11.glVertex3f(0.0f, height, 0.0f);
 		GL11.glEnd();

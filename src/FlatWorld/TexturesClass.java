@@ -9,7 +9,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class TexturesClass {
 	Texture TexturesArray;
-	
+
 	public TexturesClass(String Format, String TexturePath) {
 		try {
 			if(TexturePath != null)

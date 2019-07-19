@@ -76,7 +76,7 @@ public class TextRenderModule {
 				GL11.glTranslatef(Symbols.get(string.charAt(i)).symbolLenght+CorrectionIndent, 0, 0);
 				
 			} catch (NullPointerException exception) {
-				System.out.println("Symbol " + string.charAt(i) + " not found");
+				//System.out.println("Symbol " + string.charAt(i) + " not found");
 			}
 		}
 		GL11.glLoadIdentity();

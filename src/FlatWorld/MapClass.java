@@ -14,6 +14,7 @@ public class MapClass {
 	float distToCutChunksGlobalX, distToCutChunksGlobalY;
 	public ArrayList<ChunkClass> ChunksArray = new ArrayList<ChunkClass>();
 	public ArrayList<ChunkClass> VisibleChunksArray = new ArrayList<ChunkClass>();
+	public LightingMapClass lightingMap = new LightingMapClass();
 
 	// Ќомер карты; расто€ние до начала обрезани€ чанков по X; расто€ние до
 	// начала обрезани€ чанков по Y; глобальное расположение объекта(игрока) по
@@ -72,10 +73,12 @@ public class MapClass {
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).rendChunkCells();
 		}
-
+		
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).rendChunkObjects();
 		}
+		
+		lightingMap.rend();
 	}
 
 	public void updatePlayerPos(float PlayerGlobalPosX, float PlayerGlobalPosY) {

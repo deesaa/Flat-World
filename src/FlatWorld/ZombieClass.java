@@ -16,7 +16,6 @@ public class ZombieClass extends BasicObjectClass {
 	public static Vector3f PerHealScaleContourColor = new Vector3f(1.0f, 0.0f, 0.0f);
 	public static ArrayList<Image> StaticImageArray = new ArrayList<Image>();
 	public static ArrayList<Integer> EnemiesArray = new ArrayList<Integer>();
-	public static ArrayList<Integer> PickableObjectsArray = new ArrayList<Integer>();
 	
 	public static StringVars[][] Anatomy = new StringVars[][]{
 		{new StringVars("EP=Nothing;EPl=Nothing;"), new StringVars("EP=Head;EPl=Nothing;"),     new StringVars("EP=Nothing;EPl=Nothing;")}, 
@@ -39,14 +38,13 @@ public class ZombieClass extends BasicObjectClass {
 			StaticImageArray.add(new Image("data/mobs/Zombie_a3.png", GL11.GL_NEAREST));
 		} catch (SlickException e) { e.printStackTrace();}
 		
-		PickableObjectsArray.add(TorchClass.ObjectTypeID);
-		PickableObjectsArray.add(AxeClass.ObjectTypeID);
 		EnemiesArray.add(PlayerClass.ObjectTypeID);
 	}
 
 	ZombieClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, 0.001f, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
+		super.ActionsArray.add(new LightingSystem(this));
 		super.ActionsArray.add(new MovingSystem(this));
 		super.ActionsArray.add(new PickingSystem(this, PickableObjectsList.zombieStandardPickingList));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));

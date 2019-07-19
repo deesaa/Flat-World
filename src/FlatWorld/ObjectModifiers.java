@@ -20,4 +20,5 @@ public class ObjectModifiers {
 	public EquipmentSystem  pointerToEquipmentSystem;
 	public BattleObjectAct  pointerToBattleObjectAct;
 	public CollisionSystem  pointerToCollisionSystem;
+	public LightingSystem 	pointerToLightingSystem;
 }  

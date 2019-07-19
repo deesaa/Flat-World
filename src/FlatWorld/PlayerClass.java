@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
@@ -155,6 +156,7 @@ public class PlayerClass extends BasicObjectClass {
 		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
+		super.ActionsArray.add(new LightingSystem(this));
 		super.ActionsArray.add(new BattleSystem(this, null, null, 100, 100, EnemiesArray).linkPlayerGUI(PlayerGUI));
 		super.ActionsArray.add(new CollisionSystem(this, 0.3f, 0, 0));
 		super.ActionsArray.add(new OffersListAct(this));
