@@ -24,7 +24,7 @@ public class RandomizeTool {
 
 	public static boolean setBattleObject(BasicObjectClass Object, BattleObjectClass newBattleObject, 
 			BattleObjectClass minChange, BattleObjectClass maxChange, float chanceOfDoing) {
-		BattleObjectAct tempBattleObjectAct = Object.Modifiers.pointerToBattleObjectAct;
+		BattleObjectAct tempBattleObjectAct = Object.Modifiers.pBattleObjectAct;
 		if(tempBattleObjectAct == null){
 			Object.printDefObjectInfo();
 			System.out.println("RandomizeTool: Object doesn't have BattleObjectAct; Skipped");
@@ -32,9 +32,9 @@ public class RandomizeTool {
 		}
 		if(RandomizeTool.percentChance(chanceOfDoing)){
 			if(minChange != null || maxChange != null)
-				Object.Modifiers.pointerToBattleObjectAct.battleObjectStatesList = BattleObjectClass.randomBattleObject(newBattleObject, minChange, maxChange);
+				Object.Modifiers.pBattleObjectAct.battleObjectStatesList = BattleObjectClass.randomBattleObject(newBattleObject, minChange, maxChange);
 			else
-				Object.Modifiers.pointerToBattleObjectAct.battleObjectStatesList = newBattleObject;
+				Object.Modifiers.pBattleObjectAct.battleObjectStatesList = newBattleObject;
 			return true;
 		}
 		return false;

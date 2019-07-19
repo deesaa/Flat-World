@@ -46,7 +46,7 @@ public class ChestClass extends BasicObjectClass {
 	}
 	
 	public void fixSpriteState(){
-		if(Modifiers.pointerToInventorySystem.isInventoryVisible)
+		if(Modifiers.pInventorySystem.isInventoryVisible)
 			super.Animation.pickAnimation(1);
 		else
 			super.Animation.pickAnimation(0);

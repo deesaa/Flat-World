@@ -10,15 +10,15 @@ public class DestructionSystem extends Action{
 	ArrayList<DestructMaterialRatio> destructRatioMaterials;
 	
 	DestructionSystem(BasicObjectClass ActionOwner, int solidity) {
-		super(ActionOwner);
-		ActionOwner.Modifiers.pointerToDestructionSystem = this;
+		super(ActionOwner, "DEST");
+		ActionOwner.Modifiers.pDestructionSystem = this;
 		this.solidity = solidity;
 		this.destructionDegree = 0;
 	}
 	
 	DestructionSystem(BasicObjectClass ActionOwner, ArrayList<DestructMaterialRatio> destructRatioMaterials) {
-		super(ActionOwner);
-		ActionOwner.Modifiers.pointerToDestructionSystem = this;
+		super(ActionOwner, "DEST");
+		ActionOwner.Modifiers.pDestructionSystem = this;
 		this.destructRatioMaterials = destructRatioMaterials;
 	}
 
@@ -28,16 +28,16 @@ public class DestructionSystem extends Action{
 			if(Object.underArrow){
 				if(desSysLocker.isMouseButtonDown(0, true)){
 					BasicObjectClass pPlayer = MapsManager.MapsArray.get(Object.OwnedMapID).pPlayer;
-					BasicObjectClass destroyerObject = pPlayer.Modifiers.pointerToEquipmentSystem.getContainer("Hand", "Right").getFirstPickedObject();
+					BasicObjectClass destroyerObject = pPlayer.Modifiers.pEquipmentSystem.getContainer("Hand", "Right").getFirstPickedObject();
 					
 					if(destroyerObject != null && pPlayer.Animation.getTagAnimation(0).playOnce == false && 
-					   destroyerObject.Modifiers.pointerToDestructionSystem != null &&
+					   destroyerObject.Modifiers.pDestructionSystem != null &&
 					   pPlayer.PosGlobalX + -0.5f < Object.PosGlobalX && 
 					   pPlayer.PosGlobalX +  0.5f > Object.PosGlobalX &&
 					   pPlayer.PosGlobalY + -0.5f < Object.PosGlobalY && 
 					   pPlayer.PosGlobalY +  0.5f > Object.PosGlobalY)
 					{
-						DestructMaterialRatio DMR = destroyerObject.Modifiers.pointerToDestructionSystem.getDestructionRatioTo(Object.Modifiers.pointerToMaterialSystem);
+						DestructMaterialRatio DMR = destroyerObject.Modifiers.pDestructionSystem.getDestructionRatioTo(Object.Modifiers.pMaterialSystem);
 						this.destructionDegree += DMR.power;
 						pPlayer.Animation.getTagAnimation(0).playOnce();
 						Object.Animation.getTagAnimation(0).playOnce();

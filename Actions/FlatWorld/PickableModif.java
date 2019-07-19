@@ -4,8 +4,8 @@ public class PickableModif extends Action{
 		private BasicObjectClass OwnerObject;
 		
 		PickableModif(BasicObjectClass Object){
-			super(Object);
-			Object.Modifiers.pointerToPickableModif = this;
+			super(Object, "PICKMODIF");
+			Object.Modifiers.pPickableModif = this;
 		}
 		
 		public void setOwner(BasicObjectClass OwnerObject){
@@ -16,7 +16,7 @@ public class PickableModif extends Action{
 			if(OwnerObject == null)
 				return super.ActionOwner;
 			
-			PickableModif tempPickable = OwnerObject.Modifiers.pointerToPickableModif;
+			PickableModif tempPickable = OwnerObject.Modifiers.pPickableModif;
 			BasicObjectClass finalOwner = OwnerObject;
 			if(tempPickable != null){
 				finalOwner = tempPickable.getOwner();

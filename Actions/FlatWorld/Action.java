@@ -2,8 +2,10 @@ package FlatWorld;
 
 public abstract class Action {
 	BasicObjectClass ActionOwner;
-	Action(BasicObjectClass ActionOwner){
+	String systemIdent;
+	Action(BasicObjectClass ActionOwner, String systemIdent){
 		this.ActionOwner = ActionOwner;
+		this.systemIdent = systemIdent;
 	}
 	
 	public abstract void updateAction(BasicObjectClass Object);

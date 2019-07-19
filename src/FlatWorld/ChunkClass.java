@@ -38,6 +38,7 @@ public class ChunkClass {
 		ObjectsArray.add(pPlayer);	
 		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 5.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/players/Player.txt", genPosX + 3.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		//ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
@@ -100,7 +101,7 @@ public class ChunkClass {
 	// Принимает проверяемый объект; возвращает пересекаемый объект или null
 	public BasicObjectClass checkCollision(BasicObjectClass object) {
 		for (int i = 0; i != ObjectsArray.size(); i++) {
-			if(ObjectsArray.get(i).Modifiers.pointerToCollisionSystem != null){
+			if(ObjectsArray.get(i).Modifiers.pCollisionSystem != null){
 				if(CollisionSystem.checkCollision(object, ObjectsArray.get(i))){
 					return ObjectsArray.get(i);
 				}

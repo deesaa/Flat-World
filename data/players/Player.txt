@@ -1,0 +1,146 @@
+ObjectName = "Player"
+
+Shadows = true
+
+Collision =
+{
+	sphereRadius = 0.26,
+	shiftX = 0.0,
+	shiftY = 0.0
+}
+
+Inventory =
+{
+	numCellsInLine = 3, 
+	numLines = 3,
+	shiftX = 2.0,
+	shiftY = 2.0
+} 
+
+Anatomy = 
+{
+	AnatomyElements = 
+	{
+		{},
+		{},
+		{},
+		{},
+		{},
+	},
+	
+	Struct = 
+	{
+		{{"Nothing", "Nothing"}, {"Head", "Nothing"}, 	 {"Nothing", "Nothing"}},
+		{{"Arm", "Left"},  		 {"Body", "Nothing"}, 	 {"Leg", "Right"}},
+		{{"Hand", "Left"}, 		 {"Nothing", "Nothing"}, {"Hand", "Right"}},
+		{{"Leg", "Left"},  		 {"Nothing", "Nothing"}, {"Leg", "Right"}},
+		{{"Foot", "Left"}, 		 {"Nothing", "Nothing"}, {"Foot", "Right"}}
+	}
+}
+
+Equipment =
+{
+	createByAnatomy = true;
+	shiftX = 6.0;
+	shiftY = 6.0;
+}
+
+Picking =
+{
+	isPlayer = true,
+	
+	PickableObjects =
+	{
+		
+	}
+}
+
+Looking =
+{
+	VecViewDirX = 0.0f;
+	VecViewDirY = 1.0f;  
+	viewAngle = 45.0f; 
+	viewSphereRadius = 7.5f;  
+	rotateSpeed = 0.1f;
+}
+
+SpriteSheet = 
+{
+	path = "data/players/Player.png",
+	tileWidth = 16,
+	tileHeight = 16,
+	
+	Images = 
+	{			 --{numInLine, Line, {shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, equipPlace, equipModif}}
+		tag1s1 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
+		tag2s1 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 0.0f,   "Hand", "Left"},
+		tag1s2 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
+		tag2s2 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 0.0f,   "Hand", "Left"},
+		{0, 0, Tags = {tag1s1, tag2s1}},  --Image 0
+		{1, 0, Tags = {tag1s1, tag2s2}},  --Image 1
+		{2, 0, Tags = {tag1s1, tag2s2}},
+		{3, 0, Tags = {tag1s2, tag2s1}},
+		{4, 0, Tags = {tag1s2, tag2s1}},
+		
+		tag1s1 = {0.63f, 0.34f, 0.0f, 0, 0, 1,  1, 0, 0.0f,   "Hand", "Right"},
+		tag2s1 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
+		tag1s2 = {0.35f, 0.34f, 0.0f, 0, 0, 1,  1, 0, 0.0f,   "Hand", "Right"},
+		tag2s2 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
+		{0, 1, Tags = {tag1s1, tag2s1}},  
+		{1, 1, Tags = {tag1s1, tag2s2}},   
+		{2, 1, Tags = {tag1s1, tag2s2}},
+		{3, 1, Tags = {tag1s2, tag2s1}},
+		{4, 1, Tags = {tag1s2, tag2s1}},
+		
+		tag1s1 = {0.46f, 0.4f,  0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
+		tag2s1 = {0.45f, 0.32f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
+		tag1s2 = {0.46f, 0.45f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
+		tag2s2 = {0.45f, 0.37f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
+		{0, 2, Tags = {tag1s1, tag2s1}},  
+		{1, 2, Tags = {tag1s1, tag2s1}},   
+		{2, 2, Tags = {tag1s1, tag2s1}},
+		{3, 2, Tags = {tag1s1, tag2s1}},
+		
+		tag1s1 = {0.5f,  0.32f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Right"},
+		tag2s1 = {0.45f, 0.4f,  0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Left"},
+		tag1s2 = {0.5f,  0.37f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Right"},
+		tag2s2 = {0.45f, 0.45f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Left"},
+		{0, 3, Tags = {tag1s1, tag2s1}},  
+		{1, 3, Tags = {tag1s1, tag2s1}},   
+		{2, 3, Tags = {tag1s1, tag2s1}},
+		{3, 3, Tags = {tag1s1, tag2s1}},
+		
+		animTag1 = {0.0f, 0.0f, 0.0f, 5.0f,   0, 0, 1, 1,0, "Hand", "Right"},
+		animTag2 = {0.0f, 0.0f, 0.0f, 5.0f,   0, 0, 1, 1,0, "Hand", "Left"},
+		animTag3 = {0.0f, 0.1f, 0.0f, 18.0f,  0, 0, 1, 1,0, "Hand", "Right"},
+		animTag4 = {0.0f, 0.1f, 0.0f, 18.0f,  0, 0, 1, 1,0, "Hand", "Left"},
+		animTag5 = {0.0f, 0.1f, 0.0f, -45.0f, 0, 0, 1, 1,0, "Hand", "Right"},
+		animTag6 = {0.0f, 0.1f, 0.0f, -45.0f, 0, 0, 1, 1,0, "Hand", "Left"},
+		{-1, -1, Tags = {animTag1, animTag2}},
+		{-1, -1, Tags = {animTag3, animTag4}},
+		{-1, -1, Tags = {animTag5, animTag6}}
+	}
+}
+
+function updateHook(SenderObject, Message, SysIdent, InteractObject)
+	if(Message) then
+		if(Message == "PICKED_UP" and  SysIdent == "PICK") then
+			SenderObject:getMainAnimation():pickAnimation(0)
+		end
+		if(Message == "OPENED" and (SysIdent == "INV" or SysIdent == "PICK")) then
+			SenderObject:getMainAnimation():pickAnimation(1)
+		end
+		if(Message == "CLOSED" and (SysIdent == "INV" or SysIdent == "PICK")) then
+			SenderObject:getMainAnimation():pickAnimation(0)
+		end
+	end
+end
+
+function loadAnimation(Object, stImagesArray)
+	MainAnimation = Object:initMainAnimation(0, "Player")
+	MainAnimation:createAnimation(0, "ChestClose")
+	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 0)
+	MainAnimation:createAnimation(1, "ChestOpen")
+	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(1), 0)
+	MainAnimation:pickAnimation(0)
+end

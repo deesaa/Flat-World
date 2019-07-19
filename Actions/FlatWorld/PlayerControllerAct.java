@@ -5,7 +5,7 @@ import org.lwjgl.input.Keyboard;
 
 public class PlayerControllerAct extends Action {
 	public PlayerControllerAct(BasicObjectClass Object) {
-		super(Object);
+		super(Object, "PLCONT");
 	}
 	
 	public void updateAction(BasicObjectClass Object) {
@@ -13,26 +13,26 @@ public class PlayerControllerAct extends Action {
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 		    Object.Animation.pickAnimation(2);
-			Object.Modifiers.pointerToLookingSystem.VecViewDirX = -1.0f; 
-			Object.Modifiers.pointerToLookingSystem.VecViewDirY =  0.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirX = -1.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirY =  0.0f; 
 			tempMoveX = -Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			Object.Animation.pickAnimation(3);
-			Object.Modifiers.pointerToLookingSystem.VecViewDirX =  1.0f; 
-			Object.Modifiers.pointerToLookingSystem.VecViewDirY =  0.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirX =  1.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirY =  0.0f; 
 			tempMoveX = Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			 Object.Animation.pickAnimation(1);
-			Object.Modifiers.pointerToLookingSystem.VecViewDirX =  0.0f; 
-			Object.Modifiers.pointerToLookingSystem.VecViewDirY =  1.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirX =  0.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirY =  1.0f; 
 			tempMoveY = Object.moveSpeed;
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			Object.Animation.pickAnimation(0);
-			Object.Modifiers.pointerToLookingSystem.VecViewDirX =  0.0f; 
-			Object.Modifiers.pointerToLookingSystem.VecViewDirY = -1.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirX =  0.0f; 
+			Object.Modifiers.pLookingSystem.VecViewDirY = -1.0f; 
 			tempMoveY = -Object.moveSpeed;
 		}
 		

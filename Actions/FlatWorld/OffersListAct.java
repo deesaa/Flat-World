@@ -10,8 +10,8 @@ public class OffersListAct extends Action{
 	public StructOfOffer activeOffer = null;		
 	
 	public OffersListAct(BasicObjectClass Object) {
-		super(Object);
-		Object.Modifiers.pointerToOffersList = this;
+		super(Object, "OFFE");
+		Object.Modifiers.pOffersList = this;
 	}
 	
 	public void addOffer(ArrayOffersElement OfferElement, OffersMessages message, Action sender, int priority){
@@ -51,16 +51,16 @@ public class OffersListAct extends Action{
 	private static void processCommand(BasicObjectClass Object, Commands command) {
 		switch (command) {
 		case FreeFromOwners:
-			if(Object.Modifiers.pointerToPickableModif != null){
-				Object.Modifiers.pointerToPickableModif.setOwner(null);
+			if(Object.Modifiers.pPickableModif != null){
+				Object.Modifiers.pPickableModif.setOwner(null);
 			}
 			break;
 		}
 	}
 
 	private void MoveToActiveOffer(BasicObjectClass Object) {
-		Object.Modifiers.pointerToLookingSystem.rotateViewAt(activeOffer);
-		Object.Modifiers.pointerToMovingSystem.directMovingTo(Object, activeOffer.OfferElement.interactingObject);
+		Object.Modifiers.pLookingSystem.rotateViewAt(activeOffer);
+		Object.Modifiers.pMovingSystem.directMovingTo(Object, activeOffer.OfferElement.interactingObject);
 	}
 	
 	private boolean findTheMostPriorityOffer(BasicObjectClass Object){   //Нет фиксации действия!

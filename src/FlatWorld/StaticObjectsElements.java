@@ -28,8 +28,13 @@ public class StaticObjectsElements {
 	
 	public void createImage(int numberInLine, int line){
 		if(currentContainer != null){
-			currentImage = new ImageClass(currentContainer.spriteSheet.getSprite(numberInLine, line));
-			currentContainer.addImage(currentImage);
+			if(numberInLine < 0 || line < 0){
+				currentImage = new ImageClass();
+				currentContainer.addImage(currentImage);
+			} else {
+				currentImage = new ImageClass(currentContainer.spriteSheet.getSprite(numberInLine, line));
+				currentContainer.addImage(currentImage);
+			}
 		}
 	}
 	

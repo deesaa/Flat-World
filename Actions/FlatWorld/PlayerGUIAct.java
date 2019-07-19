@@ -21,7 +21,7 @@ public class PlayerGUIAct extends Action{
 	FloatBuffer win_pos = BufferUtils.createFloatBuffer(6);
 	
 	public PlayerGUIAct(BasicObjectClass Object) {
-		super(Object);
+		super(Object, "PLGUI");
 	}
 	
 	public void initHealScale(int maxHealpoints) {

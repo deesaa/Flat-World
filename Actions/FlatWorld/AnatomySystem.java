@@ -3,6 +3,8 @@ package FlatWorld;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.luaj.vm2.LuaValue;
+
 
 
 public class AnatomySystem extends Action{
@@ -13,13 +15,33 @@ public class AnatomySystem extends Action{
 	boolean isInventoryVisible = false;
 	int cellUnderArrow = -1;
 	
-	public AnatomySystem(BasicObjectClass Object, StringVars[][] anatomy, float indentX, float indentY, TexturesClass backgroundTexture,
-			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) {
-		super(Object);
-		Object.Modifiers.pointerToAnatomySystem = this;
+	public AnatomySystem(BasicObjectClass Object, StringVars[][] anatomy, TexturesClass backgroundTexture) {
+		super(Object, "ANAT");
+		Object.Modifiers.pAnatomySystem = this;
 		this.anatomy = anatomy;
 	}
 	
+	public AnatomySystem(BasicObjectClass Object, LuaValue tempLuaValue) {
+		super(Object, "ANAT");
+		Object.Modifiers.pAnatomySystem = this;
+		
+		LuaValue struct = tempLuaValue.get("Struct");
+		int numLines = struct.length();
+		anatomy = new StringVars[numLines][];
+		if(!struct.isnil()){
+			for(int i = 1; i <= struct.length(); i++){
+				LuaValue tempVal = struct.get(i);
+				int numCellsInLine = tempVal.length();
+				anatomy[i-1] = new StringVars[numCellsInLine];
+				
+				for(int i2 = 1; i2 <= tempVal.length(); i2++){
+					LuaValue tempVal2 = tempVal.get(i2);
+					anatomy[i-1][i2-1] = new StringVars("EP="+tempVal2.get(1)+";EPl="+tempVal2.get(2)+";");	
+				}
+			}
+		}	
+	}
+
 	public static void initElements(){
 		AnatomyElements.put("Nothing", new AnatomyElement("Nothing", 0, null));
 		AnatomyElements.put("Head", new AnatomyElement("Head", 1, new ImageClass("data/GUI/HeadEq.png")));

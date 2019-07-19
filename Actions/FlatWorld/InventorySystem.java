@@ -12,15 +12,15 @@ public class InventorySystem extends Action{
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture) 
 	{
-		super(Object);
-		Object.Modifiers.pointerToInventorySystem = this;
+		super(Object, "INV");
+		Object.Modifiers.pInventorySystem = this;
 		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture);
 		Invntory.pushGroup("Inv");
 	}
 
 	public InventorySystem(BasicObjectClass Object, LuaValue configs) {
-		super(Object);
-		Object.Modifiers.pointerToInventorySystem = this;
+		super(Object, "INV");
+		Object.Modifiers.pInventorySystem = this;
 		
 		float numCellsInLine = 1, numLines = 1, shiftX = 0, shiftY = 0;
 		
@@ -49,6 +49,7 @@ public class InventorySystem extends Action{
 					MapsManager.getPlayerPosY() + tempDistGlobalY	   < Object.PosGlobalY)
 				{
 					isInventoryVisible = false;
+					Object.callUpdateHook("CLOSED", super.systemIdent);
 				}
 			}
 		}
@@ -78,12 +79,17 @@ public class InventorySystem extends Action{
 	}
 	
 	private void updatePlayerAction(BasicObjectClass Object) {
-		if(FlatWorld.globalKeyLocker.isKeyDown(Keyboard.KEY_E, true))
+		if(FlatWorld.globalKeyLocker.isKeyDown(Keyboard.KEY_E, true)){
 			isInventoryVisible = !isInventoryVisible;
+			if(isInventoryVisible)
+				Object.callUpdateHook("OPENED", super.systemIdent);
+			else
+				Object.callUpdateHook("CLOSED", super.systemIdent);
+		}	
 	}
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
-		pickedObject.Modifiers.pointerToPickableModif.setOwner(super.ActionOwner);
+		pickedObject.Modifiers.pPickableModif.setOwner(super.ActionOwner);
 		return Invntory.addObjectAtGroup(pickedObject, Invntory.getCellsGroup("Inv"));
 	}
 

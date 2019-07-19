@@ -2,6 +2,7 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
 
@@ -45,17 +46,11 @@ public class BasicObjectClass {
 		this.ObjectTypeID = ObjectTypeID;
 		
 		this.ActionsArray.add(new OffersListAct(this));
-		
-	//	Modifiers.isSolid = isSolid;
-	//	Modifiers.isClickable = isClickable;
-	//	if (Modifiers.isClickable)
-	//		this.setButtonOnObject();
 	}
 
 	public BasicObjectClass(ObjectTypes ObjectType, float moveSpeed, int ObjectTypeID, boolean isSolid) {
 		this.ObjectType = ObjectType;
 		this.moveSpeed = moveSpeed;
-	//	Modifiers.isSolid = isSolid;
 		this.ObjectTypeID = ObjectTypeID;
 	}
 
@@ -97,12 +92,6 @@ public class BasicObjectClass {
 		
 		this.underArrow = false;
 	}
-
-//	public void setButtonOnObject() {
-//		if (Modifiers.isButton == false) {
-//			Modifiers.isButton = true;
-//		}
-//	}
 
 	public void rendActions() {
 		for (int i = 0; i < ActionsArray.size(); i++) {
@@ -185,12 +174,6 @@ public class BasicObjectClass {
 		new PickableModif(this);
 	}
 	
-//	public void clickableTrue(){
-//		Modifiers.isClickable = true;
-//		if (Modifiers.isClickable)
-//			this.setButtonOnObject();
-//	}
-	
 	public void initInventory(int numCellsInLine, int numLines, float shiftX, float shiftY){
 		this.ActionsArray.add(new InventorySystem(this, numCellsInLine, numLines, shiftX, shiftY, null));
 	}
@@ -206,5 +189,10 @@ public class BasicObjectClass {
 	public void setLuaUpdateHook(LuaValue updateHook, LuaValue luaThisObject) {
 		this.updateHook = updateHook;
 		this.luaThisObject = luaThisObject;
+	}
+
+	public void callUpdateHook(String message, String systemIdent) {
+		if(luaThisObject != null && updateHook != null)
+		this.updateHook.call(this.luaThisObject, LuaValue.valueOf(message), LuaValue.valueOf(systemIdent));
 	}
 }

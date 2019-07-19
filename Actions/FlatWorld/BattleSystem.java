@@ -16,8 +16,8 @@ public class BattleSystem extends Action{
 	float maxHealpoints, healpoints;
 	
 	public BattleSystem(BasicObjectClass Object, TexturesClass PerHealScaleTex, Vector3f PerHealScaleContourColor, int maxHealpoints, int healpoints, ArrayList<Integer> EnemiesArray) {
-		super(Object);
-		Object.Modifiers.pointerToBattleSystem = this;
+		super(Object, "BATT");
+		Object.Modifiers.pBattleSystem = this;
 
 		this.PerHealScaleTex = PerHealScaleTex;
 		this.PerHealScaleContourColor = PerHealScaleContourColor;
@@ -30,7 +30,7 @@ public class BattleSystem extends Action{
 	}
 	
 	public BattleSystem() {
-		super(null);
+		super(null, "BATT");
 	}
 
 	public BattleSystem linkPlayerGUI(PlayerGUIAct PlayerGUI){
@@ -41,13 +41,13 @@ public class BattleSystem extends Action{
 
 	public void updateAction(BasicObjectClass Object) {
 		if(PlayerGUI == null){
-			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pointerToLookingSystem.VisibleObjectsArray;
+			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pLookingSystem.VisibleObjectsArray;
 			for(int i = 0; i < tempVisibleObjectsArray.size(); i++){
 				for(int i2 = 0; i2 < EnemiesArray.size(); i2++){
 					if(tempVisibleObjectsArray.get(i).ObjectTypeID == EnemiesArray.get(i2)){	
 						double finalDist = FlatMath.objectDist(Object, tempVisibleObjectsArray.get(i));
-						double angle = Object.Modifiers.pointerToLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
-						Object.Modifiers.pointerToOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
+						double angle = Object.Modifiers.pLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
+						Object.Modifiers.pOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
 								OffersMessages.DirectAttack, this, 15);
 					} 
 				}
@@ -76,7 +76,7 @@ public class BattleSystem extends Action{
 					}
 				}	
 				if(OffersElementsArray.size() != 0)
-					Object.Modifiers.pointerToOffersList.addOffersArray(OffersElementsArray, OffersMessages.DirectRadiusAttack, this, 15);
+					Object.Modifiers.pOffersList.addOffersArray(OffersElementsArray, OffersMessages.DirectRadiusAttack, this, 15);
 			}
 		}
 	}
@@ -114,8 +114,8 @@ public class BattleSystem extends Action{
 	}
 
 	private static void getDamage(float initialDamage, BasicObjectClass Object, BasicObjectClass Owner) {
-		ArrayList<BattleObjectClass> gettingObjectFBOS = Object.Modifiers.pointerToEquipmentSystem.getBattleObjectsList();
-		ArrayList<BattleObjectClass> doingObjectFBOS = Owner.Modifiers.pointerToEquipmentSystem.getBattleObjectsList();
+		ArrayList<BattleObjectClass> gettingObjectFBOS = Object.Modifiers.pEquipmentSystem.getBattleObjectsList();
+		ArrayList<BattleObjectClass> doingObjectFBOS = Owner.Modifiers.pEquipmentSystem.getBattleObjectsList();
 		
 		float finalDamage = initialDamage;
 		float finalResist = 0;
@@ -141,10 +141,10 @@ public class BattleSystem extends Action{
 	    //		finalDamage += wwwwwdoingObjectBOSES.get(i).damage;
 		//}
 		
-		Object.Modifiers.pointerToBattleSystem.healpoints -= finalDamage;
+		Object.Modifiers.pBattleSystem.healpoints -= finalDamage;
 		
-		if(Object.Modifiers.pointerToBattleSystem.healpoints <= 0){
-			Object.Modifiers.pointerToInventorySystem.dropAllAround(Object);
+		if(Object.Modifiers.pBattleSystem.healpoints <= 0){
+			Object.Modifiers.pInventorySystem.dropAllAround(Object);
 			MapsManager.deleteObject(Object.OwnedMapID, Object.OwnedChunkID, Object.ObjectID);
 		}
 	}

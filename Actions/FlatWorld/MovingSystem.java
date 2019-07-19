@@ -1,6 +1,5 @@
 package FlatWorld;
 
-import java.util.Random;
 
 
 public class MovingSystem extends Action{
@@ -8,8 +7,8 @@ public class MovingSystem extends Action{
 	double finalDist, angle;
 	
 	public MovingSystem(BasicObjectClass Object) {
-		super(Object);
-		Object.Modifiers.pointerToMovingSystem = this;
+		super(Object, "MOVE");
+		Object.Modifiers.pMovingSystem = this;
 	}
 	
 	public void directMovingTo(BasicObjectClass Origin, BasicObjectClass Dir){
@@ -54,9 +53,9 @@ public class MovingSystem extends Action{
 			double distX = (fObjPosX - sObjPosX) * (fObjPosX - sObjPosX);
 			double distY = (fObjPosY - sObjPosY) * (fObjPosY - sObjPosY);
 			finalDist = Math.sqrt((distX + distY));
-			angle = Object.Modifiers.pointerToLookingSystem.findAngleToView(Object, randomPosition);
+			angle = Object.Modifiers.pLookingSystem.findAngleToView(Object, randomPosition);
 			
-			Object.Modifiers.pointerToOffersList.addOffer(new ArrayOffersElement(randomPosition, finalDist, angle), OffersMessages.RandomMoving, this, 1);
+			Object.Modifiers.pOffersList.addOffer(new ArrayOffersElement(randomPosition, finalDist, angle), OffersMessages.RandomMoving, this, 1);
 		}
 	}
 

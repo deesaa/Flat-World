@@ -2,7 +2,7 @@ package FlatWorld;
 
 public class DropSystem extends Action{
 	DropSystem(BasicObjectClass ActionOwner) {
-		super(ActionOwner);
+		super(ActionOwner, "DROP");
 		RandomizeTool.randValue(2, 5);
 	}
 	

@@ -134,7 +134,7 @@ public class MouseArrowClass {
 						tempObject.PosGlobalY = sObjPosY;
 						tempObject.PosGlobalZ = -25.0f;
 
-						pickedObjects.get(pickedObjects.size()-1).Modifiers.pointerToOffersList.addCommand(Commands.FreeFromOwners);
+						pickedObjects.get(pickedObjects.size()-1).Modifiers.pOffersList.addCommand(Commands.FreeFromOwners);
 						pickedObjects.remove(pickedObjects.size()-1);
 						MapsManager.addObject(tempObject);
 					}

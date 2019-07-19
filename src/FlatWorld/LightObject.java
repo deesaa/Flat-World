@@ -47,7 +47,7 @@ public class LightObject {
 	}
 	
 	public void updatePos(BasicObjectClass OriginObject) {
-		PickableModif tempPickable = OriginObject.Modifiers.pointerToPickableModif;
+		PickableModif tempPickable = OriginObject.Modifiers.pPickableModif;
 		BasicObjectClass finalOrigin = null;
 		if(tempPickable != null){
 			finalOrigin = tempPickable.getOwner();

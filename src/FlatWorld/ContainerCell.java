@@ -87,8 +87,8 @@ public class ContainerCell extends BasicObjectClass {
 			//pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);
 			return true;
 		} else {
-			if(pickedObject.Modifiers.pointerToEquipmentSystem != null){
-				if(pickedObject.Modifiers.pointerToEquipmentSystem.checkEquipPlace(EquipPlace)){
+			if(pickedObject.Modifiers.pEquipmentSystem != null){
+				if(pickedObject.Modifiers.pEquipmentSystem.checkEquipPlace(EquipPlace)){
 					this.pickedObjectTypeID = pickedObject.ObjectTypeID;
 					ObjectsArray.add(pickedObject);
 				//	pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);

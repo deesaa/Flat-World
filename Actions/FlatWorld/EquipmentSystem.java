@@ -2,9 +2,8 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
-import org.lwjgl.Sys;
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector2f;
 
 import FlatWorld.ImageTagsClass.ImageTag;
 
@@ -25,8 +24,8 @@ public class EquipmentSystem extends Action{
 	AnatomySystem anatomy;
 
 	EquipmentSystem(BasicObjectClass Object, AnatomySystem anatomy, float indentX, float indentY, ContainersArrayClass Inventory){
-		super(Object);
-		Object.Modifiers.pointerToEquipmentSystem = this;
+		super(Object, "EQUI");
+		Object.Modifiers.pEquipmentSystem = this;
 		this.euipSysMode = EquipSysMode.Owner;
 		this.anatomy = anatomy;
 		this.Inventory = Inventory;
@@ -42,13 +41,52 @@ public class EquipmentSystem extends Action{
 	}
 	
 	public EquipmentSystem(BasicObjectClass Object, StringVars equipPlaces){
-		super(Object);
-		Object.Modifiers.pointerToEquipmentSystem = this;
+		super(Object, "EQUI");
+		Object.Modifiers.pEquipmentSystem = this;
 		this.euipSysMode = EquipSysMode.State;
 		this.equipPlaces = equipPlaces;
 		
 	}
 	
+	public EquipmentSystem(BasicObjectClass Object, LuaValue tempLuaValue) {
+		super(Object, "EQUI");
+		boolean fail = false;
+		if(Object.Modifiers.pAnatomySystem == null){
+			System.out.println(systemIdent + ": AnatomySystem not created");
+			fail = true;
+		}
+		if(Object.Modifiers.pInventorySystem == null){
+			System.out.println(systemIdent + ": InventorySystem not created");
+			fail = true;
+		}
+		if(Object.Modifiers.pInventorySystem.Invntory == null){
+			System.out.println(systemIdent + ": Inventory in InventorySystem not created");
+			fail = true;
+		}
+		if(fail) return;
+		Object.Modifiers.pEquipmentSystem = this;
+		this.euipSysMode = EquipSysMode.Owner;
+		
+		
+		this.anatomy = Object.Modifiers.pAnatomySystem;
+		this.Inventory = Object.Modifiers.pInventorySystem.Invntory;
+		
+		
+		LuaValue createByAnatomy = tempLuaValue.get("createByAnatomy");
+		if(!createByAnatomy.isnil() && createByAnatomy.toboolean() == true){
+			float shiftX = tempLuaValue.get("shiftX").tofloat();
+			float shiftY = tempLuaValue.get("shiftY").tofloat();
+			for(int i = 0; i != anatomy.anatomy.length; i++){
+				for(int i2 = 0; i2 != anatomy.anatomy[i].length; i2++){
+					if(anatomy.anatomy[i][i2].getVal("EP").compareTo("Nothing") != 0)
+						this.Inventory.addContainer(0.0f+shiftX+i2, 0.0f+shiftY-i, anatomy.anatomy[i][i2].getVal("EP"), anatomy.anatomy[i][i2].getVal("EPl"));
+				}
+			}
+			Inventory.pushGroup("EquipInv");
+			this.pEqipmentCellsArray = this.Inventory.getCellsGroup("EquipInv");
+		}
+	}
+
 	public ArrayList<BattleObjectClass> getBattleObjectsList(){
 		ArrayList<BattleObjectClass> battleObjectsList = new ArrayList<BattleObjectClass>();
 		BattleObjectAct pTempToBattleObject;
@@ -59,8 +97,8 @@ public class EquipmentSystem extends Action{
 			tempCell = pEqipmentCellsArray.get(i);
 			for(int i2 = 0; i2 < tempCell.ObjectsArray.size(); i2++){
 				tempPickedObj = tempCell.ObjectsArray.get(i2);
-				if(tempPickedObj.Modifiers.pointerToBattleObjectAct != null){
-					pTempToBattleObject = tempPickedObj.Modifiers.pointerToBattleObjectAct;
+				if(tempPickedObj.Modifiers.pBattleObjectAct != null){
+					pTempToBattleObject = tempPickedObj.Modifiers.pBattleObjectAct;
 					if(pTempToBattleObject.battleObjectStatesList != null)
 						battleObjectsList.add(pTempToBattleObject.battleObjectStatesList);
 				}

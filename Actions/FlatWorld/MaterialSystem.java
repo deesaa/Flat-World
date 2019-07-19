@@ -3,8 +3,8 @@ package FlatWorld;
 public class MaterialSystem extends Action{
 	MaterialClass material;
 	MaterialSystem(BasicObjectClass ActionOwner, MaterialClass material) {
-		super(ActionOwner);
-		ActionOwner.Modifiers.pointerToMaterialSystem = this;
+		super(ActionOwner, "MAT");
+		ActionOwner.Modifiers.pMaterialSystem = this;
 		this.material = material;
 	}
 

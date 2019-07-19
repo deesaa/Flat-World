@@ -7,18 +7,33 @@ import org.luaj.vm2.LuaValue;
 
 public class PickingSystem extends Action{
 	PickableObjectsList pickableObjectsList;
+	boolean isPlayer = false;
 	
-	PickingSystem(BasicObjectClass Object, PickableObjectsList pickableObjectsList){
-		super(Object);
-		Object.Modifiers.pointerToPickingSystem = this;
+	PickingSystem(BasicObjectClass Object, PickableObjectsList pickableObjectsList, boolean KOSTIL){
+		super(Object, "PICK");
+		Object.Modifiers.pPickingSystem = this;
 		this.pickableObjectsList = pickableObjectsList;
+		if(Object.ObjectType == ObjectTypes.Player)
+			isPlayer = true;
+	}
+
+    PickingSystem(BasicObjectClass Object, LuaValue tempLuaValue) {
+		super(Object, "PICK");
+		Object.Modifiers.pPickingSystem = this;
+		
+		LuaValue luaIsPlayer = tempLuaValue.get("isPlayer");
+		if(!luaIsPlayer.isnil()){
+			isPlayer = luaIsPlayer.toboolean();
+		} else {
+			LuaValue tempLua = tempLuaValue.get("PickableObjects");
+		}
 	}
 
 	public void updateAction(BasicObjectClass Object) {
-		if(Object.ObjectType == ObjectTypes.Player){
+		if(isPlayer){
 			this.updatePlayerAction(Object);
 		} else {
-			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pointerToLookingSystem.VisibleObjectsArray;
+			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pLookingSystem.VisibleObjectsArray;
 			for(int i = 0; i < tempVisibleObjectsArray.size(); i++){
 				for(int i2 = 0; i2 < pickableObjectsList.objectsList.size(); i2++){
 					if(tempVisibleObjectsArray.get(i).ObjectTypeID == pickableObjectsList.objectsList.get(i2).pickableObjectID){
@@ -31,8 +46,8 @@ public class PickingSystem extends Action{
 						double distY = (fObjPosY - sObjPosY) * (fObjPosY - sObjPosY);
 						double finalDist = Math.sqrt((distX + distY));
 						
-						double angle = Object.Modifiers.pointerToLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
-						Object.Modifiers.pointerToOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
+						double angle = Object.Modifiers.pLookingSystem.findAngleToView(Object, tempVisibleObjectsArray.get(i));
+						Object.Modifiers.pOffersList.addOffer(new ArrayOffersElement(tempVisibleObjectsArray.get(i), finalDist, angle), 
 								OffersMessages.PickUp, this, 10+pickableObjectsList.objectsList.get(i2).pickingPriority);
 					}
 				}
@@ -53,14 +68,14 @@ public class PickingSystem extends Action{
 			   MapsManager.getPlayerPosY() + expandToUp    < IntersectedObject.PosGlobalY && 
 			   MapsManager.getPlayerPosY() + expandToDown  > IntersectedObject.PosGlobalY)
 			{
-				if(IntersectedObject.Modifiers.pointerToPickableModif != null)
+				if(IntersectedObject.Modifiers.pPickableModif != null)
 					IntersectedObject.Modifiers.hasContour = true;
 				
 				if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
-					if(Object.Modifiers.pointerToInventorySystem != null && IntersectedObject.Modifiers.pointerToPickableModif != null){
-						Object.Modifiers.pointerToInventorySystem.addObject(IntersectedObject);
-						IntersectedObject.Modifiers.pointerToPickableModif.setOwner(Object);
-						IntersectedObject.updateHook.call(IntersectedObject.luaThisObject, LuaValue.valueOf("PICKED_UP"));
+					if(Object.Modifiers.pInventorySystem != null && IntersectedObject.Modifiers.pPickableModif != null){
+						Object.Modifiers.pInventorySystem.addObject(IntersectedObject);
+						IntersectedObject.Modifiers.pPickableModif.setOwner(Object);
+						IntersectedObject.callUpdateHook("PICKED_UP", super.systemIdent);
 					}
 				}
 				
@@ -71,9 +86,13 @@ public class PickingSystem extends Action{
 	}
 	
 	private void processRightClick(BasicObjectClass Object){
-		if(Object.Modifiers.pointerToInventorySystem != null){  				// Нужно доработать!
+		if(Object.Modifiers.pInventorySystem != null){  				// Нужно доработать!
 		//if(Object.ObjectTypeID == ChestClass.ObjectTypeID){
-			Object.Modifiers.pointerToInventorySystem.isInventoryVisible = !Object.Modifiers.pointerToInventorySystem.isInventoryVisible;
+			Object.Modifiers.pInventorySystem.isInventoryVisible = !Object.Modifiers.pInventorySystem.isInventoryVisible;
+			if(Object.Modifiers.pInventorySystem.isInventoryVisible)
+				Object.callUpdateHook("OPENED", super.systemIdent);
+			else
+				Object.callUpdateHook("CLOSED", super.systemIdent);
 		}
 	}
 
@@ -87,7 +106,7 @@ public class PickingSystem extends Action{
 
 	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
 		if(Offer.message == OffersMessages.PickUp && Offer.OfferElement.distance < 0.8f){
-			Object.Modifiers.pointerToInventorySystem.addObject(Offer.OfferElement.interactingObject);
+			Object.Modifiers.pInventorySystem.addObject(Offer.OfferElement.interactingObject);
 		}
 	}
 }

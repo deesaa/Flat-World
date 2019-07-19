@@ -5,8 +5,8 @@ public class BattleObjectAct extends Action{
 	BattleObjectClass battleObjectStatesList;
 	
 	public BattleObjectAct(BasicObjectClass Object, BattleObjectClass battleObjectStatesList){
-		super(Object);
-		Object.Modifiers.pointerToBattleObjectAct = this;
+		super(Object, "BATTOBJ");
+		Object.Modifiers.pBattleObjectAct = this;
 		
 		this.battleObjectStatesList = battleObjectStatesList;
 	}

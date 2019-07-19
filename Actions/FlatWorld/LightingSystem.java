@@ -12,14 +12,14 @@ public class LightingSystem extends Action{
 	float lightingRadius;
 	
 	LightingSystem(BasicObjectClass Object){
-		super(Object);
-		Object.Modifiers.pointerToLightingSystem = this;
+		super(Object, "LIGH");
+		Object.Modifiers.pLightingSystem = this;
 		shadowsArray = new ArrayList<ShadowEl>();
 	}
 	
 	LightingSystem(BasicObjectClass Object, float lightingRadius, LightObject lightObject){
-		super(Object);
-		Object.Modifiers.pointerToLightingSystem = this;
+		super(Object, "LIGH");
+		Object.Modifiers.pLightingSystem = this;
 		this.lightObject = lightObject;
 		this.lightingRadius = lightingRadius;
 	}
@@ -46,12 +46,12 @@ public class LightingSystem extends Action{
 				BasicObjectClass currentObject = currentChunk.ObjectsArray.get(i2);
 				
 				
-				if(currentObject.Modifiers.pointerToLightingSystem != null && currentObject.Modifiers.pointerToLightingSystem.lightObject != null){
+				if(currentObject.Modifiers.pLightingSystem != null && currentObject.Modifiers.pLightingSystem.lightObject != null){
 					double finalDist = FlatMath.objectDist(Object, currentObject);
-					if(finalDist < currentObject.Modifiers.pointerToLightingSystem.lightingRadius){
+					if(finalDist < currentObject.Modifiers.pLightingSystem.lightingRadius){
 						float tempDirX = Object.PosGlobalX - currentObject.PosGlobalX;
 						float tempDirY = Object.PosGlobalY - currentObject.PosGlobalY;
-						this.shadowsArray.add(new ShadowEl(tempDirX, tempDirY, (float)finalDist, currentObject.Modifiers.pointerToLightingSystem));
+						this.shadowsArray.add(new ShadowEl(tempDirX, tempDirY, (float)finalDist, currentObject.Modifiers.pLightingSystem));
 					}	
 				}	
 			}	

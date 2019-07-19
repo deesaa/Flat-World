@@ -1,10 +1,9 @@
 package FlatWorld;
 
-import org.luaj.vm2.LuaFunction;
-import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
+
 import FlatWorld.ImageTagsClass.ImageTag;
 
 public class ObjectsLoader {
@@ -44,7 +43,7 @@ public class ObjectsLoader {
 				tempLuaValue = tempLuaValue.get("Images");
 				for(int i = 1; i <= tempLuaValue.length(); i++){
 					FlatWorld.objectsStatic.createImage(tempLuaValue.get(i).get(1).toint(), tempLuaValue.get(i).get(2).toint());
-					
+
 					LuaValue imageTags = tempLuaValue.get(i).get("Tags");
 					if(!imageTags.isnil()){
 						ImageClass cIm = FlatWorld.objectsStatic.currentImage;
@@ -67,10 +66,6 @@ public class ObjectsLoader {
 		
 		tempLuaValue = g.get("loadAnimation");
 		tempLuaValue.call(luaThisObject, luaObjectStatic);
-			
-	//	tempLuaValue = g.get("Clickable");
-	//	if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
-	//		newObject.clickableTrue();
 		
 		tempLuaValue = g.get("Pickable");
 		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
@@ -80,16 +75,33 @@ public class ObjectsLoader {
 		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
 			newObject.ActionsArray.add(new LightingSystem(newObject));
 		
+		tempLuaValue = g.get("Anatomy");
+		if(tempLuaValue != LuaValue.NIL)
+			newObject.ActionsArray.add(new AnatomySystem(newObject, tempLuaValue));
+		
 		tempLuaValue = g.get("Inventory");
 		if(tempLuaValue != LuaValue.NIL)
 			newObject.ActionsArray.add(new InventorySystem(newObject, tempLuaValue));
+		
+		tempLuaValue = g.get("Equipment");
+		if(tempLuaValue != LuaValue.NIL)
+			newObject.ActionsArray.add(new EquipmentSystem(newObject, tempLuaValue));
+		
+		tempLuaValue = g.get("Looking");
+		if(tempLuaValue != LuaValue.NIL)
+			newObject.ActionsArray.add(new LookingSystem(newObject, tempLuaValue));
+		
+		tempLuaValue = g.get("Picking");
+		if(tempLuaValue != LuaValue.NIL)
+			newObject.ActionsArray.add(new PickingSystem(newObject, tempLuaValue));
 		
 		tempLuaValue = g.get("Collision");
 		if(tempLuaValue != LuaValue.NIL)
 			newObject.ActionsArray.add(new CollisionSystem(newObject, tempLuaValue));
 		
 		LuaValue updateHook = g.get("updateHook");
-		newObject.setLuaUpdateHook(updateHook, luaThisObject);
+		if(!updateHook.isnil())
+			newObject.setLuaUpdateHook(updateHook, luaThisObject);
 		
 		return newObject;
 	}

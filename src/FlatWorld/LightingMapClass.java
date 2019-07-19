@@ -28,7 +28,7 @@ public class LightingMapClass {
 	
 	public void rendShadows(){
 		for(int i = 0; i < ShadowsArray.size(); i++){
-			ShadowsArray.get(i).Modifiers.pointerToLightingSystem.objectModeRend(ShadowsArray.get(i));
+			ShadowsArray.get(i).Modifiers.pLightingSystem.objectModeRend(ShadowsArray.get(i));
 		}
 		ShadowsArray.clear();
 	}
@@ -46,8 +46,8 @@ public class LightingMapClass {
 		
 		for(int i = LightsObjectArray.size()-1; i >= 0; i--){
 			if(LightsObjectArray.get(i).deleteMark == true ||
-			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pointerToPickableModif.getOwner().PosGlobalX-playerPosX) >= 40 ||
-			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pointerToPickableModif.getOwner().PosGlobalY-playerPosY) >= 30)
+			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif.getOwner().PosGlobalX-playerPosX) >= 40 ||
+			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif.getOwner().PosGlobalY-playerPosY) >= 30)
 			{
 			   LightsObjectArray.get(i).deleteMark = false;
 			   LightsObjectArray.get(i).deleteLight();

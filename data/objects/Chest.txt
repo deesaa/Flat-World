@@ -2,13 +2,12 @@ ObjectName = "Chest"
 
 Shadows = true
 Pickable = true
-Clickable = true
 
 Collision =
 {
 	sphereRadius = 0.26,
-	shiftX = 0.5,
-	shiftY = 0.5
+	shiftX = 0.0,
+	shiftY = 0.0
 }
 
 Inventory =
@@ -33,18 +32,18 @@ SpriteSheet =
 	}
 }
 
-function updateHook(Object, Message)
+function updateHook(SenderObject, Message, SysIdent, InteractObject)
 	if(Message) then
-		if(Message == "PICKED_UP") then
-			Object:getMainAnimation():pickAnimation(1)
+		if(Message == "PICKED_UP" and  SysIdent == "PICK") then
+			SenderObject:getMainAnimation():pickAnimation(0)
+		end
+		if(Message == "OPENED" and (SysIdent == "INV" or SysIdent == "PICK")) then
+			SenderObject:getMainAnimation():pickAnimation(1)
+		end
+		if(Message == "CLOSED" and (SysIdent == "INV" or SysIdent == "PICK")) then
+			SenderObject:getMainAnimation():pickAnimation(0)
 		end
 	end
-	
-	--if Object:getModifiers():getInventorySystem():isInvVisible() then
-	--	Object:getMainAnimation():pickAnimation(1)
-	--else
-	--	Object:getMainAnimation():pickAnimation(0)
-	--end
 end
 
 function loadAnimation(Object, stImagesArray)
@@ -53,5 +52,5 @@ function loadAnimation(Object, stImagesArray)
 	MainAnimation:getAnimation(0):addFrame(stImagesArray:getImage(0), 0)
 	MainAnimation:createAnimation(1, "ChestOpen")
 	MainAnimation:getAnimation(1):addFrame(stImagesArray:getImage(1), 0)
-	MainAnimation:pickAnimation(1)
+	MainAnimation:pickAnimation(0)
 end
