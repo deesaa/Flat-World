@@ -40,7 +40,10 @@ public class ContainerCell extends BasicObjectClass {
 	public ContainerCell setEquipPlace(String EquipPlace, String EquipModifier){
 		this.EquipPlace = EquipPlace;
 		this.EquipModifier= EquipModifier;
-		this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(EquipPlace).Icon;
+		if(AnatomySystem.AnatomyElements.get(EquipPlace) != null)
+			this.equipPlaceIcon = AnatomySystem.AnatomyElements.get(EquipPlace).Icon;
+		else
+			System.out.println("AnatomyElement " + EquipPlace + " is not created. Icon has not been loaded.");
 		return this;
 	}
 
@@ -87,6 +90,7 @@ public class ContainerCell extends BasicObjectClass {
 			//pickedObject.Modifiers.pointerToPickableModif.setOwner(OwnerObject);
 			return true;
 		} else {
+			System.out.println(pickedObject.Modifiers.pEquipmentSystem);
 			if(pickedObject.Modifiers.pEquipmentSystem != null){
 				if(pickedObject.Modifiers.pEquipmentSystem.checkEquipPlace(EquipPlace)){
 					this.pickedObjectTypeID = pickedObject.ObjectTypeID;

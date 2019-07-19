@@ -2,30 +2,12 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.luaj.vm2.LuaValue;
+
 public class ImageTagsClass {
 	ArrayList<ImageTag> tags = new ArrayList<ImageTag>();
 	
 	public ImageTagsClass(){}
-	public ImageTagsClass(StringVars string) {
-		int numTags = string.getStructNumElements("t");
-		for(int i = 1; i <= numTags; i++){
-			StringVars arrayElement = string.getStructElement("t", i);
-		
-			String shift[] = arrayElement.getArrayVals("s");
-			String rotate[] = arrayElement.getArrayVals("r");
-			String dir[] = arrayElement.getArrayVals("d");
-		
-			float shiftX = Float.valueOf(shift[0]), shiftY = Float.valueOf(shift[1]), shiftZ = Float.valueOf(shift[2]);
-			float rotateX = Float.valueOf(rotate[0]), rotateY = Float.valueOf(rotate[1]), rotateZ = Float.valueOf(rotate[2]);
-			float dirX = Float.valueOf(dir[0]), dirY = Float.valueOf(dir[1]);
-			float angle   = Float.valueOf(arrayElement.getVal("a"));
-			String EquipPlace = arrayElement.getVal("e");
-			String equipPlaceModif = arrayElement.getVal("em");
-			
-			tags.add(new ImageTag(shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, EquipPlace, equipPlaceModif));
-		}
-	}
-	
 	public ImageTagsClass(ImageTag[] tagsArray) {
 		for(int i = 0; i < tagsArray.length; i++){
 			tags.add(tagsArray[i]);
@@ -54,6 +36,14 @@ public class ImageTagsClass {
 			this.dirX = dirX; this.dirY = dirY;
 			this.angle = angle;
 			this.equipPlace = equipPlace; this.equipModif = equipModif;
+		}
+
+		public ImageTag(LuaValue luaValue) {
+			this.shiftX = luaValue.get(1).tofloat(); this.shiftY = luaValue.get(2).tofloat(); this.shiftZ = luaValue.get(3).tofloat();
+			this.rotateX = luaValue.get(4).tofloat(); this.rotateY = luaValue.get(5).tofloat(); this.rotateZ = luaValue.get(6).tofloat();
+			this.dirX = luaValue.get(7).tofloat(); this.dirY = luaValue.get(8).tofloat();
+			this.angle = luaValue.get(9).tofloat();
+			this.equipPlace = luaValue.get(10).tojstring(); this.equipModif = luaValue.get(11).tojstring();
 		}
 
 		public void add(ImageTag tag) {

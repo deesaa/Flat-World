@@ -36,13 +36,18 @@ public class FlatWorld {
 	public static KeyboardManager globalKeyLocker = new KeyboardManager();
 	public static MainMenuClass mainMenu = new MainMenuClass();
 	public static CameraClass mainCamera = new CameraClass(Display.getWidth(), Display.getHeight(), 45.0f, 100.0f);
-	
+	public static Windows bar;
 	public static void startFlatWorld() {
 		updateDelta();
 		updateTime();
 		initStandardQuad();
 		TextFieldClass.initSymbols();
 		TextRenderModule.initSymbols();
+		
+		LuaValue g = JsePlatform.standardGlobals();
+		g.get("dofile").call(LuaValue.valueOf("data/bar.txt"));
+		bar = new Windows(g.get("Windows"));
+		
 		
 		String message = mainMenu.mainMenu();
 		if(message.compareTo("ExitGame") != 0){
@@ -95,6 +100,8 @@ public class FlatWorld {
 			updateDelta();
             MapsManager.updateMap();
    			MapsManager.rendMap();
+            
+   			bar.rend(true);
    			
 			MouseArrowClass.updateArrow();
 			GL11.glLoadIdentity();

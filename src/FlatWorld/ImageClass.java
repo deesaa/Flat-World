@@ -27,11 +27,6 @@ public class ImageClass {
 			image.bind();
 	}
 	
-	public ImageClass setTags(StringVars vars){
-		imageTags = new ImageTagsClass(vars);
-		return this;
-	}
-	
 	public ImageClass setTags(ImageTag[] tagsArray){
 		imageTags = new ImageTagsClass(tagsArray);
 		return this;

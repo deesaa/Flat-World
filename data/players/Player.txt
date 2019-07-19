@@ -1,6 +1,8 @@
 ObjectName = "Player"
 
 Shadows = true;
+isPlayer = true;
+
 LuaControllersHook = 
 {
 	SendControlles = true;
@@ -20,9 +22,7 @@ Collision =
 }
 
 Inventory =
-{
-	isPlayer = true;
-	
+{	
 	numCellsInLine = 3, 
 	numLines = 3,
 	shiftX = 2.0,
@@ -30,21 +30,11 @@ Inventory =
 } 
 
 Anatomy = 
-{
-	AnatomyElements = 
-	{
-		{"Head", "data/GUI/HeadEq.png"},
-		{"data/GUI/ArmEq.png"},
-		{"data/GUI/LegEq.png"},
-		{"data/GUI/HandEq.png"},
-		{"data/GUI/BodyEq.png"},
-		{"data/GUI/FootEq.png"}
-	},
-	
-	Struct = 
+{	
+	Structure = 
 	{
 		{{"Nothing", "Nothing"}, {"Head", "Nothing"}, 	 {"Nothing", "Nothing"}},
-		{{"Arm", "Left"},  		 {"Body", "Nothing"}, 	 {"Leg", "Right"}},
+		{{"Arm", "Left"},  		 {"Body", "Nothing"}, 	 {"Arm", "Right"}},
 		{{"Hand", "Left"}, 		 {"Nothing", "Nothing"}, {"Hand", "Right"}},
 		{{"Leg", "Left"},  		 {"Nothing", "Nothing"}, {"Leg", "Right"}},
 		{{"Foot", "Left"}, 		 {"Nothing", "Nothing"}, {"Foot", "Right"}}
@@ -53,14 +43,13 @@ Anatomy =
 
 Equipment =
 {
-	createByAnatomy = true;
+	equipInventory = Anatomy.Structure;
 	shiftX = 6.0;
 	shiftY = 6.0;
 }
 
 Picking =
 {
-	isPlayer = true,
 	pickDistance = 2,
 	
 	PickableObjects =
@@ -78,51 +67,65 @@ Looking =
 	rotateSpeed = 0.1f;
 }
 
+Windows =
+{
+	{
+		Name = "HeathBar",
+		Type = "Bar",
+		Location = {CoordSpace = "Screen", x = "Center", y = 100, width = 600, height = 200, AttachToObject = true},
+		Contains =
+		{
+				
+		}
+	}
+}
+
 SpriteSheet = 
 {
 	path = "data/players/Player.png",
 	tileWidth = 16,
 	tileHeight = 16,
 	
+	TagsList = 
+	{
+		--{shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, equipPlace, equipModif}
+		{0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
+		{0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 0.0f, "Hand", "Left"},
+		
+		{0.63f, 0.34f, 0.0f, 0, 0, 1,  1, 0, 0.0f,   "Hand", "Right"},
+		{0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
+		{0.35f, 0.34f, 0.0f, 0, 0, 1,  1, 0, 0.0f,   "Hand", "Right"},
+		
+		{0.46f, 0.4f,  0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
+		{0.45f, 0.32f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
+		
+		{0.5f,  0.32f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Right"},
+		{0.45f, 0.4f,  0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Left"}
+	},
+		
 	Images = 
-	{			 --{numInLine, Line, {shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, equipPlace, equipModif}}
-		tag1s1 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
-		tag2s1 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 0.0f,   "Hand", "Left"},
-		tag1s2 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
-		tag2s2 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 0.0f,   "Hand", "Left"},
-		{0, 0, Tags = {tag1s1, tag2s1}},  --Image 0
-		{1, 0, Tags = {tag1s1, tag2s2}},  --Image 1
-		{2, 0, Tags = {tag1s1, tag2s2}},
-		{3, 0, Tags = {tag1s2, tag2s1}},
-		{4, 0, Tags = {tag1s2, tag2s1}},
+	{		
+		{0, 0, Tags = {0, 1}}, 
+		{1, 0, Tags = {0, 1}},  
+		{2, 0, Tags = {0, 1}},
+		{3, 0, Tags = {0, 1}},
+		{4, 0, Tags = {0, 1}},
 		
-		tag1s1 = {0.63f, 0.34f, 0.0f, 0, 0, 1,  1, 0, 0.0f,   "Hand", "Right"},
-		tag2s1 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
-		tag1s2 = {0.35f, 0.34f, 0.0f, 0, 0, 1,  1, 0, 0.0f,   "Hand", "Right"},
-		tag2s2 = {0.35f, 0.34f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
-		{0, 1, Tags = {tag1s1, tag2s1}},  
-		{1, 1, Tags = {tag1s1, tag2s2}},   
-		{2, 1, Tags = {tag1s1, tag2s2}},
-		{3, 1, Tags = {tag1s2, tag2s1}},
-		{4, 1, Tags = {tag1s2, tag2s1}},
+		{0, 1, Tags = {2, 3}},  
+		{1, 1, Tags = {2, 3}},   
+		{2, 1, Tags = {2, 3}},
+		{3, 1, Tags = {2, 3}},
+		{4, 1, Tags = {2, 3}},
+
+		{0, 2, Tags = {5, 6}},  
+		{1, 2, Tags = {5, 6}},   
+		{2, 2, Tags = {5, 6}},
+		{3, 2, Tags = {5, 6}},
 		
-		tag1s1 = {0.46f, 0.4f,  0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
-		tag2s1 = {0.45f, 0.32f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
-		tag1s2 = {0.46f, 0.45f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Right"},
-		tag2s2 = {0.45f, 0.37f, 0.0f, 0, 1, 0, -1, 0, 180.0f, "Hand", "Left"},
-		{0, 2, Tags = {tag1s1, tag2s1}},  
-		{1, 2, Tags = {tag1s1, tag2s1}},   
-		{2, 2, Tags = {tag1s1, tag2s1}},
-		{3, 2, Tags = {tag1s1, tag2s1}},
-		
-		tag1s1 = {0.5f,  0.32f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Right"},
-		tag2s1 = {0.45f, 0.4f,  0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Left"},
-		tag1s2 = {0.5f,  0.37f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Right"},
-		tag2s2 = {0.45f, 0.45f, 0.0f, 0, 0, 1, 1, 0, 0.0f, "Hand", "Left"},
-		{0, 3, Tags = {tag1s1, tag2s1}},  
-		{1, 3, Tags = {tag1s1, tag2s1}},   
-		{2, 3, Tags = {tag1s1, tag2s1}},
-		{3, 3, Tags = {tag1s1, tag2s1}},
+		{0, 3, Tags = {7, 8}},  
+		{1, 3, Tags = {7, 8}},   
+		{2, 3, Tags = {7, 8}},
+		{3, 3, Tags = {7, 8}},
 		
 		animTag1 = {0.0f, 0.0f, 0.0f, 5.0f,   0, 0, 1, 1,0, "Hand", "Right"},
 		animTag2 = {0.0f, 0.0f, 0.0f, 5.0f,   0, 0, 1, 1,0, "Hand", "Left"},
@@ -136,35 +139,31 @@ SpriteSheet =
 	}
 }
 
-function updateHook(SenderObject, Message, InteractObject)
+function updateHook(SenderObject, Message)
 	if(Message) then
 		SenderObject:getMainAnimation():updateFrame()
 		if(Message["Arg"] == "PICKING_OBJECT" and Message["Sys"] == "PICK") then
-			return true
+	
 		end
 		
-		if(Message["Name"] == "CONTROLLERS" and Message["Sys"] == "LUACONTROLLERS") then
+		if(Message["Arg"] == "CONTROLLERS" and Message["Sys"] == "LUACONTROLLERS") then
 			MOVE_DIRECTION = {x = 0, y = 0}
-			if Message["Arg"]:isKeyDown("A", false) then
+			if Message["InterObject"]:isKeyDown("A", false) then
 				SenderObject:getMainAnimation():pickAnimation(2)
 				MOVE_DIRECTION.x = MOVE_DIRECTION.x + -1
 			end
-			if Message["Arg"]:isKeyDown("D", false) then
+			if Message["InterObject"]:isKeyDown("D", false) then
 				SenderObject:getMainAnimation():pickAnimation(3)
 				MOVE_DIRECTION.x = MOVE_DIRECTION.x + 1
 			end
-			if Message["Arg"]:isKeyDown("W", false) then
+			if Message["InterObject"]:isKeyDown("W", false) then
 				SenderObject:getMainAnimation():pickAnimation(1)
 				MOVE_DIRECTION.y = MOVE_DIRECTION.y + 1
 			end
 			
-			if Message["Arg"]:isKeyDown("S", false) then
+			if Message["InterObject"]:isKeyDown("S", false) then
 				SenderObject:getMainAnimation():pickAnimation(0)
 				MOVE_DIRECTION.y = MOVE_DIRECTION.y + -1
-			end
-			
-			if Message["Arg"]:isKeyDown("E", true) then
-				SenderObject:sendMessage("SHOW_HIDE_INVECTORY")
 			end
 			
 			if not(MOVE_DIRECTION.x == 0) or not(MOVE_DIRECTION.y == 0) then
@@ -175,22 +174,22 @@ function updateHook(SenderObject, Message, InteractObject)
 			
 			
 			
-			if Message["Arg"]:isMouseButtonDown(0, true) then
-				local SelectedObject = SenderObject:sendMessage("GET_OBJECT_BY_POS", SenderObject:sendMessage("GET_CURSOR_POS"))
-				
-				if SelectedObject then
-					Pos1 = SenderObject:sendMessage("GET_POS", SelectedObject)
-					Pos2 = SenderObject:sendMessage("GET_POS")
-					SenderObject:sendMessage("ADD_TO_INVENTORY", SelectedObject)
-				end
-			end
+			--if Message["Arg"]:isMouseButtonDown(0, true) then
+			--	local SelectedObject = SenderObject:sendMessage("GET_OBJECT_BY_POS", SenderObject:sendMessage("GET_CURSOR_POS"))
+			--	
+			--	if SelectedObject then
+			--		Pos1 = SenderObject:sendMessage("GET_POS", SelectedObject)
+			--		Pos2 = SenderObject:sendMessage("GET_POS")
+			--		SenderObject:sendMessage("ADD_TO_INVENTORY", SelectedObject)
+			--	end
+			--end 
 			
-			if Message["Arg"]:isMouseButtonDown(1, true) then
-				local SelectedObject = SenderObject:sendMessage("GET_OBJECT_BY_POS", SenderObject:sendMessage("GET_CURSOR_POS"))
-				if SelectedObject then
-					SenderObject:sendMessage("SHOW_HIDE_INVECTORY", SelectedObject)
-				end
-			end
+			--if Message["InterObject"]:isMouseButtonDown(1, true) then
+			--	local SelectedObject = SenderObject:sendMessage("GET_OBJECT_BY_POS", SenderObject:sendMessage("GET_CURSOR_POS"))
+			--	if SelectedObject then
+			--		SenderObject:sendMessage("SHOW_HIDE_INVECTORY", SelectedObject)
+			--	end
+			--end
 		end
 		
 		--if(Message["Arg"] == "CURSOR_ON_OBJECT") then

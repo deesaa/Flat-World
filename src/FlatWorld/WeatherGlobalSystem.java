@@ -15,7 +15,7 @@ public class WeatherGlobalSystem {
 	int dayStart         = 28800000, dayEnd         = 68400000;
 	int nightStart 		 = 72000000, nightEnd 		= 21600000;
 	
-	int currentTime = dayStart;	//58400000
+	int currentTime = dayEnd;	//58400000
 	long lastTime = 0;
 	float minForAll, minRemaining, minPassed, finalSunLight;
 	

@@ -2,6 +2,7 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
+import org.luaj.vm2.LuaValue;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -12,18 +13,32 @@ public class LightObject {
 	boolean deleteMark = false;
 	Vector4f Diffuse, Specular, Ambient;
 	
+	float lightingDistance;
+	
 	int lightID = -1;
-	Integer pToLightID = null;
+	//Integer pToLightID = null;
 	float i = 0;
 	
-	LightObject(Integer pToLightID, BasicObjectClass OwnerObject, Vector4f Diffuse, Vector4f Specular, Vector4f Ambient){
-		this.pToLightID = pToLightID;
+	LightObject(BasicObjectClass OwnerObject, Vector4f Diffuse, Vector4f Specular, Vector4f Ambient){
+	//	this.pToLightID = pToLightID;
 		this.OwnerObject = OwnerObject;
 		this.Diffuse  = Diffuse;
 		this.Specular = Specular;
 		this.Ambient  = Ambient;
 	}
 	
+	public LightObject(BasicObjectClass OwnerObject, LuaValue tempLuaValue) {
+		this.OwnerObject = OwnerObject;
+		LuaValue lDif = tempLuaValue.get("diffuse");
+		this.Diffuse = new Vector4f(lDif.get(1).tofloat(), lDif.get(2).tofloat(), lDif.get(3).tofloat(), lDif.get(4).tofloat());
+		LuaValue lSpec = tempLuaValue.get("specular");
+		this.Specular = new Vector4f(lSpec.get(1).tofloat(), lSpec.get(2).tofloat(), lSpec.get(3).tofloat(), lSpec.get(4).tofloat());
+		LuaValue lAmb = tempLuaValue.get("ambient");
+		this.Ambient = new Vector4f(lAmb.get(1).tofloat(), lAmb.get(2).tofloat(), lAmb.get(3).tofloat(), lAmb.get(4).tofloat());
+		
+		this.lightingDistance = tempLuaValue.get("lightingDistance").tofloat();
+	}
+
 	public void createLight(BasicObjectClass OriginObject){
 		lightID = getNextLightID();
 		
@@ -36,7 +51,7 @@ public class LightObject {
         float kQ, kL, kC, radius, att;
 
         att = 2;
-        radius = 6;
+        radius = this.lightingDistance;
         kQ = att / (3* radius * radius);
         kL = att / (3 * radius);
         kC = att / 3; 

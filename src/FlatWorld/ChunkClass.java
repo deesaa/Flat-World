@@ -41,10 +41,12 @@ public class ChunkClass {
 		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Chest.txt", genPosX + 5.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(ObjectsLoader.createObject("data/players/Player.txt", genPosX + 7.1f, genPosY + 7.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/Torch.txt", genPosX + 1.1f, genPosY + 7.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		//ObjectsArray.add(new ChestClass(genPosX + 1.1f, genPosY + 3.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
-		ObjectsArray.add(new AxeClass(genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
+		//ObjectsArray.add(new TorchClass(genPosX + 1.1f, genPosY + 5.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		//ObjectsArray.add(new TorchClass(genPosX + 2.1f, genPosY + 4.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		ObjectsArray.add(ObjectsLoader.createObject("data/objects/IronAxe.txt", genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+	//	ObjectsArray.add(new AxeClass(genPosX + 5.1f, genPosY + 2.1f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()).randomize());
 		ObjectsArray.add(new TreeClass(genPosX + 2.1f, genPosY + 5.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TreeClass(genPosX + 5.1f, genPosY + 4.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new TreeClass(genPosX + 6.9f, genPosY + 1.3f, genPosZ, chunkID, OwnedMap, ObjectsArray.size()));

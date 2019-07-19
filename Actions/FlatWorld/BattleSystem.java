@@ -10,7 +10,7 @@ public class BattleSystem extends Action{
 	public ArrayList<Integer> EnemiesArray;
 	public TexturesClass PerHealScaleTex;
 	public Vector3f PerHealScaleContourColor;
-	public PercentScaleModule PerHealScale;
+	public BarWindow PerHealScale;
 	
 	public PlayerGUIAct PlayerGUI;
 	float maxHealpoints, healpoints;
@@ -26,7 +26,7 @@ public class BattleSystem extends Action{
 		this.EnemiesArray = EnemiesArray;
 		
 		if(PerHealScaleTex != null || PerHealScaleContourColor != null)
-			PerHealScale = new PercentScaleModule(1.7f, 0.1f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, null, 0, 0, 0, 0);
+			PerHealScale = new BarWindow(1.7f, 0.1f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, null, 0, 0, 0, 0);
 	}
 	
 	public BattleSystem() {

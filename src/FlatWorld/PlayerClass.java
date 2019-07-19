@@ -2,8 +2,6 @@ package FlatWorld;
 
 import java.util.ArrayList;
 
-import FlatWorld.AnimationClass.TagAnimation;
-
 
 public class PlayerClass extends BasicObjectClass {
 	public static int ObjectTypeID;
@@ -16,15 +14,11 @@ public class PlayerClass extends BasicObjectClass {
 	public static SpriteSheet spriteSheet = new SpriteSheet("data/players/Player.png", 16, 16);
 	public static ArrayList<ImageClass> ImageArray = new ArrayList<ImageClass>();
 	
-	public static StringVars[][] Anatomy = new StringVars[][]{
-		{new StringVars("EP=Nothing;EPl=Nothing;"), new StringVars("EP=Head;EPl=Nothing;"),     new StringVars("EP=Nothing;EPl=Nothing;")}, 
-		{new StringVars("EP=Arm;EPl=Left;"),        new StringVars("EP=Body;EPl=Nothing;"),     new StringVars("EP=Arm;EPl=Right;")}, 
-		{new StringVars("EP=Hand;EPl=Left;"),       new StringVars("EP=Nothing;EPl=Nothing;"),  new StringVars("EP=Hand;EPl=Right;")},
-		{new StringVars("EP=Leg;EPl=Left;"),        new StringVars("EP=Nothing;EPl=Nothing;") , new StringVars("EP=Leg;EPl=Right;")},
-		{new StringVars("EP=Foot;EPl=Left;"),       new StringVars("EP=Nothing;EPl=Nothing;"),  new StringVars("EP=Foot;EPl=Right;")},};
+	public static AnatomyStructEl[][] Anatomy = new AnatomyStructEl[][]{
+		{new AnatomyStructEl("Nothing","Nothing")}};
 	
 	{
-		super.Animation =  new AnimationClass(0, "Player");
+		/*super.Animation =  new AnimationClass(0, "Player");
 		Animation.createAnimation(0, "Back");
 		AnimationClass Back = Animation.getAnimation(0);
 		Back.addFrame(ImageArray.get(0), 200);
@@ -68,11 +62,11 @@ public class PlayerClass extends BasicObjectClass {
 		TagAnimation Attack = Animation.getTagAnimation(0);
 		Attack.addFrame(ImageArray.get(18), 250);
 		Attack.addFrame(ImageArray.get(19), 250);
-		Attack.addFrame(ImageArray.get(20), 250);
+		Attack.addFrame(ImageArray.get(20), 250);*/
 	}
 	
 	public static void initObject() {
-		String sIM1   = new String("{s=0.35f, 0.34f, 0.0f,; a=180.0f; r=0, 1, 0,; d=-1,0,; e=Hand; em=Right;}");
+		/*String sIM1   = new String("{s=0.35f, 0.34f, 0.0f,; a=180.0f; r=0, 1, 0,; d=-1,0,; e=Hand; em=Right;}");
 		String sIM2   = new String("{s=0.63f, 0.34f, 0.0f,; a=0.0f;   r=0, 1, 0,; d=1,0,;  e=Hand; em=Left;}");
 		String sIM2S2 = new String("{s=0.35f, 0.38f, 0.0f,; a=180.0f; r=0, 1, 0,; d=-1,0,; e=Hand; em=Right;}");
 		String sIM1S2 = new String("{s=0.63f, 0.38f, 0.0f,; a=0.0f;   r=0, 1, 0,; d=1,0,;  e=Hand; em=Left;}");
@@ -118,7 +112,7 @@ public class PlayerClass extends BasicObjectClass {
 		String s5IM3S2 = new String("{s=0.0f, 0.1f, 0.0f,; a=-45.0f; r=0, 0, 1,; d=1,0,; e=Hand; em=Left;}");
 		ImageArray.add(new ImageClass().setTags(new StringVars("t["+s5IM1 + s5IM1S1+"]")));
 		ImageArray.add(new ImageClass().setTags(new StringVars("t["+s5IM2 + s5IM2S2+"]")));
-		ImageArray.add(new ImageClass().setTags(new StringVars("t["+s5IM3 + s5IM3S2+"]")));
+		ImageArray.add(new ImageClass().setTags(new StringVars("t["+s5IM3 + s5IM3S2+"]"))); */
 		
 		EnemiesArray.add(ZombieClass.ObjectTypeID);
 	}
@@ -131,7 +125,7 @@ public class PlayerClass extends BasicObjectClass {
 		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null));
 		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pAnatomySystem, 6, 6, this.Modifiers.pInventorySystem.Invntory));
 		super.ActionsArray.add(new LookingSystem(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
-		super.ActionsArray.add(new LightingSystem(this));
+		super.ActionsArray.add(new ShadowsSystem(this));
 		super.ActionsArray.add(new BattleSystem(this, null, null, 100, 100, EnemiesArray).linkPlayerGUI(PlayerGUI));
 		super.ActionsArray.add(new CollisionSystem(this, 0.25f, 0.0f, 0.0f));
 	}

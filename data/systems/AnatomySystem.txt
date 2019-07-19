@@ -1,0 +1,9 @@
+AnatomyElements = 
+{
+	{"Head", "data/GUI/HeadEq.png"},
+	{"Arm", "data/GUI/ArmEq.png"},
+	{"Leg", "data/GUI/LegEq.png"},
+	{"Hand", "data/GUI/HandEq.png"},
+	{"Body", "data/GUI/BodyEq.png"},
+	{"Foot", "data/GUI/FootEq.png"}
+}

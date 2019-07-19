@@ -18,26 +18,23 @@ public class LuaControllersHookAct extends Action{
 
 	public void updateAction(BasicObjectClass Object) {
 		if(this.sendControlles){
-			LuaTable tt = new LuaTable();
-			tt.set(LuaValue.valueOf("Name"), LuaValue.valueOf("CONTROLLERS"));
-			tt.set(LuaValue.valueOf("Arg"), luaControllers);
-			Object.callUpdateHook(tt, super.systemIdent);
+			Object.callUpdateHook("CONTROLLERS", super.systemIdent, luaControllers);
 		} 
 		
 		if(!this.sendControlles){
 			if(Mouse.isButtonDown(0))
-				Object.callUpdateHook("LEFT_BUTTON", super.systemIdent);
+				Object.callUpdateHook("LEFT_BUTTON", super.systemIdent, null);
 			if(Mouse.isButtonDown(1))
-				Object.callUpdateHook("RIGHT_BUTTON", super.systemIdent);
+				Object.callUpdateHook("RIGHT_BUTTON", super.systemIdent, null);
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_A))
-				Object.callUpdateHook("KEY_A", super.systemIdent);
+				Object.callUpdateHook("KEY_A", super.systemIdent, null);
 			if(Keyboard.isKeyDown(Keyboard.KEY_W))
-				Object.callUpdateHook("KEY_W", super.systemIdent);
+				Object.callUpdateHook("KEY_W", super.systemIdent, null);
 			if(Keyboard.isKeyDown(Keyboard.KEY_D))
-				Object.callUpdateHook("KEY_D", super.systemIdent);
+				Object.callUpdateHook("KEY_D", super.systemIdent, null);
 			if(Keyboard.isKeyDown(Keyboard.KEY_S))
-				Object.callUpdateHook("KEY_S", super.systemIdent);
+				Object.callUpdateHook("KEY_S", super.systemIdent, null);
 		}
 	}
 

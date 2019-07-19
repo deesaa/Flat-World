@@ -85,6 +85,14 @@ public class MapClass {
 		Vector2f pos = new Vector2f(objectPosX-objectPosX%ChunkClass.numObjectsInLine, objectPosY-objectPosY%ChunkClass.numLines);
 		return pos;
 	}
+	
+	public void bindPlayer(BasicObjectClass Object){
+		if(pPlayer != null)
+			pPlayer.isPlayer = false;
+		
+		pPlayer = Object;
+		pPlayer.isPlayer = true;
+	}
 
 	public void updateMap() {
 		this.loadChunks();

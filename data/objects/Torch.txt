@@ -1,0 +1,56 @@
+ObjectName = "Torch"
+
+Shadows = true
+Pickable = true
+
+Equipment =
+{
+	equipPlaces = 
+	{
+		"Hand"
+	}
+}
+ 
+Lighting = 
+{
+	lightingDistance = 12.0,
+	diffuse  = {1.0f, 0.9f, 0.8f, 0.0f},
+	specular = {1.0f, 1.0f, 1.0f, 0.0f},
+	ambient  = {1.0f, 0.7f, 0.7f, 0.0f},
+}
+
+SpriteSheet = 
+{
+	path = "data/objects/Torch.png",
+	tileWidth = 16,
+	tileHeight = 16,
+	
+	TagsList = 
+	{
+		{-0.15f, 0.0, 0.0f, 0, 0, 1, 0, 0, 0.0f, "Hand", "NULL"}
+	},
+	
+	Images = 
+	{			 --{numInLine, Line, {shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, equipPlace, equipModif}}
+		{0, 0, Tags = {0}},  --Image 0
+		{1, 0, Tags = {0}},  --Image 1
+		{2, 0, Tags = {0}}		
+	}
+}
+
+function updateHook(SenderObject, Message)
+	SenderObject:getMainAnimation():updateFrame()
+	if(Message) then
+		if(Message["Arg"] == "PICKED_UP") then
+		
+		end
+	end
+end
+
+function loadAnimation(Object, stImagesArray)
+	MainAnimation = Object:initMainAnimation(0, "Chest")
+	MainAnimation:addFrame(stImagesArray:getImage(0), 300)
+	MainAnimation:addFrame(stImagesArray:getImage(1), 300)
+	MainAnimation:addFrame(stImagesArray:getImage(2), 300)
+	MainAnimation:pickAnimation()
+end

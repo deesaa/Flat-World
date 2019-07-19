@@ -34,6 +34,9 @@ public class BasicObjectClass {
 	
 	private LuaValue updateHook;
 	public LuaValue luaThisObject;
+	public String objectName;
+	
+	public boolean isPlayer = false;
 
 	public BasicObjectClass() {
 		this.ActionsArray.add(new OffersListAct(this));
@@ -285,7 +288,7 @@ public class BasicObjectClass {
 				if(Modifiers.pPickableModif != null){
 					Modifiers.pPickableModif.setOwner(this);
 				}
-				pickedObject.callUpdateHook("PICKED_UP", "PICK");
+				pickedObject.callUpdateHook("PICKED_UP", "PICK", this.luaThisObject);
 			}
 			return null;
 		}
@@ -317,7 +320,18 @@ public class BasicObjectClass {
 			}
 		}
 		
+		if (message.compareTo("DISABLE_LIGHT") == 0) {
+			if(this.Modifiers.pLightingSystem != null){
+				this.Modifiers.pLightingSystem.lightObject.deleteLight();
+			}
+			return null;
+		}
+		
 		return null;
+	}
+	
+	public String getName(){
+		return this.objectName;
 	}
 	
 	/* OBJECT LOAD */
@@ -348,29 +362,17 @@ public class BasicObjectClass {
 		this.updateHook = updateHook;
 		this.luaThisObject = luaThisObject;
 	}
-
-	public void callUpdateHook(String message, String systemIdent) {
-		if(luaThisObject != null && updateHook != null){
-			LuaTable messageTable = new LuaTable();
-			messageTable.set("Sys", LuaValue.valueOf(systemIdent));
-			messageTable.set("Arg", LuaValue.valueOf(message));
-			this.updateHook.call(this.luaThisObject, messageTable);
-		}
-	}
 	
-	public void callUpdateHook(String message, String systemIdent, LuaValue luaInterObject) {
+	public LuaValue callUpdateHook(String message, String systemIdent, LuaValue luaInterObject) {
 		if(luaThisObject != null && updateHook != null){
 			LuaTable messageTable = new LuaTable();
 			messageTable.set("Sys", LuaValue.valueOf(systemIdent));
 			messageTable.set("Arg", LuaValue.valueOf(message));
-			this.updateHook.call(this.luaThisObject, messageTable, luaInterObject);
+			if(luaInterObject != null)
+				messageTable.set("InterObject", luaInterObject);
+			
+			return this.updateHook.call(this.luaThisObject, messageTable);
 		}
-	}
-
-	public void callUpdateHook(LuaTable message, String systemIdent) {
-		if(luaThisObject != null && updateHook != null){
-			message.set("Sys", LuaValue.valueOf(systemIdent));
-			this.updateHook.call(this.luaThisObject, message);
-		}
+		return null;
 	}
 }

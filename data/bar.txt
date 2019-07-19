@@ -1,0 +1,16 @@
+Windows =
+{
+	{
+		Name = "HealthBar",
+		Type = "Bar",
+		Location = {x = {0, "Pixel"}, y = {0, "Pixel"}, width = {500, "Pixel"}, height = {500, "Pixel"}, AttachToObject = true},
+		Contains =
+		{
+			{
+				Name = "UnderHealthBar",
+				Type = "Bar",
+				Location = {x = {75, "Percent"}, y = {50, "Percent"}, width = {90, "Percent"}, height = {50, "Pixel"}},
+			}
+		}
+	}
+}

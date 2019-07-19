@@ -19,6 +19,7 @@ public class ObjectModifiers {
 	public LightingSystem 	 pLightingSystem;
 	public DestructionSystem pDestructionSystem;
 	public MaterialSystem pMaterialSystem;
+	public ShadowsSystem pShadowsSystem;
 	
 	public InventorySystem getInventorySystem(){
 		return pInventorySystem;

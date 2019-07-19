@@ -1,0 +1,14 @@
+Windows =
+{
+	Static =
+	{
+		{
+			Name = "MainMenu",
+			Type = "Window",
+			Contains =
+			{
+				
+			}
+		}
+	}
+}

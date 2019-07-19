@@ -9,7 +9,7 @@ public class AxeClass extends BasicObjectClass{
 	
 	public static ImageClass CellTexture;
 	public static ArrayList<DestructMaterialRatio> DesRatMats = new ArrayList<DestructMaterialRatio>();
-	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,;");
+//	public static StringVars EqipmentPlaces = new StringVars("EPPl=Hand,;");
 	{
 		super.Animation = new AnimationClass(0, "Axe");
 		super.Animation.addFrame(CellTexture, 300);
@@ -17,15 +17,15 @@ public class AxeClass extends BasicObjectClass{
 	}
 	
 	public static void initObject() {
-		String sIM1   = new String("{s=0.0f, 0.0f, 0.0f,; a=0.0f; r=0, 0, 1,; d=0,0,; e=Hand; em=NULL;}");
-		CellTexture = new ImageClass("data/Objects/Axe.png").setTags(new StringVars("t["+ sIM1 +"]"));
+		//String sIM1   = new String("{s=0.0f, 0.0f, 0.0f,; a=0.0f; r=0, 0, 1,; d=0,0,; e=Hand; em=NULL;}");
+		//CellTexture = new ImageClass("data/Objects/Axe.png").setTags(new StringVars("t["+ sIM1 +"]"));
 		DesRatMats.add(new DestructMaterialRatio(MaterialClass.Wood, 10));
 	}
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, AxeClass.ObjectTypeID, false, true);
 		new PickableModif(this);
-		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
+	//	super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 		super.ActionsArray.add(new BattleObjectAct(this, BattleObjectClass.standardAxe));
 		super.ActionsArray.add(new DestructionSystem(this, DesRatMats));
 	}

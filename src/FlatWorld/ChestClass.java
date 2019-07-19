@@ -28,7 +28,7 @@ public class ChestClass extends BasicObjectClass {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, ObjectID, ChestClass.ObjectTypeID, true, true);
 		new PickableModif(this);
 		super.ActionsArray.add(new InventorySystem(this, 4, 4, -4.0f, 2.0f, null));
-		super.ActionsArray.add(new LightingSystem(this));
+		super.ActionsArray.add(new ShadowsSystem(this));
 		super.ActionsArray.add(new CollisionSystem(this, 0.3f, 0, 0));
 	}
 

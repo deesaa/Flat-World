@@ -9,7 +9,6 @@ public class InventorySystem extends Action{
 	ContainersArrayClass Invntory;
 	
 	boolean isInventoryVisible = false;
-	boolean isPlayer = false;
 	int cellUnderArrow = -1;
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture) 
@@ -31,7 +30,6 @@ public class InventorySystem extends Action{
 		shiftX         = ObjectsLoader.getValue(configs, "shiftX", shiftX);
 		shiftY         = ObjectsLoader.getValue(configs, "shiftY", shiftY);
 		
-		isPlayer 	   = configs.get("isPlayer").toboolean();
 
 		Invntory = new ContainersArrayClass((int)numCellsInLine, (int)numLines, shiftX, shiftY, null);
 		Invntory.pushGroup("Inv");
@@ -40,8 +38,8 @@ public class InventorySystem extends Action{
 	public void updateAction(BasicObjectClass Object) {
 		Invntory.setCurrentOwner(Object);
 		
-		/*if(isPlayer){
-			//this.updatePlayerAction(Object);
+		if(Object.isPlayer){
+			this.updatePlayerAction(Object);
 		} else {
 			if(isInventoryVisible){
 				float tempDistGlobalX = 1.4f;
@@ -54,10 +52,10 @@ public class InventorySystem extends Action{
 					MapsManager.getPlayerPosY() + tempDistGlobalY	   < Object.PosGlobalY)
 				{
 					isInventoryVisible = false;
-					Object.callUpdateHook("CLOSED", super.systemIdent);
+					Object.callUpdateHook("CLOSED", super.systemIdent, null);
 				}
 			}
-		} */
+		} 
 		
 		if(isInventoryVisible){
 			ContainerCell tempCont = Invntory.getContainerUnderArrow();
@@ -83,15 +81,15 @@ public class InventorySystem extends Action{
 		cellUnderArrow = -1;
 	}
 	
-	/*private void updatePlayerAction(BasicObjectClass Object) {
+	private void updatePlayerAction(BasicObjectClass Object) {
 		if(FlatWorld.globalKeyLocker.isKeyDown(Keyboard.KEY_E, true)){
 			isInventoryVisible = !isInventoryVisible;
 			if(isInventoryVisible)
-				Object.callUpdateHook("OPENED", super.systemIdent);
+				Object.callUpdateHook("OPENED", super.systemIdent, Object.luaThisObject);
 			else
-				Object.callUpdateHook("CLOSED", super.systemIdent);
+				Object.callUpdateHook("CLOSED", super.systemIdent, Object.luaThisObject);
 		}	
-	} */
+	} 
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
 		pickedObject.Modifiers.pPickableModif.setOwner(super.ActionOwner);

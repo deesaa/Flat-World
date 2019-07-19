@@ -19,6 +19,11 @@ public class ObjectsLoader {
 		LuaValue luaThisObject = CoerceJavaToLua.coerce(newObject);
 		LuaValue luaObjectStatic = CoerceJavaToLua.coerce(FlatWorld.objectsStatic);
 		
+		tempLuaValue = g.get("AnatomySystemExtend");
+		if(tempLuaValue != LuaValue.NIL){
+			AnatomySystem.extendSystemStatics(tempLuaValue, pathToFile);
+		}
+		
 		tempLuaValue = g.get("SpriteSheet");
 		if(tempLuaValue != LuaValue.NIL){
 			String objectName = g.get("ObjectName").tojstring();
@@ -29,23 +34,25 @@ public class ObjectsLoader {
 				int tileHeight = tempLuaValue.get("tileHeight").toint();
 				FlatWorld.objectsStatic.loadSpriteSheet(pathToSheet, tileWidth, tileHeight);
 				
-				tempLuaValue = tempLuaValue.get("Images");
-				for(int i = 1; i <= tempLuaValue.length(); i++){
-					FlatWorld.objectsStatic.createImage(tempLuaValue.get(i).get(1).toint(), tempLuaValue.get(i).get(2).toint());
+				LuaValue luaTagsList = tempLuaValue.get("TagsList");
+				if(luaTagsList != LuaValue.NIL){
+					FlatWorld.objectsStatic.loadTagsList(luaTagsList);
+				}
+				
+				
+				LuaValue luaImages = tempLuaValue.get("Images");
+				for(int i = 1; i <= luaImages.length(); i++){
+					FlatWorld.objectsStatic.createImage(luaImages.get(i).get(1).toint(), luaImages.get(i).get(2).toint());
 
-					LuaValue imageTags = tempLuaValue.get(i).get("Tags");
+					LuaValue imageTags = luaImages.get(i).get("Tags");
+					
 					if(!imageTags.isnil()){
 						ImageClass cIm = FlatWorld.objectsStatic.currentImage;
 						ImageTag[] tempTags = new ImageTag[imageTags.length()];
 						
 						for(int i2 = 1; i2 <= imageTags.length(); i2++){
-							LuaValue cTag = imageTags.get(i2);
-							float shiftX  = cTag.get(1).tofloat(), shiftY  = cTag.get(2).tofloat(), shiftZ  = cTag.get(3).tofloat(), 
-							      rotateX = cTag.get(4).tofloat(), rotateY = cTag.get(5).tofloat(), rotateZ = cTag.get(6).tofloat() , 
-							      dirX    = cTag.get(7).tofloat(), dirY    = cTag.get(8).tofloat(), angle   = cTag.get(9).tofloat();
-							String equipPlace = cTag.get(10).tojstring(); 
-							String equipModif = cTag.get(11).tojstring();
-							tempTags[i2-1] = new ImageTagsClass().new ImageTag(shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, equipPlace, equipModif);
+							LuaValue tagID = imageTags.get(i2);
+							tempTags[i2-1] = FlatWorld.objectsStatic.getTag(tagID.toint());
 						}
 						cIm.setTags(tempTags);
 					}
@@ -54,6 +61,8 @@ public class ObjectsLoader {
 		}
 		
 		newObject.ObjectTypeID = FlatWorld.objectsStatic.getCurrentID();
+		newObject.objectName = g.get("ObjectName").tojstring();
+		newObject.isPlayer = g.get("isPlayer").toboolean();
 		
 		tempLuaValue = g.get("loadAnimation");
 		tempLuaValue.call(luaThisObject, luaObjectStatic);
@@ -62,9 +71,13 @@ public class ObjectsLoader {
 		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
 			new PickableModif(newObject);
 		
+		tempLuaValue = g.get("Lighting");
+		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
+			newObject.ActionsArray.add(new LightingSystem(newObject, tempLuaValue));
+		
 		tempLuaValue = g.get("Shadows");
 		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())
-			newObject.ActionsArray.add(new LightingSystem(newObject));
+			newObject.ActionsArray.add(new ShadowsSystem(newObject));
 		
 		tempLuaValue = g.get("LuaControllersHook");
 		if(tempLuaValue != LuaValue.NIL && tempLuaValue.toboolean())

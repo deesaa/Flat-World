@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 
 public class PlayerGUIAct extends Action{
-	public PercentScaleModule PerHealScale;
+	public BarWindow PerHealScale;
 	public TexturesClass PerHealScaleTex = null, PerHealScaleBGTex = null;
 	public Vector3f PerHealScaleContourColor = null;
 	
@@ -28,7 +28,7 @@ public class PlayerGUIAct extends Action{
 		PerHealScaleTex = new TexturesClass("png", "data/GUI/PerHealScale.png");
 		PerHealScaleBGTex = new TexturesClass("png", "data/GUI/PerHealScaleBG.png");
 		PerHealScaleContourColor = new Vector3f(1.0f, 1.0f, 1.0f);
-		PerHealScale = new PercentScaleModule(10.0f, 0.5f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, PerHealScaleBGTex, 0.3f, 0.3f, 1.0f, 1.0f);
+		PerHealScale = new BarWindow(10.0f, 0.5f, maxHealpoints, PerHealScaleTex, PerHealScaleContourColor, PerHealScaleBGTex, 0.3f, 0.3f, 1.0f, 1.0f);
 	}
 	
 	public void rendHealScale(int healpoints){

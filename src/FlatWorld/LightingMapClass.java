@@ -3,7 +3,7 @@ package FlatWorld;
 import java.util.ArrayList;
 
 public class LightingMapClass {
-	ArrayList<BasicObjectClass> ShadowsArray = new ArrayList<BasicObjectClass>();
+	ArrayList<BasicObjectClass> ObjectsShadowsArray = new ArrayList<BasicObjectClass>();
 	ArrayList<LightObject> LightsObjectArray = new ArrayList<LightObject>();
 	
 	public void addLight(LightObject Light, BasicObjectClass Object){
@@ -23,14 +23,14 @@ public class LightingMapClass {
 	}
 	
 	public void registerShadow(BasicObjectClass Object) {
-		ShadowsArray.add(Object);
+		ObjectsShadowsArray.add(Object);
 	}
 	
 	public void rendShadows(){
-		for(int i = 0; i < ShadowsArray.size(); i++){
-			ShadowsArray.get(i).Modifiers.pLightingSystem.objectModeRend(ShadowsArray.get(i));
+		for(int i = 0; i < ObjectsShadowsArray.size(); i++){
+			ObjectsShadowsArray.get(i).Modifiers.pShadowsSystem.objectModeRend(ObjectsShadowsArray.get(i));
 		}
-		ShadowsArray.clear();
+		ObjectsShadowsArray.clear();
 	}
 	
 	public void rendLight(){	
@@ -45,13 +45,21 @@ public class LightingMapClass {
 		float playerPosY = MapsManager.getPlayerPosY();
 		
 		for(int i = LightsObjectArray.size()-1; i >= 0; i--){
-			if(LightsObjectArray.get(i).deleteMark == true ||
-			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif.getOwner().PosGlobalX-playerPosX) >= 40 ||
-			   Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif.getOwner().PosGlobalY-playerPosY) >= 30)
-			{
-			   LightsObjectArray.get(i).deleteMark = false;
-			   LightsObjectArray.get(i).deleteLight();
-			   LightsObjectArray.remove(i);
+			if(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif != null){
+				if(LightsObjectArray.get(i).deleteMark == true ||
+					Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif.getOwner().PosGlobalX-playerPosX) >= 40 ||
+					Math.abs(LightsObjectArray.get(i).OwnerObject.Modifiers.pPickableModif.getOwner().PosGlobalY-playerPosY) >= 30)
+				{
+						LightsObjectArray.get(i).deleteMark = false;
+						LightsObjectArray.get(i).deleteLight();
+						LightsObjectArray.remove(i);
+				}
+			} else {
+				if(LightsObjectArray.get(i).deleteMark == true){
+					LightsObjectArray.get(i).deleteMark = false;
+					LightsObjectArray.get(i).deleteLight();
+					LightsObjectArray.remove(i);
+				}
 			}
 		}
 	}

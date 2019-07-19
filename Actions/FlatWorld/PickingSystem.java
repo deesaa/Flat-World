@@ -7,25 +7,19 @@ import org.luaj.vm2.LuaValue;
 
 public class PickingSystem extends Action{
 	PickableObjectsList pickableObjectsList;
-	boolean isPlayer = false;
 	float pickDistance;
 
 	PickingSystem(BasicObjectClass Object, PickableObjectsList pickableObjectsList, boolean KOSTIL){
 		super(Object, "PICK");
 		Object.Modifiers.pPickingSystem = this;
 		this.pickableObjectsList = pickableObjectsList;
-		if(Object.ObjectType == ObjectTypes.Player)
-			isPlayer = true;
 	}
 
     PickingSystem(BasicObjectClass Object, LuaValue tempLuaValue) {
 		super(Object, "PICK");
 		Object.Modifiers.pPickingSystem = this;
 		
-		LuaValue luaIsPlayer = tempLuaValue.get("isPlayer");
-		if(!luaIsPlayer.isnil()){
-			isPlayer = luaIsPlayer.toboolean();
-		} else {
+		if(Object.isPlayer == false){
 			LuaValue tempLua = tempLuaValue.get("PickableObjects");
 		}
 		
@@ -33,7 +27,7 @@ public class PickingSystem extends Action{
 	}
 
 	public void updateAction(BasicObjectClass Object) {
-		if(isPlayer){
+		if(Object.isPlayer){
 			this.updatePlayerAction(Object);
 		} else {
 			ArrayList<BasicObjectClass> tempVisibleObjectsArray = Object.Modifiers.pLookingSystem.VisibleObjectsArray;
@@ -64,35 +58,39 @@ public class PickingSystem extends Action{
 		float expandToDown  =  1.4f;
 		float expandToRight = -1.4f;
 		float expandToUp    = -1.4f;
-		
+
 		if (IntersectedObject != null) {
-				Object.callUpdateHook("CURSOR_ON_OBJECT", this.systemIdent, IntersectedObject.luaThisObject);
-				if(IntersectedObject.Modifiers.pPickableModif != null){
+			if(MapsManager.getPlayerPosX() + expandToRight < IntersectedObject.PosGlobalX && 
+			   MapsManager.getPlayerPosX() + expandToLeft  > IntersectedObject.PosGlobalX &&
+			   MapsManager.getPlayerPosY() + expandToUp    < IntersectedObject.PosGlobalY && 
+			   MapsManager.getPlayerPosY() + expandToDown  > IntersectedObject.PosGlobalY)
+			{
+				if(IntersectedObject.Modifiers.pPickableModif != null)
 					IntersectedObject.Modifiers.hasContour = true;
+				
+				if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
+					if(Object.Modifiers.pInventorySystem != null && IntersectedObject.Modifiers.pPickableModif != null){
+						Object.callUpdateHook("PICKING_OBJECT", super.systemIdent, IntersectedObject.luaThisObject);
+						Object.Modifiers.pInventorySystem.addObject(IntersectedObject);
+					//	IntersectedObject.Modifiers.pPickableModif.setOwner(Object);
+						IntersectedObject.callUpdateHook("PICKED_UP", super.systemIdent, Object.luaThisObject);
+					}
 				}
 				
-				/*if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
-					if(Object.Modifiers.pInventorySystem != null && IntersectedObject.Modifiers.pPickableModif != null){
-						Object.Modifiers.pInventorySystem.addObject(IntersectedObject);
-						IntersectedObject.Modifiers.pPickableModif.setOwner(Object);
-						IntersectedObject.callUpdateHook("PICKED_UP", super.systemIdent);
-					}
-				}*/
-				
 				if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
-					this.processRightClick(IntersectedObject);
+					this.processRightClick(IntersectedObject, Object);
 			}
+		}
 	}
 	
-	private void processRightClick(BasicObjectClass Object){
-		/*if(Object.Modifiers.pInventorySystem != null){  				// Нужно доработать!
-		//if(Object.ObjectTypeID == ChestClass.ObjectTypeID){
+	private void processRightClick(BasicObjectClass Object, BasicObjectClass initatorObj){
+		if(Object.Modifiers.pInventorySystem != null){  				
 			Object.Modifiers.pInventorySystem.isInventoryVisible = !Object.Modifiers.pInventorySystem.isInventoryVisible;
 			if(Object.Modifiers.pInventorySystem.isInventoryVisible)
-				Object.callUpdateHook("OPENED", super.systemIdent);
+				Object.callUpdateHook("OPENED", super.systemIdent, initatorObj.luaThisObject);
 			else
-				Object.callUpdateHook("CLOSED", super.systemIdent);
-		}*/
+				Object.callUpdateHook("CLOSED", super.systemIdent, initatorObj.luaThisObject);
+		}
 	}
 
 	public void rendAction(BasicObjectClass Object) {

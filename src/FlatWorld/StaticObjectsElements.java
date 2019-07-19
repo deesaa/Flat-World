@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.luaj.vm2.LuaValue;
+
+import FlatWorld.ImageTagsClass.ImageTag;
+
 public class StaticObjectsElements {
 	Map<String, StaticImagesContainer> imageContainer = new Hashtable<String, StaticImagesContainer>();
 	StaticImagesContainer currentContainer;
@@ -68,11 +72,28 @@ public class StaticObjectsElements {
 		return freeID;
 	}
 	
+	public void loadTagsList(LuaValue tempLuaValue) {
+		for(int i = 1; i <= tempLuaValue.length(); i++){
+			if(currentContainer != null){
+				currentContainer.imageTags.add(new ImageTagsClass().new ImageTag(tempLuaValue.get(i)));
+			}
+		}
+	}
+	
+	public ImageTag getTag(int tagID) {
+		if(currentContainer != null){
+			if(currentContainer.imageTags.size() > 0)
+				return currentContainer.imageTags.get(tagID);
+		}
+		return null;
+	}
+	
 	class StaticImagesContainer{
 		int ObjectStaticID = -1;
 		
 		SpriteSheet spriteSheet;
 		ArrayList<ImageClass> imagesArray = new ArrayList<ImageClass>();
+		ArrayList<ImageTag> imageTags = new ArrayList<ImageTag>();
 		
 		public void addImage(ImageClass image){
 			this.imagesArray.add(image);

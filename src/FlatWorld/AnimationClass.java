@@ -113,6 +113,9 @@ public class AnimationClass {
 	public ImageTag getFinalTagAnimation(String equipPlace, String equipModifier) {
 		ImageTag finalTag = new ImageTagsClass().new ImageTag(0, 0, 0, 0, 0, 0, 0, 0, 0, equipPlace, equipModifier);
 		
+		if(TagAnimations == null)
+			return finalTag;
+		
 		for(int i = 0; i < TagAnimations.size(); i++){
 			if(TagAnimations.get(i).playOnce){
 				ImageTag tempTag = TagAnimations.get(i).getCurrentFrame().imageTags.getTag(equipPlace, equipModifier);

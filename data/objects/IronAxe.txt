@@ -1,0 +1,38 @@
+ObjectName = "IronAxe"
+
+Shadows = true
+Pickable = true
+
+Equipment =
+{
+	equipPlaces = 
+	{
+		"Hand"
+	}
+}
+
+SpriteSheet = 
+{
+	path = "data/objects/Axe.png",
+	tileWidth = 16,
+	tileHeight = 16,
+
+	Images = 
+	{			 --{numInLine, Line, {shiftX, shiftY, shiftZ, rotateX, rotateY, rotateZ, dirX, dirY, angle, equipPlace, equipModif}}
+		{0, 0, Tags = {{-0.15f, 0.0, 0.0f, 0, 0, 1, 0, 0, 0.0f, "Hand", "NULL"}}},  --Image 0
+	}
+}
+
+function updateHook(SenderObject, Message)
+	if(Message) then
+		if(Message["Arg"] == "PICKED_UP") then
+		
+		end
+	end
+end
+
+function loadAnimation(Object, stImagesArray)
+	MainAnimation = Object:initMainAnimation(0, "Axe")
+	MainAnimation:addFrame(stImagesArray:getImage(0), 300)
+	MainAnimation:pickAnimation()
+end

@@ -16,12 +16,12 @@ public class ZombieClass extends BasicObjectClass {
 	public static SpriteSheet zombieSheet = new SpriteSheet("data/mobs/Zombie.png", 16, 16);
 	public static ArrayList<ImageClass> ImageArray = new ArrayList<ImageClass>();
 	
-	public static StringVars[][] Anatomy = new StringVars[][]{
-		{new StringVars("EP=Nothing;EPl=Nothing;"), new StringVars("EP=Head;EPl=Nothing;"),     new StringVars("EP=Nothing;EPl=Nothing;")}, 
-		{new StringVars("EP=Arm;EPl=Left;"),        new StringVars("EP=Body;EPl=Nothing;"),     new StringVars("EP=Arm;EPl=Right;")}, 
-		{new StringVars("EP=Hand;EPl=Left;"),       new StringVars("EP=Nothing;EPl=Nothing;"),  new StringVars("EP=Hand;EPl=Right;")},
-		{new StringVars("EP=Leg;EPl=Left;"),        new StringVars("EP=Nothing;EPl=Nothing;") , new StringVars("EP=Leg;EPl=Right;")},
-		{new StringVars("EP=Foot;EPl=Left;"),       new StringVars("EP=Nothing;EPl=Nothing;"),  new StringVars("EP=Foot;EPl=Right;")},};
+//	public static StringVars[][] Anatomy = new StringVars[][]{
+	//	{new StringVars("EP=Nothing;EPl=Nothing;"), new StringVars("EP=Head;EPl=Nothing;"),     new StringVars("EP=Nothing;EPl=Nothing;")}, 
+	//	{new StringVars("EP=Arm;EPl=Left;"),        new StringVars("EP=Body;EPl=Nothing;"),     new StringVars("EP=Arm;EPl=Right;")}, 
+	//	{new StringVars("EP=Hand;EPl=Left;"),       new StringVars("EP=Nothing;EPl=Nothing;"),  new StringVars("EP=Hand;EPl=Right;")},
+	//	{new StringVars("EP=Leg;EPl=Left;"),        new StringVars("EP=Nothing;EPl=Nothing;") , new StringVars("EP=Leg;EPl=Right;")},
+	//	{new StringVars("EP=Foot;EPl=Left;"),       new StringVars("EP=Nothing;EPl=Nothing;"),  new StringVars("EP=Foot;EPl=Right;")},};
 	
 	{
 		super.Animation = new AnimationClass(0, "Zombie");
@@ -43,10 +43,10 @@ public class ZombieClass extends BasicObjectClass {
 	ZombieClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Mob, ObjectID, ZombieClass.ObjectTypeID, true, false);
 		super.ActionsArray.add(new LookingSystem(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
-		super.ActionsArray.add(new LightingSystem(this));
+		super.ActionsArray.add(new ShadowsSystem(this));
 		super.ActionsArray.add(new MovingSystem(this));
 		super.ActionsArray.add(new PickingSystem(this, PickableObjectsList.zombieStandardPickingList, true));
-		super.ActionsArray.add(new AnatomySystem(this, Anatomy, null));
+	//	super.ActionsArray.add(new AnatomySystem(this, Anatomy, null));
 		super.ActionsArray.add(new InventorySystem(this, 2, 2, 2.0f, 2.0f, null));
 		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pAnatomySystem, 6, 6, this.Modifiers.pInventorySystem.Invntory));
 		super.ActionsArray.add(new BattleSystem(this, PerHealScaleTex, PerHealScaleContourColor, 100, 100, EnemiesArray));
