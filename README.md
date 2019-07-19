@@ -14,3 +14,7 @@
  
  ## Video How You Should Play This Game
  __https://youtu.be/xMfsJyDvdjI__
+ 
+ ## You are ready for download latest build
+ https://drive.google.com/open?id=1gXLDOW9_5HmAPiJymkNy2FHNwhtzNxuW
+ Probably it wont run, but who knows
