@@ -3,7 +3,8 @@ package FlatWorld;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class ChunkClass {
 	public static int numObjectsInLine = 8, numLines = 8;
@@ -25,7 +26,6 @@ public class ChunkClass {
 		this.ChunkGlobalPosX = ChunkPosX * ChunkClass.numObjectsInLine;
 		this.ChunkGlobalPosY = ChunkPosY * ChunkClass.numLines;
 
-
 		for (int i = 0; i != numObjectsInLine; i++) {
 			for (int i2 = 0; i2 != numLines; i2++) {
 				CellsArray.add(new DirtClass(ChunkGlobalPosX + i, ChunkGlobalPosY + i2, ChunkGlobalPosZ, chunkID, OwnedMap, CellsArray.size()));
@@ -43,6 +43,7 @@ public class ChunkClass {
 		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 1.1f, ChunkGlobalPosY + 4.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 5.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
 		ObjectsArray.add(new AxeClass(ChunkGlobalPosX + 2.1f, ChunkGlobalPosY + 2.1f, ChunkGlobalPosZ, chunkID, OwnedMap, ObjectsArray.size()));
+		TemplateObjectCreator.setColor(ObjectsArray.get(ObjectsArray.size()-1), ColorClass.Green);
 	}
 
 	public void updateChunk() {
@@ -56,7 +57,7 @@ public class ChunkClass {
 			this.qSort(0, ObjectsArray.size()-1);
 		
 		for (int i = 0; i < ObjectsArray.size(); i++) {
-			ObjectsArray.get(i).rendObject(FlatWorld.StandardQuad);
+			ObjectsArray.get(i).rendObject(QuadClass.standardQuad);
 		}
 	}
 	
@@ -89,7 +90,7 @@ public class ChunkClass {
 
 	public void rendChunkCells() {
 		for (int i = 0; i < CellsArray.size(); i++) {
-			CellsArray.get(i).rendObject(FlatWorld.StandardQuad);
+			CellsArray.get(i).rendObject(QuadClass.standardQuad);
 		}
 	}
 

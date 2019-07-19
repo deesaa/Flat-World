@@ -151,22 +151,22 @@ public class MouseArrowClass {
 				
 				if(finalDist <= 3.0d)
 				{
-					FlatWorld.StaticObjectsBase.rendObject(ContourTemplateClass.childrenBase.getChild("GCo"),
-							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+					FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
+							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 				} else {
-					FlatWorld.StaticObjectsBase.rendObject(ContourTemplateClass.childrenBase.getChild("RCo"),
-							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+					FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
+							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 				}
 				
 			} else {
 				FlatWorld.StaticObjectsBase.rendObject(ContainerCell.ObjectTypeID,
-						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 				
 				FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
-						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, QuadClass.standardQuad);
 			}
 			
-			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);
+			MouseArrowClass.pickedObjects.get(0).rendObject(MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, QuadClass.iconQuad);
 			
 			//FlatWorld.StaticObjectsBase.rendObject(pickedObjectTypeID,
 			//		MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);

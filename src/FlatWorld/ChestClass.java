@@ -43,18 +43,16 @@ public class ChestClass extends BasicObjectClass {
 		super.updateObject();
 	}
 
-	public void rendObject(int QuadType) {
+	public void rendObject(QuadClass Quad) {
 		this.fixSpriteState();
 		
-		super.Animations.setAnimation();
-		super.rendObject(QuadType);
+		super.rendObject(Quad);
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType) {
+	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
 		this.fixSpriteState();
 		
-		super.Animations.setAnimation();
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType);
+		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad);
 	}
 	
 	public void fixSpriteState(){

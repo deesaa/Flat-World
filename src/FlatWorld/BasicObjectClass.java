@@ -59,13 +59,6 @@ public class BasicObjectClass {
 
 	public void move(float PosX, float PosY, float PosZ) {
 		BasicObjectClass IntersectedObject = MapsManager.checkNoClip(this);
-		if (IntersectedObject != null) {
-			if (IntersectedObject.Modifiers.isSolid) {
-				this.PosGlobalX += PosX * FlatWorld.delta;
-				this.PosGlobalY += PosY * FlatWorld.delta;
-				this.PosGlobalZ += PosZ * FlatWorld.delta;
-			}
-		}
 
 		this.PosGlobalX += PosX * FlatWorld.delta;
 		this.PosGlobalY += PosY * FlatWorld.delta;
@@ -111,23 +104,25 @@ public class BasicObjectClass {
 		}
 	}
 
-	public void rendObject(int QuadType) {
+	public void rendObject(QuadClass Quad) {
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
 		modifColor.setColorFilter();
-		GL11.glCallList(QuadType);
+		this.Animations.setAnimation();
+		Quad.rend();
 		if (Modifiers.hasContour) {
-			ContourClass.Textures.setTexture();
-			GL11.glCallList(QuadType);
+			ContourClass.CellTexture.bind();
+			Quad.rend();
 		}
 		GL11.glLoadIdentity();
 		this.rendActions();
 		Modifiers.hasContour = false;
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
 		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
 		modifColor.setColorFilter();
-		GL11.glCallList(QuadType);
+		this.Animations.setAnimation();
+		Quad.rend();
 		GL11.glLoadIdentity();
 		this.rendActions();
 		Modifiers.hasContour = false;

@@ -63,7 +63,7 @@ public class PlayerClass extends BasicObjectClass {
 		super.ActionsArray.add(new PickingSystem(this, PickableObjectsArray));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null, 0, 0, 0, 0));
-		super.ActionsArray.add(new EqipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
+		super.ActionsArray.add(new EquipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new BattleSystem(this, null, null, 100, 100, EnemiesArray).linkPlayerGUI(PlayerGUI));
 		super.ActionsArray.add(new OffersListAct(this));
@@ -77,13 +77,13 @@ public class PlayerClass extends BasicObjectClass {
 		super.updateObject();
 	}
 
-	public void rendObject(int QuadType) {
+	public void rendObject(QuadClass Quad) {
 		super.Animations.setAnimation();
-		super.rendObject(QuadType);
+		super.rendObject(Quad);
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType) {
+	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
 		super.Animations.setAnimation();
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType);
+		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad);
 	}
 }

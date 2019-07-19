@@ -10,10 +10,14 @@ public class AxeClass extends BasicObjectClass{
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
-	public static ArrayList<Image> StaticImageArray = new ArrayList<Image>();
 	public static Image CellTexture;
 	public static ArrayList<Integer> EqipmentPlaces = new ArrayList<Integer>();
 	public static BattleObjectClass battleObjectState = new BattleObjectClass();
+	
+	{
+		super.Animations = new AnimationsList("axe");
+		super.Animations.addAnimationImage(CellTexture, 300);
+	}
 	
 	public static void initObject() {
 		try {
@@ -26,7 +30,7 @@ public class AxeClass extends BasicObjectClass{
 
 	AxeClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, DirtClass.ObjectTypeID, false, true);
-		super.ActionsArray.add(new EqipmentSystem(this, EqipmentPlaces));
+		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
 	}
 	
@@ -34,13 +38,11 @@ public class AxeClass extends BasicObjectClass{
 		super(ObjectTypes.Object, 0.0f, TorchClass.ObjectTypeID, false);
 	}
 
-	public void rendObject(int QuadType) {
-		AxeClass.CellTexture.bind();
-		super.rendObject(QuadType);
+	public void rendObject(QuadClass Quad) {
+		super.rendObject(Quad);
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
-		AxeClass.CellTexture.bind();
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType);
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
 	}
 }

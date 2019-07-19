@@ -19,7 +19,6 @@ public class ObjectsBase {
 		StaticObjectsArray.put(ContourClass.ObjectTypeID, 	      new ContourClass());
 		StaticObjectsArray.put(ChestClass.ObjectTypeID, 	      new ChestClass());
 		StaticObjectsArray.put(AxeClass.ObjectTypeID, 		      new AxeClass());
-		StaticObjectsArray.put(ContourTemplateClass.ObjectTypeID, new ContourTemplateClass());
 	}
 
 	public void initObjectsTypeIDs() {
@@ -40,8 +39,6 @@ public class ObjectsBase {
 		ChestClass.ObjectName 				= "Chest";
 		AxeClass.ObjectTypeID 				= this.getNextID();
 		AxeClass.ObjectName 				= "Axe";
-		ContourTemplateClass.ObjectTypeID 	= this.getNextID();
-		ContourTemplateClass.ObjectName 	= "ContourTemplate";
 		
 		DirtClass.initObject();
 		PlayerClass.initObject();
@@ -51,16 +48,10 @@ public class ObjectsBase {
 		ContourClass.initObject();
 		ChestClass.initObject();
 		AxeClass.initObject();
-		ContourTemplateClass.initObject();
-		
-		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.RedOrange, this, "ROCo");
-		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Yellow, this, "YCo");
-		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Green, this, "GCo");
-		TemplateObjectCreator.createObject(new ContourTemplateClass(), ContourTemplateClass.childrenBase, ColorClass.Red, this, "RCo");
 	}
 
-	public void rendObject(int ObjectTypeID, float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType) {
-		StaticObjectsArray.get(ObjectTypeID).rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType);
+	public void rendObject(int ObjectTypeID, float GlobalPosX, float GlobalPosY, float GlobalPosZ, QuadClass Quad) {
+		StaticObjectsArray.get(ObjectTypeID).rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, Quad);
 	}
 	
 	public int getNextID(){

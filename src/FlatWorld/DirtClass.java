@@ -35,13 +35,13 @@ public class DirtClass extends BasicObjectClass {
 		}
 	}
 
-	public void rendObject(int QuadType) {
+	public void rendObject(QuadClass Quad) {
 		super.Animations.setAnimation();
-		super.rendObject(QuadType);
+		super.rendObject(Quad);
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
 		super.Animations.setAnimation();
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType);
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
 	}
 }

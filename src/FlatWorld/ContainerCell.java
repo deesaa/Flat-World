@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class ContainerCell extends BasicObjectClass {
 	public static int ObjectTypeID;
 	public static String ObjectName;
 	
-	public static TexturesClass Textures = new TexturesClass("png",
-			"data/GUI/InventoryCell.png");
+	private static Image CellTexture;
 
 	public ArrayList<BasicObjectClass> ObjectsArray = new ArrayList<BasicObjectClass>();
 	public int pickedObjectTypeID = -1;
@@ -18,6 +18,11 @@ public class ContainerCell extends BasicObjectClass {
 	float localPosGlobalX, localPosGlobalY, localPosGlobalZ;
 	int equipPlace = -1;
 	Image equipPlaceIcon;
+	
+	{
+		super.Animations = new AnimationsList("container");
+		super.Animations.addAnimationImage(CellTexture, 300);
+	}
 
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
 			int ObjectID, float indentX, float indentY) 
@@ -54,11 +59,14 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public static void initObject() {
+		try {
+			CellTexture = new Image("data/GUI/InventoryCell.png", GL11.GL_NEAREST);
+		} catch (SlickException e) { e.printStackTrace();}
 	}
 
 	public void rendCellContent() {
 		if (pickedObjectTypeID != -1) {
-			ObjectsArray.get(0).rendObject(super.PosGlobalX + 0.19f, super.PosGlobalY + 0.19f, super.PosGlobalZ, FlatWorld.IconQuad);
+			ObjectsArray.get(0).rendObject(super.PosGlobalX + 0.19f, super.PosGlobalY + 0.19f, super.PosGlobalZ, QuadClass.iconQuad);
 		} else
 			GL11.glLoadIdentity();
 	}
@@ -72,19 +80,18 @@ public class ContainerCell extends BasicObjectClass {
 			GL11.glLoadIdentity();
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
-		ContainerCell.Textures.setTexture();
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
 		super.PosGlobalX = localPosGlobalX;
 		super.PosGlobalY = localPosGlobalY;
 		super.PosGlobalZ = localPosGlobalZ;
 		super.PosGlobalX += tPosGlobalX;
 		super.PosGlobalY += tPosGlobalY;
 		super.PosGlobalZ += tPosGlobalZ;
-		super.rendObject(QuadType);
+		super.rendObject(Quad);
 		
 		if(equipPlaceIcon != null){
 			equipPlaceIcon.bind();
-			super.rendObject(QuadType);
+			super.rendObject(Quad);
 		}
 	}
 
@@ -106,7 +113,7 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public void rendContour() {
-		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad);
+		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, QuadClass.standardQuad);
 	}
 
 	public void dropObject(float PosGlobalX, float PosGlobalY, float PosGlobalZ) {
@@ -128,6 +135,6 @@ public class ContainerCell extends BasicObjectClass {
 	}
 
 	public void rendRedContur() {
-		FlatWorld.StaticObjectsBase.rendObject(ContourTemplateClass.childrenBase.getChild("ROCo"), super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad);
+		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, QuadClass.standardQuad);
 	}
 }

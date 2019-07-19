@@ -39,7 +39,7 @@ public class TorchClass extends BasicObjectClass {
 	TorchClass(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
 		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Object, 0.0f, ObjectID, TorchClass.ObjectTypeID, false, true);
 		super.ActionsArray.add(new BattleObjectAct(this, battleObjectState));
-		super.ActionsArray.add(new EqipmentSystem(this, EqipmentPlaces));
+		super.ActionsArray.add(new EquipmentSystem(this, EqipmentPlaces));
 	}
 
 	TorchClass() {
@@ -51,13 +51,11 @@ public class TorchClass extends BasicObjectClass {
 		super.updateObject();
 	}
 
-	public void rendObject(int QuadType) {
-		super.Animations.setAnimation();
-		super.rendObject(QuadType);
+	public void rendObject(QuadClass Quad) {
+		super.rendObject(Quad);
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
-		super.Animations.setAnimation();
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType);
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, QuadClass Quad) {
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, Quad);
 	}
 }

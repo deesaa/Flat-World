@@ -13,7 +13,7 @@ public class FlatWorld {
 	public static int StandardQuad;
 	public static float StandardQuadWidth, StandardQuadHeight;
 	public static int PerspectStandardQuad;
-	public static float PerspectStandardQuadWidth, PerspectStandardQuadHeight;
+	//public static float PerspectStandardQuadWidth, PerspectStandardQuadHeight;
 	public static int IconQuad;
 	public static float IconQuadWidth, IconQuadHeight;
 	public static int InventoryCounterQuad;
@@ -110,8 +110,8 @@ public class FlatWorld {
 		GL11.glEnd();
 		GL11.glEndList();
 		
-		PerspectStandardQuadWidth = 1.0f;
-		PerspectStandardQuadHeight = 1.0f;
+	//	PerspectStandardQuadWidth = 1.0f;
+	//	PerspectStandardQuadHeight = 1.0f;
 	}
 
 	public static void initIconQuad() {

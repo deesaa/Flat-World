@@ -52,7 +52,7 @@ public class InventorySystem implements Action{
 		if(isInventoryVisible){
 			Invntory.rend(Object.PosGlobalX, Object.PosGlobalY, Object.PosGlobalZ);
 			if(cellUnderArrow != -1)
-				Invntory.rendObjectOver(ContourTemplateClass.childrenBase.getChild("ROCo"), cellUnderArrow, 0.0f, 0.0f, FlatWorld.StandardQuad);
+				Invntory.rendObjectOver(ContourClass.ObjectTypeID, cellUnderArrow, 0.0f, 0.0f, QuadClass.standardQuad);
 		}
 		cellUnderArrow = -1;
 	}

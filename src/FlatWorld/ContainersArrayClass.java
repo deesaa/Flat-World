@@ -133,10 +133,10 @@ public class ContainersArrayClass {
 		return false;
 	}
 	
-	public void rendObjectOver(int ObjectTypeID, int ContainerID, float indentX, float indentY, int quadType){
+	public void rendObjectOver(int ObjectTypeID, int ContainerID, float indentX, float indentY, QuadClass Quad){
 		ContainerCell tempContainer = InventoryCellsArray.get(ContainerID);
 		FlatWorld.StaticObjectsBase.rendObject(ObjectTypeID,  
-				tempContainer.PosGlobalX+indentX, tempContainer.PosGlobalY+indentY, InventoryCellsArray.get(ContainerID).PosGlobalZ, quadType);
+				tempContainer.PosGlobalX+indentX, tempContainer.PosGlobalY+indentY, InventoryCellsArray.get(ContainerID).PosGlobalZ, Quad);
 	}
 	
 	public void rend(float PosX, float PosY, float PosZ){
@@ -165,7 +165,7 @@ public class ContainersArrayClass {
 		}
 		
 		for (int i = 0; i != InventoryCellsArray.size(); i++) {
-			InventoryCellsArray.get(i).rendObject(PosX, PosY, PosZ, FlatWorld.StandardQuad);
+			InventoryCellsArray.get(i).rendObject(PosX, PosY, PosZ, QuadClass.standardQuad);
 			InventoryCellsArray.get(i).rendCellContent();
 			InventoryCellsArray.get(i).rendCellContentCounter();
 		}
