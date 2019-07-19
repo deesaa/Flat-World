@@ -43,16 +43,17 @@ public class MouseArrowClass {
 
 	public static void updateArrow() {
 		MouseArrowClass.updateArrowCoords();
-		
 		if (throwerContainer != null)
 			throwerContainer.rendRedContur();
-		
-		if (catcherContainer != null){
+		if (catcherContainer != null)
 			catcherContainer.rendRedContur();
-			
-			if (catcherContainer.buttonColorR != FlatWorld.colorUnderArrow.get(0) ||
-				catcherContainer.buttonColorG != FlatWorld.colorUnderArrow.get(1) ||
-				catcherContainer.buttonColorB != FlatWorld.colorUnderArrow.get(2))
+		MouseArrowClass.rend();
+		
+		if(catcherContainer != null){
+			if (catcherContainer.PosGlobalX + catcherContainer.Owner.PosGlobalX + catcherContainer.indentX  								> MouseArrowClass.ArrowWorldCoordX ||
+				catcherContainer.PosGlobalX + catcherContainer.Owner.PosGlobalX + catcherContainer.indentX  + FlatWorld.StandardQuadHeight  < MouseArrowClass.ArrowWorldCoordX ||
+				catcherContainer.PosGlobalY + catcherContainer.Owner.PosGlobalY + catcherContainer.indentY 						            > MouseArrowClass.ArrowWorldCoordY ||
+				catcherContainer.PosGlobalY + catcherContainer.Owner.PosGlobalY + catcherContainer.indentY  + FlatWorld.StandardQuadWidth   < MouseArrowClass.ArrowWorldCoordY)
 			{
 				catcherContainer = null;
 			}
@@ -82,38 +83,82 @@ public class MouseArrowClass {
 			
 			if(catcherContainer == null && throwerContainer != null)
 			{
-				int size = pickedObjects.size();
-				for (int i = 0; i < size; i++) {
-					throwerContainer.addObject(pickedObjects.get(pickedObjects.size()-1));
-					pickedObjects.remove(pickedObjects.size()-1);
+				float fObjPosX = MapsManager.getPlayerPosX()+0.5f;
+				float fObjPosY = MapsManager.getPlayerPosY()+0.5f;
+				float sObjPosX = MouseArrowClass.ArrowWorldCoordX;
+				float sObjPosY = MouseArrowClass.ArrowWorldCoordY;
+				
+				double distX = (fObjPosX - sObjPosX) * (fObjPosX - sObjPosX);
+				double distY = (fObjPosY - sObjPosY) * (fObjPosY - sObjPosY);
+				double finalDist = Math.sqrt((distX + distY));
+				
+				if(finalDist <= 3.0d)
+				{
+					int size = pickedObjects.size();
+					for(int i = 0; i < size; i++){
+						BasicObjectClass tempObject = null;
+						tempObject = pickedObjects.get(pickedObjects.size()-1);
+						tempObject.PosGlobalX = sObjPosX-0.5f;
+						tempObject.PosGlobalY = sObjPosY;
+						tempObject.PosGlobalZ = -25.0f;
+
+						pickedObjects.remove(pickedObjects.size()-1);
+						MapsManager.addObject(tempObject);
+					}
+					pickedObjectTypeID = -1;
+					throwerContainer = null;
+				} else {
+					int size = pickedObjects.size();
+					for (int i = 0; i < size; i++) {
+						throwerContainer.addObject(pickedObjects.get(pickedObjects.size()-1));
+						pickedObjects.remove(pickedObjects.size()-1);
+					}
+					pickedObjectTypeID = -1;
+					throwerContainer = null;
 				}
-				pickedObjectTypeID = -1;
-				throwerContainer = null;
 			}
 		} 
-		if(throwerContainer != null && pickedObjectTypeID != -1)
-		{
-			throwerContainer.rendObject(MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.0f, FlatWorld.StandardQuad, false);
-			
+	}
 	
+	private static void rend(){
+		if(throwerContainer != null && pickedObjectTypeID != -1)
+		{	
 			if(catcherContainer == null){
-				FlatWorld.StaticObjectsBase.rendObject(GreenContourClass.ObjectTypeID,
-						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.0f, FlatWorld.StandardQuad, false);
+				float fObjPosX = MapsManager.getPlayerPosX()+0.5f;
+				float fObjPosY = MapsManager.getPlayerPosY()+0.5f;
+				float sObjPosX = MouseArrowClass.ArrowWorldCoordX;
+				float sObjPosY = MouseArrowClass.ArrowWorldCoordY;
+				
+				double distX = (fObjPosX - sObjPosX) * (fObjPosX - sObjPosX);
+				double distY = (fObjPosY - sObjPosY) * (fObjPosY - sObjPosY);
+				double finalDist = Math.sqrt((distX + distY));
+				
+				if(finalDist <= 3.0d)
+				{
+					FlatWorld.StaticObjectsBase.rendObject(GreenContourClass.ObjectTypeID,
+							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+				} else {
+					FlatWorld.StaticObjectsBase.rendObject(RedContourClass.ObjectTypeID,
+							MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+				}
+				
 			} else {
+				FlatWorld.StaticObjectsBase.rendObject(ContainerCell.ObjectTypeID,
+						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
+				
 				FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
-						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.0f, FlatWorld.StandardQuad, false);
+						MouseArrowClass.ArrowWorldCoordX, MouseArrowClass.ArrowWorldCoordY, -24.99f, FlatWorld.StandardQuad);
 			}
 			
 			FlatWorld.StaticObjectsBase.rendObject(pickedObjectTypeID,
-					MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.0f, FlatWorld.IconQuad, false);
+					MouseArrowClass.ArrowWorldCoordX+0.2f, MouseArrowClass.ArrowWorldCoordY+0.2f, -24.99f, FlatWorld.IconQuad);
 			
 			if(pickedObjects.size() > 1)
 			{
 				TextFieldClass.rendText(String.valueOf(pickedObjects.size()),
-						MouseArrowClass.ArrowWorldCoordX-0.23f, MouseArrowClass.ArrowWorldCoordY+0.04f, -24.0f, FlatWorld.InventoryCounterQuad, 0.19f);
+						MouseArrowClass.ArrowWorldCoordX-0.23f, MouseArrowClass.ArrowWorldCoordY+0.04f, -24.99f, FlatWorld.InventoryCounterQuad, 0.19f);
 			}
 		}
-		
 	}
 
 	public static void updateArrowCoords(){

@@ -27,7 +27,7 @@ public class ZombieClass extends BasicObjectClass {
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new MovingSystem(this));
 		super.ActionsArray.add(new MobInventoryAct(2, 2, this));
-		super.ActionsArray.add(new BattleSystemAct(this, PerHealScaleTex, PerHealScaleContourColor, 100, 55));
+		super.ActionsArray.add(new BattleSystem(this, PerHealScaleTex, PerHealScaleContourColor, 100, 55));
 		
 		super.ActionsArray.add(new OffersListAct(this));
 	}
@@ -45,13 +45,13 @@ public class ZombieClass extends BasicObjectClass {
 		super.updateObject();
 	}
 
-	public void rendObject(int QuadType, boolean rendAsButton) {
+	public void rendObject(int QuadType) {
 		super.Textures.setTextureByAnimation();
-		super.rendObject(QuadType, rendAsButton);
+		super.rendObject(QuadType);
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType, boolean rendAsButton) {
+	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType) {
 		super.Textures.setTextureByAnimation();
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType, rendAsButton);
+		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType);
 	}
 }

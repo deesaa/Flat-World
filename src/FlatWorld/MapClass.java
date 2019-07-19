@@ -9,6 +9,7 @@ import org.lwjgl.util.glu.GLU;
 public class MapClass {
 	int MapID;
 	float PlayerGlobalPosX, PlayerGlobalPosY;
+	BasicObjectClass PlayerObject = null;
 	int distToCutChunksX, distToCutChunksY;
 	float distToCutChunksGlobalX, distToCutChunksGlobalY;
 	public ArrayList<ChunkClass> ChunksArray = new ArrayList<ChunkClass>();
@@ -17,8 +18,7 @@ public class MapClass {
 	// Ќомер карты; расто€ние до начала обрезани€ чанков по X; расто€ние до
 	// начала обрезани€ чанков по Y; глобальное расположение объекта(игрока) по
 	// X, Y;
-	MapClass(int MapID, int distToCutChunksX, int distToCutChunksY,
-			float playerPosX, float playerPosY) {
+	MapClass(int MapID, int distToCutChunksX, int distToCutChunksY, float playerPosX, float playerPosY) {
 		this.MapID 			  = MapID;
 		this.PlayerGlobalPosX = playerPosX;
 		this.PlayerGlobalPosY = playerPosY;
@@ -62,12 +62,6 @@ public class MapClass {
 
 	public void updateMap() {
 		this.rebuildVisibleChunksArray();
-
-		for (int i = 0; i < VisibleChunksArray.size(); i++) {
-			VisibleChunksArray.get(i).rendButtons();
-		}
-
-		FlatWorld.updateColorUnderArrow();
 
 		for (int i = 0; i < VisibleChunksArray.size(); i++) {
 			VisibleChunksArray.get(i).updateChunk();

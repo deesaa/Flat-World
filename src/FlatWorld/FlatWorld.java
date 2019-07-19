@@ -17,37 +17,41 @@ public class FlatWorld {
 	public static long delta;
 	public static int StandardQuad;
 	public static float StandardQuadWidth, StandardQuadHeight;
+	public static int PerspectStandardQuad;
+	public static float PerspectStandardQuadWidth, PerspectStandardQuadHeight;
 	public static int IconQuad;
 	public static float IconQuadWidth, IconQuadHeight;
 	public static int InventoryCounterQuad;
 	public static float InventoryCounterQuadWidth, InventoryCounterQuadHeight;
-
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
-	static ByteBuffer colorUnderArrow = ByteBuffer.allocateDirect(4);
+	
+	//public static ContainersArrayClass CAC = new ContainersArrayClass(2, 2, 2f, 2f, null, 0, 0, 0, 0);
 
 	public static void startFlatWorld() {
 		updateDelta();
 		updateTime();
-		updateColorUnderArrow();
 		initStandardQuad();
+		initPerspectStandardQuad();
 		initIconQuad();
 		initInventoryCounterQuad();
 		TextFieldClass.initSymbols();
 
+		//CAC.addContainer(6.0f, 3.0f);
+		//CAC.addContainer(6.0f, 4.0f);
+		
 		MapsManager.initMap();
 		FWMainLoop();
 	}
 
 	public static void FWMainLoop() {
 		while (!Display.isCloseRequested()) {
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			updateDelta();
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			MapsManager.updateMap();
-			
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			MapsManager.rendMap();
 			MouseArrowClass.updateArrow();
 			
+		//	CAC.rend(0, 0, 0);
 			//TextFieldClass.rendText("Inspired by Infiniminer, Dwarf Fortress and Dungeon Keeper, created by Markus Persson, the founder of Mojang AB", 
 			//		-10.0f, 0, -25.0f, StandardQuad, 0.7f);
 
@@ -75,28 +79,48 @@ public class FlatWorld {
 		fps++;
 	}
 
-	public static void updateColorUnderArrow() {
-		GL11.glReadPixels(Mouse.getX(), Mouse.getY(), 1, 1, GL11.GL_RGB,
-				GL11.GL_BYTE, FlatWorld.colorUnderArrow);
-	}
-
 	public static void initStandardQuad() {
 		StandardQuad = GL11.glGenLists(1);
-		GL11.glNewList(StandardQuad, GL11.GL_COMPILE_AND_EXECUTE);
+		GL11.glNewList(StandardQuad, GL11.GL_COMPILE);
 		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex2i(0, 0);
+		GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+		
 		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex2i(1, 0);
+		GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+		
 		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex2i(1, 1);
+		GL11.glVertex3f(1.0f, 1.0f, 0.0f);
+		
 		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex2i(0, 1);
+		GL11.glVertex3f(0.0f, 1.0f, 0.0f);
 		GL11.glEnd();
 		GL11.glEndList();
 		
 		StandardQuadWidth = 1.0f;
 		StandardQuadHeight = 1.0f;
+	}
+	
+	public static void initPerspectStandardQuad() {
+		PerspectStandardQuad = GL11.glGenLists(1);
+		GL11.glNewList(PerspectStandardQuad, GL11.GL_COMPILE);
+		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glTexCoord2f(0.0f, 1.0f);
+		GL11.glVertex3f(0.0f, 0.0f, 0.0f);
+		
+		GL11.glTexCoord2f(1.0f, 1.0f);
+		GL11.glVertex3f(1.0f, 0.0f, 0.0f);
+		
+		GL11.glTexCoord2f(1.0f, 0.0f);
+		GL11.glVertex3f(1.0f, 1.0f, 0.1f);
+		
+		GL11.glTexCoord2f(0.0f, 0.0f);
+		GL11.glVertex3f(0.0f, 1.0f, 0.1f);
+		GL11.glEnd();
+		GL11.glEndList();
+		
+		PerspectStandardQuadWidth = 1.0f;
+		PerspectStandardQuadHeight = 1.0f;
 	}
 
 	public static void initIconQuad() {

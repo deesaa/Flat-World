@@ -18,14 +18,10 @@ public class ChestContainerAct implements Action {
 	int cellIDWithContur = -1;
 
 	ChestContainerAct(int numCellsInLine, int numLines, BasicObjectClass Object) {
-		float indent = 0.0f;
 		for (int i = 0; i != numCellsInLine; i++) {
-			float indent2 = 0.0f;
 			for (int i2 = 0; i2 != numLines; i2++) {
-				InventoryCellsArray.add(new ContainerCell(0.0f + i + indent, 0.0f + i2 + indent2, -25.0f, 0, 0, InventoryCellsArray.size(), Object, -4.0f, 2.0f));
-				indent2 += 0.1f;
+				InventoryCellsArray.add(new ContainerCell(0.0f + i - 0.0001f, 0.0f + i2 - 0.0001f, -25.0f, 0, 0, InventoryCellsArray.size(), Object, -4.0f, 2.0f));
 			}
-			indent += 0.1f;
 		}
 	}
 
@@ -41,9 +37,10 @@ public class ChestContainerAct implements Action {
 		BasicObjectClass IntersectedObject = MapsManager.getObjectUnderArrowAround(OwnerObject);
 
 		if (IntersectedObject != null) {
-			if (IntersectedObject.buttonColorR == OwnerObject.buttonColorR &&
-				IntersectedObject.buttonColorG == OwnerObject.buttonColorG &&
-				IntersectedObject.buttonColorB == OwnerObject.buttonColorB)
+			if (IntersectedObject.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
+				IntersectedObject.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
+				IntersectedObject.PosGlobalY 					            < MouseArrowClass.ArrowWorldCoordY &&
+				IntersectedObject.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				if (MapsManager.getPlayerPosX() + tempHightDistGlobalX < IntersectedObject.PosGlobalX &&
 					MapsManager.getPlayerPosX() + tempDistGlobalX 	   > IntersectedObject.PosGlobalX &&
@@ -88,9 +85,11 @@ public class ChestContainerAct implements Action {
 		leftClickedDlgCell = -1;
 
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
-			if (InventoryCellsArray.get(i).buttonColorB == FlatWorld.colorUnderArrow.get(2) &&
-				InventoryCellsArray.get(i).buttonColorG == FlatWorld.colorUnderArrow.get(1) &&
-				InventoryCellsArray.get(i).buttonColorR == FlatWorld.colorUnderArrow.get(0))
+			ContainerCell tempCell = InventoryCellsArray.get(i);
+			if (tempCell.PosGlobalX + tempCell.Owner.PosGlobalX + tempCell.indentX  								< MouseArrowClass.ArrowWorldCoordX &&
+				tempCell.PosGlobalX + tempCell.Owner.PosGlobalX + tempCell.indentX  + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
+				tempCell.PosGlobalY + tempCell.Owner.PosGlobalY + tempCell.indentY 						            < MouseArrowClass.ArrowWorldCoordY &&
+				tempCell.PosGlobalY + tempCell.Owner.PosGlobalY + tempCell.indentY  + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
 			{
 				cellIDWithContur = i;
 				if (Mouse.isButtonDown(1)) {
@@ -119,7 +118,7 @@ public class ChestContainerAct implements Action {
 
 	private void rendContainer() {
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
-			InventoryCellsArray.get(i).rendObject(FlatWorld.StandardQuad, false);
+			InventoryCellsArray.get(i).rendObject(FlatWorld.StandardQuad);
 			InventoryCellsArray.get(i).rendCellContent();
 		}
 
@@ -128,21 +127,13 @@ public class ChestContainerAct implements Action {
 		}
 
 		if (cellIDWithContur != -1) {
-			InventoryCellsArray.get(cellIDWithContur).rendContur();
+			InventoryCellsArray.get(cellIDWithContur).rendContour();
 		}
 	}
 
 	public void rendAction(BasicObjectClass Object) {
 		if (isContainerVisible) {
 			this.rendContainer();
-		}
-	}
-
-	public void rendButtons(BasicObjectClass Object) {
-		if(isContainerVisible){
-			for (int i = 0; i < InventoryCellsArray.size(); i++) {
-				InventoryCellsArray.get(i).rendObject(FlatWorld.StandardQuad, true);
-			}
 		}
 	}
 

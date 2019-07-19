@@ -84,8 +84,6 @@ public class LookingSystemAct implements Action{
 			float vecLen = (float) (1.0f / Math.sqrt(vecX*vecX + vecY*vecY));
 			vecX *= vecLen;
 			vecY *= vecLen;
-			System.out.println(vecX);
-			System.out.println(vecY);
 		}
 	}
 	

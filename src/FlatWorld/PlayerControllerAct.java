@@ -45,12 +45,6 @@ public class PlayerControllerAct implements Action {
 	}
 
 	@Override
-	public void rendButtons(BasicObjectClass Object) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void zeroAction(BasicObjectClass basicObjectClass) {
 		// TODO Auto-generated method stub
 

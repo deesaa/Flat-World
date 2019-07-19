@@ -18,8 +18,6 @@ public class BasicObjectClass {
 	ObjectTypes ObjectType;
 	float moveSpeed;
 
-	public byte buttonColorR, buttonColorG, buttonColorB;
-
 	public TexturesClass Textures;
 
 	ObjectModifiers Modifiers = new ObjectModifiers();
@@ -106,10 +104,6 @@ public class BasicObjectClass {
 	public void setButtonOnObject() {
 		if (Modifiers.isButton == false) {
 			Modifiers.isButton = true;
-			ButtonsManager.genNextButtonColor();
-			buttonColorR = ButtonsManager.nextButtonColorR;
-			buttonColorG = ButtonsManager.nextButtonColorG;
-			buttonColorB = ButtonsManager.nextButtonColorB;
 		}
 	}
 
@@ -119,52 +113,26 @@ public class BasicObjectClass {
 		}
 	}
 
-	public void rendObject(int QuadType, boolean rendAsButton) {
+	public void rendObject(int QuadType) {
 		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
-		if (rendAsButton) {
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glColor3b((byte) buttonColorR, (byte) buttonColorG, (byte) buttonColorB);
+		GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
+		GL11.glCallList(QuadType);
+		if (Modifiers.hasContour) {
+			ContourClass.Textures.setTextureByAnimation();
 			GL11.glCallList(QuadType);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-		} else {
-			GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
-			GL11.glCallList(QuadType);
-			if (Modifiers.hasContour) {
-				ContourClass.Textures.setTextureByAnimation();
-				GL11.glCallList(QuadType);
-			}
 		}
 		GL11.glLoadIdentity();
 		this.rendActions();
 		Modifiers.hasContour = false;
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType,  boolean rendAsButton) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
 		GL11.glTranslatef(tPosGlobalX, tPosGlobalY, tPosGlobalZ);
-
-		if (rendAsButton) {
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glColor3b((byte) buttonColorR, (byte) buttonColorG, (byte) buttonColorB);
-			GL11.glCallList(QuadType);
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-		} else {
-			GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
-			GL11.glCallList(QuadType);
-		}
+		GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
+		GL11.glCallList(QuadType);
 		GL11.glLoadIdentity();
 		this.rendActions();
 		Modifiers.hasContour = false;
-	}
-	
-	private void rendButton() {
-		GL11.glTranslatef(PosGlobalX, PosGlobalY, PosGlobalZ);
-		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glColor3b((byte) buttonColorR, (byte) buttonColorG, (byte) buttonColorB);
-		GL11.glCallList(FlatWorld.StandardQuad);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		GL11.glLoadIdentity();
 	}
 
 	public void overMove(float PosX, float PosY, float PosZ) {
@@ -176,15 +144,6 @@ public class BasicObjectClass {
 	public void overRelocateObject(float PosX, float PosY, float PosZ) {
 		this.PosGlobalX = PosX;
 		this.PosGlobalY = PosY;
-	}
-
-	public void rendButtons() {
-		if(Modifiers.isButton == true)
-			this.rendButton();
-		
-		for (int i = 0; i < ActionsArray.size(); i++) {
-			ActionsArray.get(i).rendButtons(this);
-		}
 	}
 
 	public void zeroObject() {

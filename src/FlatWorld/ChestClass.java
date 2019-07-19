@@ -33,13 +33,13 @@ public class ChestClass extends BasicObjectClass {
 		super.updateObject();
 	}
 
-	public void rendObject(int QuadType, boolean rendAsButton) {
+	public void rendObject(int QuadType) {
 		super.Textures.setTextureByAnimation();
-		super.rendObject(QuadType, rendAsButton);
+		super.rendObject(QuadType);
 	}
 
-	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType, boolean rendAsButton) {
+	public void rendObject(float GlobalPosX, float GlobalPosY, float GlobalPosZ, int QuadType) {
 		super.Textures.setTextureByAnimation();
-		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType, rendAsButton);
+		super.rendObject(GlobalPosX, GlobalPosY, GlobalPosZ, QuadType);
 	}
 }

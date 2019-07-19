@@ -1,6 +1,7 @@
 package FlatWorld;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.lwjgl.input.Mouse;
 
@@ -49,41 +50,43 @@ public class ChunkClass {
 	}
 
 	public void rendChunkObjects() {
+		this.qSort(0, ObjectsArray.size()-1);
+		
 		for (int i = 0; i < ObjectsArray.size(); i++) {
-			ObjectsArray.get(i).rendObject(FlatWorld.StandardQuad, false);
+			ObjectsArray.get(i).rendObject(FlatWorld.StandardQuad);
 		}
 	}
 	
-	 public static void qSort(ArrayList<BasicObjectClass> A, int low, int high) {
+	 public void qSort(int low, int high) {
 	      int i = low;                
 	      int j = high;
-	      float x = A.get((low+high)/2).PosGlobalX;  // x - опорный элемент посредине между low и high
+	      float x = this.ObjectsArray.get((low+high)/2).PosGlobalY;  // x - опорный элемент посредине между low и high
 	      do {
-	          while(A.get(i).PosGlobalX < x) 	 // поиск элемента для переноса в старшую часть 
+	          while(this.ObjectsArray.get(i).PosGlobalY > x) 	 // поиск элемента для переноса в старшую часть 
 	        	  ++i;  
-	          while(A.get(j).PosGlobalX > x)	 // поиск элемента для переноса в младшую часть 
+	          while(this.ObjectsArray.get(j).PosGlobalY < x)	 // поиск элемента для переноса в младшую часть 
 	        	  --j;  
 	          if(i <= j){  // обмен элементов местами:
-	              BasicObjectClass temp = A.get(i);
-	              A.remove(i);
-	              A.add(i, A.get(j));
-	              A.remove(j);
-	              A.add(j, temp);  // переход к следующим элементам:
-	              i++; 
+	        	  int tempID = ObjectsArray.get(i).ObjectID; 
+	        	  ObjectsArray.get(i).ObjectID = ObjectsArray.get(j).ObjectID;
+	        	  ObjectsArray.get(j).ObjectID = tempID;
+	        	  
+	        	  Collections.swap(this.ObjectsArray, i, j);
+	              i++; 	 // переход к следующим элементам:
 	              j--;
 	          }
 	      } while(i < j);
 	      if(low < j) {
-	    	  qSort(A, low, j);
+	    	  qSort(low, j);
 	      }
 	      if(i < high) {
-	    	  qSort(A, i, high);
+	    	  qSort(i, high);
 	      }
 	  }
 
 	public void rendChunkCells() {
 		for (int i = 0; i < CellsArray.size(); i++) {
-			CellsArray.get(i).rendObject(FlatWorld.StandardQuad, false);
+			CellsArray.get(i).rendObject(FlatWorld.StandardQuad);
 		}
 	}
 
@@ -103,12 +106,6 @@ public class ChunkClass {
 		return null;
 	}
 
-	public void rendButtons() {
-		for (int i = 0; i < ObjectsArray.size(); i++) {
-			ObjectsArray.get(i).rendButtons();
-		}
-	}
-
 	public void addObject(BasicObjectClass object) {
 		ObjectsArray.add(object);
 		ObjectsArray.get(ObjectsArray.size() - 1).ObjectID = ObjectsArray.size() - 1;
@@ -117,11 +114,16 @@ public class ChunkClass {
 
 	public BasicObjectClass getObjectUnderArrow(BasicObjectClass object) {
 		for (int i = 0; i != ObjectsArray.size(); i++) {
-			if (ObjectsArray.get(i).buttonColorR == FlatWorld.colorUnderArrow.get(0) &&
-				ObjectsArray.get(i).buttonColorG == FlatWorld.colorUnderArrow.get(1) &&
-				ObjectsArray.get(i).buttonColorB == FlatWorld.colorUnderArrow.get(2)) 
+			BasicObjectClass tempCell = ObjectsArray.get(i);
+			if (tempCell.PosGlobalX   								< MouseArrowClass.ArrowWorldCoordX &&
+				tempCell.PosGlobalX + FlatWorld.StandardQuadHeight  > MouseArrowClass.ArrowWorldCoordX &&
+				tempCell.PosGlobalY 					            < MouseArrowClass.ArrowWorldCoordY &&
+				tempCell.PosGlobalY + FlatWorld.StandardQuadWidth   > MouseArrowClass.ArrowWorldCoordY)
 			{
-				return ObjectsArray.get(i);
+				BasicObjectClass objectUnderArrow = ObjectsArray.get(i);
+				if(objectUnderArrow.Modifiers.isPickable == true){
+					return objectUnderArrow;
+				}
 			}
 		}
 		return null;

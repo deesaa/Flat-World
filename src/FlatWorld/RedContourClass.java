@@ -20,15 +20,13 @@ public class RedContourClass extends BasicObjectClass {
 		ObjectTypeID = bObjectTypeID;
 	}
 
-	public void rendObject(int QuadType, boolean rendAsButton) {
+	public void rendObject(int QuadType) {
 		RedContourClass.Textures.setTextureByAnimation();
-		super.rendObject(QuadType, rendAsButton);
+		super.rendObject(QuadType);
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY,
-			float tPosGlobalZ, int QuadType, boolean rendAsButton) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
 		RedContourClass.Textures.setTextureByAnimation();
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType,
-				rendAsButton);
+		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType);
 	}
 }

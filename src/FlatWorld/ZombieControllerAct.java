@@ -53,21 +53,11 @@ public class ZombieControllerAct implements Action {
 	public void rendAction(BasicObjectClass Object) {
 	}
 
-	@Override
-	public void rendButtons(BasicObjectClass Object) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void zeroAction(BasicObjectClass basicObjectClass) {
-		// TODO Auto-generated method stub
-
+	
 	}
 
-	@Override
 	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
-		// TODO Auto-generated method stub
 		
 	}
 }

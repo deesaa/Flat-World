@@ -14,6 +14,8 @@ public class ContainerCell extends BasicObjectClass {
 
 	BasicObjectClass Owner;
 	float indentX, indentY;
+	
+	float localPosGlobalX, localPosGlobalY, localPosGlobalZ;
 
 	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID,
 			int ObjectID, BasicObjectClass Owner, float indentX, float indentY) 
@@ -23,6 +25,16 @@ public class ContainerCell extends BasicObjectClass {
 		this.Owner = Owner;
 		this.indentX = indentX;
 		this.indentY = indentY;
+		this.localPosGlobalX = PosGlobalX;
+		this.localPosGlobalY = PosGlobalY;
+		super.setButtonOnObject();
+	}
+	
+	ContainerCell(float PosGlobalX, float PosGlobalY, float PosGlobalZ, int OwnedChunkID, int OwnedMapID, int ObjectID) {
+		super(PosGlobalX, PosGlobalY, PosGlobalZ, OwnedChunkID, OwnedMapID, ObjectTypes.Cell, 0.0f, false, ObjectID, ContainerCell.ObjectTypeID, false, false);
+		
+		this.localPosGlobalX = PosGlobalX;
+		this.localPosGlobalY = PosGlobalY;
 		super.setButtonOnObject();
 	}
 
@@ -34,18 +46,16 @@ public class ContainerCell extends BasicObjectClass {
 		ObjectTypeID = bObjectTypeID;
 	}
 
-	public void rendObject(int QuadType, boolean rendAsButton) {
+	public void rendObject(int QuadType) {
 		ContainerCell.Textures.setTextureByAnimation();
-		//this.PosGlobalX = Owner.PosGlobalX + indentX;
-		//this.PosGlobalY = Owner.PosGlobalY + indentY;
 		GL11.glTranslatef(Owner.PosGlobalX + indentX, Owner.PosGlobalY + indentY, 0.01f);
-		super.rendObject(QuadType, rendAsButton);
+		super.rendObject(QuadType);
 	}
 
 	public void rendCellContent() {
 		if (pickedObjectTypeID != -1) {
 			GL11.glTranslatef(Owner.PosGlobalX + indentX, Owner.PosGlobalY + indentY, 0.01f);
-			ObjectsArray.get(0).rendObject(super.PosGlobalX + 0.19f, super.PosGlobalY + 0.19f, super.PosGlobalZ, FlatWorld.IconQuad, false);
+			ObjectsArray.get(0).rendObject(super.PosGlobalX + 0.19f, super.PosGlobalY + 0.19f, super.PosGlobalZ, FlatWorld.IconQuad);
 		} else
 			GL11.glLoadIdentity();
 	}
@@ -54,17 +64,21 @@ public class ContainerCell extends BasicObjectClass {
 		if (pickedObjectTypeID != -1 && ObjectsArray.size() > 1) {
 			GL11.glTranslatef(Owner.PosGlobalX + indentX, Owner.PosGlobalY + indentY, 0.01f);
 			TextFieldClass.rendText(String.valueOf(ObjectsArray.size()),
-					super.PosGlobalX - 0.2f, super.PosGlobalY + 0.05f,
-					super.PosGlobalZ, FlatWorld.InventoryCounterQuad, 0.19f);
+					super.PosGlobalX - 0.2f, super.PosGlobalY + 0.05f, super.PosGlobalZ, 
+					FlatWorld.InventoryCounterQuad, 0.19f);
 		} else
 			GL11.glLoadIdentity();
 	}
 
-	public void rendObject(float tPosGlobalX, float tPosGlobalY,
-			float tPosGlobalZ, int QuadType, boolean rendAsButton) {
+	public void rendObject(float tPosGlobalX, float tPosGlobalY, float tPosGlobalZ, int QuadType) {
 		ContainerCell.Textures.setTextureByAnimation();
-		super.rendObject(tPosGlobalX, tPosGlobalY, tPosGlobalZ, QuadType,
-				rendAsButton);
+		super.PosGlobalX = localPosGlobalX;
+		super.PosGlobalY = localPosGlobalY;
+		super.PosGlobalZ = localPosGlobalZ;
+		super.PosGlobalX += tPosGlobalX;
+		super.PosGlobalY += tPosGlobalY;
+		super.PosGlobalZ += tPosGlobalZ;
+		super.rendObject(QuadType);
 	}
 
 	public void addObject(BasicObjectClass pickedObject) {
@@ -72,12 +86,9 @@ public class ContainerCell extends BasicObjectClass {
 		ObjectsArray.add(pickedObject);
 	}
 
-	public void rendContur() {
-		GL11.glTranslatef(Owner.PosGlobalX + indentX, Owner.PosGlobalY
-				+ indentY, 0.01f);
-		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID,
-				super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ,
-				FlatWorld.StandardQuad, false);
+	public void rendContour() {
+		GL11.glTranslatef(Owner.PosGlobalX + indentX, Owner.PosGlobalY + indentY, 0.01f);
+		FlatWorld.StaticObjectsBase.rendObject(ContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad);
 	}
 
 	public void dropObject(float PosGlobalX, float PosGlobalY, float PosGlobalZ) {
@@ -100,6 +111,6 @@ public class ContainerCell extends BasicObjectClass {
 
 	public void rendRedContur() {
 		GL11.glTranslatef(Owner.PosGlobalX + indentX, Owner.PosGlobalY + indentY, 0.01f);
-		FlatWorld.StaticObjectsBase.rendObject(RedContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad, false);
+		FlatWorld.StaticObjectsBase.rendObject(RedContourClass.ObjectTypeID, super.PosGlobalX, super.PosGlobalY, super.PosGlobalZ, FlatWorld.StandardQuad);
 	}
 }

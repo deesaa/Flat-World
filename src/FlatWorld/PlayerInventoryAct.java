@@ -10,15 +10,12 @@ import org.lwjgl.opengl.GL11;
 
 public class PlayerInventoryAct implements Action{
 	public ArrayList<ContainerCell> InventoryCellsArray = new ArrayList<ContainerCell>();
-	static String[] str = {"Info", "Drop"};
-	static DialogWndClass rightClickDialog = new DialogWndClass(str);
+	KeyboardManager KM = new KeyboardManager();
 	boolean keyELocked = false;
 	boolean rightButtonLocked = false;
 	boolean leftButtonLocked = false;
 	boolean isInventoryVisible = false;
 	int rightClickedCell = -1;
-	int dlgCellWithContur = -1;
-	int leftClickedDlgCell = -1;
 	int cellIDWithContur = -1;
 
 	float OwnerPosGlobalX, OwnerPosGlobalY;
@@ -26,7 +23,7 @@ public class PlayerInventoryAct implements Action{
 	PlayerInventoryAct(int numCellsInLine, int numLines, BasicObjectClass Object){
 		for (int i = 0; i != numCellsInLine; i++){
 			for(int i2 = 0; i2 != numLines; i2++){
-				InventoryCellsArray.add(new ContainerCell(0.0f + i, 0.0f + i2, -25.0f, 0, 0, InventoryCellsArray.size(), Object, 2.0f, 2.0f));
+				InventoryCellsArray.add(new ContainerCell(0.0f + i - 0.0001f, 0.0f + i2 - 0.0001f, -25.0f, 0, 0, InventoryCellsArray.size(), Object, 2.0f, 2.0f));
 			}
 		}
 	}
@@ -35,12 +32,9 @@ public class PlayerInventoryAct implements Action{
 		OwnerPosGlobalX = Object.PosGlobalX;
 		OwnerPosGlobalY = Object.PosGlobalY;
 
-		if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-			if (keyELocked == false)
-				isInventoryVisible = !isInventoryVisible;
-			keyELocked = true;
-		} else
-			keyELocked = false;
+		if(KM.isKeyDown(Keyboard.KEY_E, true)){
+			isInventoryVisible = !isInventoryVisible;
+		}
 
 		if (isInventoryVisible == false)
 			rightClickedCell = -1;
@@ -104,7 +98,6 @@ public class PlayerInventoryAct implements Action{
 
 	private void checkMouseController() {
 		cellIDWithContur = -1;
-		leftClickedDlgCell = -1;
 
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			ContainerCell tempCell = InventoryCellsArray.get(i);
@@ -123,9 +116,16 @@ public class PlayerInventoryAct implements Action{
 					if (leftButtonLocked == false) {
 						
 						int size = InventoryCellsArray.get(i).ObjectsArray.size();
-						for (int i2 = 0; i2 < size; i2++) {
-							MouseArrowClass.addObject(InventoryCellsArray.get(i).ObjectsArray.get(InventoryCellsArray.get(i).ObjectsArray.size() - 1));
-							InventoryCellsArray.get(i).ObjectsArray.remove(InventoryCellsArray.get(i).ObjectsArray.size() - 1);
+						if(size > 0){
+							if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+								for (int i2 = 0; i2 < size; i2++) {
+									MouseArrowClass.addObject(InventoryCellsArray.get(i).ObjectsArray.get(InventoryCellsArray.get(i).ObjectsArray.size() - 1));
+									InventoryCellsArray.get(i).ObjectsArray.remove(InventoryCellsArray.get(i).ObjectsArray.size() - 1);
+								}
+							} else {
+								MouseArrowClass.addObject(InventoryCellsArray.get(i).ObjectsArray.get(InventoryCellsArray.get(i).ObjectsArray.size() - 1));
+								InventoryCellsArray.get(i).ObjectsArray.remove(InventoryCellsArray.get(i).ObjectsArray.size() - 1);
+							}
 						}
 						
 						if (InventoryCellsArray.get(i).ObjectsArray.size() == 0)
@@ -139,28 +139,18 @@ public class PlayerInventoryAct implements Action{
 			}
 		}
 
-		dlgCellWithContur = rightClickDialog.checkMouseController();
-
 		if (Mouse.isButtonDown(0)) {
-			if (rightButtonLocked == false)
-				leftClickedDlgCell = dlgCellWithContur;
+			if (rightButtonLocked == false){
+			}
 			rightButtonLocked = true;
 		} else
 			rightButtonLocked = false;
-
-		switch (leftClickedDlgCell) {
-		case 1:
-			InventoryCellsArray.get(rightClickedCell).dropObject(OwnerPosGlobalX - 1.0f, OwnerPosGlobalY, -25.0f);
-			break;
-		case 0:
-			break;
-		}
 	}
 
 	private void rendInventory(float PosGlobalX, float PosGlobalY) {
 
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
-			InventoryCellsArray.get(i).rendObject(FlatWorld.StandardQuad, false);
+			InventoryCellsArray.get(i).rendObject(FlatWorld.StandardQuad);
 			InventoryCellsArray.get(i).rendCellContent();
 		}
 
@@ -169,38 +159,13 @@ public class PlayerInventoryAct implements Action{
 		}
 
 		if (cellIDWithContur != -1) {
-			InventoryCellsArray.get(cellIDWithContur).rendContur();
-		}
-
-		if (rightClickedCell != -1) {
-			InventoryCellsArray.get(rightClickedCell).rendContur();
-			PlayerInventoryAct.rightClickDialog.rendDialogWnd(
-					InventoryCellsArray.get(rightClickedCell).PosGlobalX+ PosGlobalX + 2.0f + 1.0f, 
-					InventoryCellsArray.get(rightClickedCell).PosGlobalY + PosGlobalY + 2.0f - 1.0f, -24.99f);
-		}
-
-		if (dlgCellWithContur != -1) {
-			PlayerInventoryAct.rightClickDialog.DlgFieldsArray.get(dlgCellWithContur).rendContour();
+			InventoryCellsArray.get(cellIDWithContur).rendContour();
 		}
 	}
 
 	public void rendAction(BasicObjectClass Object) {
 		if (isInventoryVisible) {
 			this.rendInventory(Object.PosGlobalX, Object.PosGlobalY);
-		}
-	}
-
-	public void rendButtons(BasicObjectClass Object) {
-		if(isInventoryVisible){
-			for (int i = 0; i < InventoryCellsArray.size(); i++) {
-				InventoryCellsArray.get(i).rendObject(FlatWorld.StandardQuad, true);
-			}
-
-			if (rightClickedCell != -1) {
-				PlayerInventoryAct.rightClickDialog.rendButtons(
-						InventoryCellsArray.get(rightClickedCell).PosGlobalX + OwnerPosGlobalX + 2.0f + 1.0f,
-						InventoryCellsArray.get(rightClickedCell).PosGlobalY + OwnerPosGlobalY + 2.0f - 1.0f, -24.99f);
-			}
 		}
 	}
 

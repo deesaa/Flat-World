@@ -12,5 +12,6 @@ public class ObjectModifiers {
 	LookingSystemAct pointerToLookingSystem;
 	OffersListAct    pointerToOffersList;
     MovingSystem     pointerToMovingSystem;
-	BattleSystemAct  pointerToBattleSystem;
+	BattleSystem     pointerToBattleSystem;
+	InventorySystem  pointerToInventorySystem;
 }
