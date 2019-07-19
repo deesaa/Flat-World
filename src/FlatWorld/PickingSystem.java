@@ -3,15 +3,11 @@ package FlatWorld;
 import java.util.ArrayList;
 
 public class PickingSystem implements Action{
-	KeyboardManager localKeyLocker;
 	public ArrayList<Integer> PickableObjectsArray;
 	
 	PickingSystem(BasicObjectClass Object, ArrayList<Integer> PickableObjectsArray){
 		Object.Modifiers.pointerToPickingSystem = this;
 		this.PickableObjectsArray = PickableObjectsArray;
-		
-		if(Object.ObjectType == ObjectTypes.Player)
-			localKeyLocker = new KeyboardManager();
 	}
 
 	public void updateAction(BasicObjectClass Object) {
@@ -55,10 +51,10 @@ public class PickingSystem implements Action{
 			{
 				if(IntersectedObject.Modifiers.isClickable == true){
 					IntersectedObject.Modifiers.hasContour = true;
-					if(localKeyLocker.isMouseButtonDown(0, true)){
+					if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
 						Object.Modifiers.pointerToInventorySystem.addObject(IntersectedObject);
 					}
-					if(localKeyLocker.isMouseButtonDown(1, true))
+					if(FlatWorld.globalKeyLocker.isMouseButtonDown(1, true))
 						this.processRightClick(IntersectedObject);
 				}
 			}
@@ -82,14 +78,6 @@ public class PickingSystem implements Action{
 	public void doTheAction(BasicObjectClass Object, StructOfOffer Offer) {
 		if(Offer.message == OffersMessages.PickUp && Offer.OfferElement.distance < 0.8f){
 			Object.Modifiers.pointerToInventorySystem.addObject(Offer.OfferElement.interactingObject);
-		}
-	}
-	
-	private void initPickableObjectsList(int ObjectTypeID) {
-		PickableObjectsArray = new ArrayList<Integer>();
-		
-		if(ObjectTypeID == ZombieClass.ObjectTypeID){
-			PickableObjectsArray.add(TorchClass.ObjectTypeID);
 		}
 	}
 }

@@ -15,8 +15,6 @@ public class BattleSystem implements Action{
 	public PlayerGUIAct PlayerGUI;
 	float maxHealpoints, healpoints;
 	
-	KeyboardManager KM;
-	
 	BattleObjectClass battleObjectState;
 	
 	public BattleSystem(BasicObjectClass Object, TexturesClass PerHealScaleTex, Vector3f PerHealScaleContourColor, int maxHealpoints, int healpoints, ArrayList<Integer> EnemiesArray) {
@@ -42,7 +40,6 @@ public class BattleSystem implements Action{
 	public BattleSystem linkPlayerGUI(PlayerGUIAct PlayerGUI){
 		this.PlayerGUI = PlayerGUI;
 		this.PlayerGUI.initHealScale((int) maxHealpoints);
-		KM = new KeyboardManager();
 		return this;
 	}
 
@@ -60,7 +57,7 @@ public class BattleSystem implements Action{
 				}
 			}
 		} else {
-			if(KM.isMouseButtonDown(0, true)){
+			if(FlatWorld.globalKeyLocker.isMouseButtonDown(0, true)){
 				MapClass tempMap = MapsManager.MapsArray.get(Object.OwnedMapID);
 				ArrayList<ArrayOffersElement> OffersElementsArray = new ArrayList<ArrayOffersElement>();
 				for(int i = 0; i < tempMap.ChunksArray.size(); i++){

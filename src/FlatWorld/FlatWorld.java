@@ -19,7 +19,7 @@ public class FlatWorld {
 	public static int InventoryCounterQuad;
 	public static float InventoryCounterQuadWidth, InventoryCounterQuadHeight;
 	public static ObjectsBase StaticObjectsBase = new ObjectsBase();
-	public static KeyboardManager globalContainersTransferLocker = new KeyboardManager();
+	public static KeyboardManager globalKeyLocker = new KeyboardManager();
 	//public static Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 	//public static TrueTypeFont font;
 

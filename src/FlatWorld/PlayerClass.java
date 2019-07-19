@@ -32,7 +32,6 @@ public class PlayerClass extends BasicObjectClass {
 	}
 	
 	PlayerGUIAct PlayerGUI = new PlayerGUIAct();
-	public static KeyboardManager payerKeyboard = new KeyboardManager(); // Нужно объеденить все инвентари под этот локер
 	
 	public static ArrayList<Integer> PickableObjectsArray = new ArrayList<Integer>();
 	public static ArrayList<Integer> EnemiesArray = new ArrayList<Integer>();
@@ -51,8 +50,8 @@ public class PlayerClass extends BasicObjectClass {
 		super.ActionsArray.add(new PlayerControllerAct());
 		super.ActionsArray.add(new PickingSystem(this, PickableObjectsArray));
 		super.ActionsArray.add(new AnatomySystem(this, Anatomy, 5.5f, 6.0f, null, 0, 0, 0, 0));
-		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null, 0, 0, 0, 0, FlatWorld.globalContainersTransferLocker));
-		super.ActionsArray.add(new EqipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, FlatWorld.globalContainersTransferLocker, this.Modifiers.pointerToInventorySystem.Invntory));
+		super.ActionsArray.add(new InventorySystem(this, 3, 5, 2.0f, 2.0f, null, 0, 0, 0, 0));
+		super.ActionsArray.add(new EqipmentSystem(this, this.Modifiers.pointerToAnatomySystem, 6, 6, this.Modifiers.pointerToInventorySystem.Invntory));
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new BattleSystem(this, null, null, 100, 100, EnemiesArray).linkPlayerGUI(PlayerGUI));
 		super.ActionsArray.add(new OffersListAct(this));

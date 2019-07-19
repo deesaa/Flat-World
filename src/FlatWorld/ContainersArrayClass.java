@@ -16,8 +16,6 @@ public class ContainersArrayClass {
 	TexturesClass backgroundTexture;
 	float BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft;
 	
-	boolean leftButtonLocked = false;
-	
 	public ContainersArrayClass(int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
 			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft){
 		this.numCellsInLine = numCellsInLine;
@@ -65,7 +63,7 @@ public class ContainersArrayClass {
 	public void mouseTransfer(int ContainerID){
 		if (Mouse.isButtonDown(0)) {
 			MouseArrowClass.addContainer(InventoryCellsArray.get(ContainerID));
-			if (leftButtonLocked == false) {
+			if (FlatWorld.globalKeyLocker.mouseButton0locked == false) {
 				
 				int size = InventoryCellsArray.get(ContainerID).ObjectsArray.size();
 				if(size > 0){
@@ -83,29 +81,32 @@ public class ContainersArrayClass {
 				if (InventoryCellsArray.get(ContainerID).ObjectsArray.size() == 0)
 					InventoryCellsArray.get(ContainerID).pickedObjectTypeID = -1;
 			}
-			leftButtonLocked = true;
+			FlatWorld.globalKeyLocker.mouseButton0locked = true;
 		} else
-			leftButtonLocked = false;
+			FlatWorld.globalKeyLocker.mouseButton0locked = false;
 	}
 	
 	public boolean addObject(BasicObjectClass pickedObject) {
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			if (InventoryCellsArray.get(i).pickedObjectTypeID == pickedObject.ObjectTypeID) {
-				if(InventoryCellsArray.get(i).addObject(pickedObject)){
-					pickedObject.zeroObject();
-					MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
+				if(this.addObject(InventoryCellsArray.get(i), pickedObject) == true)
 					return true;
-				}
 			}
 		}
 		for (int i = 0; i < InventoryCellsArray.size(); i++) {
 			if (InventoryCellsArray.get(i).pickedObjectTypeID == -1) {
-				if(InventoryCellsArray.get(i).addObject(pickedObject)){
-					pickedObject.zeroObject();
-					MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
+				if(this.addObject(InventoryCellsArray.get(i), pickedObject) == true)
 					return true;
-				}
 			}
+		}
+		return false;
+	}
+	
+	public boolean addObject(ContainerCell InvCell, BasicObjectClass pickedObject){
+		if(InvCell.addObject(pickedObject)){
+			pickedObject.zeroObject();
+			MapsManager.deleteObject(pickedObject.OwnedMapID, pickedObject.OwnedChunkID, pickedObject.ObjectID);
+			return true;
 		}
 		return false;
 	}

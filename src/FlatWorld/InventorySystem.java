@@ -5,19 +5,15 @@ import org.lwjgl.input.Mouse;
 
 public class InventorySystem implements Action{
 	ContainersArrayClass Invntory;
-	KeyboardManager localKeyLocker;
 	
 	boolean isInventoryVisible = false;
 	int cellUnderArrow = -1;
 	
 	public InventorySystem(BasicObjectClass Object, int numCellsInLine, int numLines, float indentX, float indentY, TexturesClass backgroundTexture,
-			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft, KeyboardManager localLocker) 
+			float BGExpandUp, float BGExpandDown, float BGExpandRight, float BGExpandLeft) 
 	{
 		Object.Modifiers.pointerToInventorySystem = this;
 		Invntory = new ContainersArrayClass(numCellsInLine, numLines, indentX, indentY, backgroundTexture, BGExpandUp, BGExpandDown, BGExpandRight, BGExpandLeft);
-		
-		if(Object.ObjectType == ObjectTypes.Player)
-			localKeyLocker = new KeyboardManager();
 	}
 	
 	public void updateAction(BasicObjectClass Object) {
@@ -64,7 +60,7 @@ public class InventorySystem implements Action{
 	}
 	
 	private void updatePlayerAction(BasicObjectClass Object) {
-		if(localKeyLocker.isKeyDown(Keyboard.KEY_E, true))
+		if(FlatWorld.globalKeyLocker.isKeyDown(Keyboard.KEY_E, true))
 			isInventoryVisible = !isInventoryVisible;
 	}
 	

@@ -40,7 +40,7 @@ public class ZombieClass extends BasicObjectClass {
 		super.ActionsArray.add(new LookingSystemAct(this, 0.0f, 1.0f, 45.0f, 7.5f, 0.1f));
 		super.ActionsArray.add(new MovingSystem(this));
 		super.ActionsArray.add(new PickingSystem(this, PickableObjectsArray));
-		super.ActionsArray.add(new InventorySystem(this, 2, 2, 2.0f, 2.0f, null, 0, 0, 0, 0, FlatWorld.globalContainersTransferLocker));
+		super.ActionsArray.add(new InventorySystem(this, 2, 2, 2.0f, 2.0f, null, 0, 0, 0, 0));
 		super.ActionsArray.add(new BattleSystem(this, PerHealScaleTex, PerHealScaleContourColor, 100, 55, EnemiesArray));
 		super.ActionsArray.add(new OffersListAct(this));
 	}

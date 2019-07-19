@@ -6,6 +6,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class KeyboardManager {
+	public boolean mouseButton0locked = false;
+	public boolean mouseButton1locked = false;
+	public boolean mouseButton2locked = false;
 	public ArrayList<Integer> lockedKeys = new ArrayList<Integer>();
 	public ArrayList<Integer> lockedMouseButtons = new ArrayList<Integer>();
 	

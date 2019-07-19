@@ -10,7 +10,6 @@ public class AnatomySystem implements Action{
 	public static Map<Integer, AnatomyElement> AnatomyElements = new Hashtable<Integer, AnatomyElement>(10, 0.9f);
 	int anatomy[][];
 	ContainersArrayClass Invntory;
-	KeyboardManager localKeyLocker;
 	
 	boolean isInventoryVisible = false;
 	int cellUnderArrow = -1;

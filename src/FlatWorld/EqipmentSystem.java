@@ -11,7 +11,7 @@ public class EqipmentSystem implements Action{
 	ArrayList<Integer> equipPlaces;
 	ContainersArrayClass Inventory;
 
-	EqipmentSystem(BasicObjectClass Object, AnatomySystem anatomy, float indentX, float indentY, KeyboardManager localLocker, ContainersArrayClass Inventory){
+	EqipmentSystem(BasicObjectClass Object, AnatomySystem anatomy, float indentX, float indentY, ContainersArrayClass Inventory){
 		Object.Modifiers.pointerToEqipmentSystem = this;
 		this.Inventory = Inventory;
 		
